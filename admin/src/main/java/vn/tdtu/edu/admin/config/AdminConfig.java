@@ -45,18 +45,15 @@ public class AdminConfig {
                 .httpBasic()
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/category/**").hasAuthority("ADMIN")
-                .requestMatchers("/account/**").permitAll()
-                .requestMatchers("/api/**").permitAll()
-                .requestMatchers("/guest/**").permitAll()
-                .requestMatchers("/admin/**").hasAuthority("ADMIN")
-                .requestMatchers("/user/**").hasAuthority("USER")
-                .requestMatchers("/home/**").authenticated()
+//                .requestMatchers("/api/category/**").hasAuthority("ADMIN")
+                .requestMatchers("/view/**").permitAll()
                 .anyRequest().anonymous()
                 .and()
                 .authenticationManager(manager)
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+
         return http.build();
 
     }
