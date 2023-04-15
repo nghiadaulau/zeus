@@ -22,7 +22,6 @@ public class AdminApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("Hello");
 		Role adminRole = new Role();
 		Role userRole = new Role();
 		adminRole.setId(1L);
