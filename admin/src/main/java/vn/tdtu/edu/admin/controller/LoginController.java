@@ -18,7 +18,6 @@ import vn.tdtu.edu.commons.model.Admin;
 import vn.tdtu.edu.commons.service.implement.AdminServiceImpl;
 
 @Controller
-@RequestMapping("/admin")
 public class LoginController {
     @Autowired
     private AdminServiceImpl adminService;
@@ -28,7 +27,6 @@ public class LoginController {
 
     @GetMapping("/login")
     public String loginForm(Model model){
-//        model.addAttribute("title", "Login");
         return "login";
     }
 //
@@ -42,18 +40,18 @@ public class LoginController {
 //        return "index";
 //    }
 //
-//    @GetMapping("/register")
-//    public String register(Model model){
+    @GetMapping("/register")
+    public String register(Model model){
 //        model.addAttribute("title", "Register");
 //        model.addAttribute("adminDTO", new AdminDTO());
-//        return "register";
-//    }
-//
-//    @GetMapping("/forgot-password")
-//    public String forgotPassword(Model model){
+        return "register";
+    }
+
+    @GetMapping("/forgot-password")
+    public String forgotPassword(Model model){
 //        model.addAttribute("title", "Forgot Password");
-//        return "forgot-password";
-//    }
+        return "forgot-password";
+    }
 //
 //    @PostMapping("/register-new")
 //    public String addNewAdmin(@Valid @ModelAttribute("adminDTO")AdminDTO adminDTO,
