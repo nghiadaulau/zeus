@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import vn.tdtu.edu.commons.model.Role;
 import vn.tdtu.edu.commons.repository.RoleRepository;
 
-@SpringBootApplication(scanBasePackages = {"vn.tdtu.edu.commons.*", "vn.tdtu.edu.sneaker"})
+@SpringBootApplication(scanBasePackages = {"vn.tdtu.edu.commons.*", "vn.tdtu.edu.sneaker.*"})
 @EnableJpaRepositories(value = "vn.tdtu.edu.commons.repository")
 @EntityScan(value = "vn.tdtu.edu.commons.model")
 public class AdminApplication implements CommandLineRunner {
@@ -22,7 +22,6 @@ public class AdminApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("Hello");
 		Role adminRole = new Role();
 		Role userRole = new Role();
 		adminRole.setId(1L);
