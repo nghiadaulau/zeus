@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import vn.tdtu.edu.commons.model.Role;
 import vn.tdtu.edu.commons.repository.RoleRepository;
 
-@SpringBootApplication(scanBasePackages = {"vn.tdtu.edu.commons.*", "vn.tdtu.edu.sneaker.*"})
+@SpringBootApplication(scanBasePackages = {"vn.tdtu.edu.commons.*", "vn.tdtu.edu.admin.*"})
 @EnableJpaRepositories(value = "vn.tdtu.edu.commons.repository")
 @EntityScan(value = "vn.tdtu.edu.commons.model")
 public class AdminApplication implements CommandLineRunner {
