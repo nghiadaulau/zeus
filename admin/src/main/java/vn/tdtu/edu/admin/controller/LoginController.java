@@ -28,23 +28,26 @@ public class LoginController {
 
     @GetMapping("/login")
     public String loginForm(Model model) {
+        model.addAttribute("title", "Login");
         return "login";
     }
 
-    //
-//    @RequestMapping("/index")
-//    public String home(Model model){
-//        model.addAttribute("title", "Home Page");
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
-//            return "redirect:/login";
-//        }
-//        return "index";
-//    }
-//
+
+    @RequestMapping(value = {"/", "/index"})
+    public String home(Model model, AdminDTO adminDTO){
+        model.addAttribute("title", "Admin Panel");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
+            return "redirect:/login";
+        }
+        model.addAttribute("username", authentication.getName());
+
+        return "index";
+    }
+
     @GetMapping("/register")
     public String register(Model model) {
-//        model.addAttribute("title", "Register");
+        model.addAttribute("title", "Register");
         model.addAttribute("adminDTO", new AdminDTO());
         return "register";
     }
@@ -91,7 +94,7 @@ public class LoginController {
 
     @GetMapping("/forgot-password")
     public String forgotPassword(Model model) {
-//        model.addAttribute("title", "Forgot Password");
+        model.addAttribute("title", "Forgot Password");
         return "forgot-password";
     }
 }
