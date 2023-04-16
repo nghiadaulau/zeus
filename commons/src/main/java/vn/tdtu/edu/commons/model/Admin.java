@@ -23,9 +23,7 @@ public class Admin {
 
     private String password;
 
-    @Lob
-    @Column(columnDefinition = "MEDIUMBLOB")
-    private String image;
+    private String email;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "admins_roles", joinColumns = @JoinColumn(name = "admin_id", referencedColumnName = "admin_id"),
