@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vn.tdtu.edu.commons.dto.AdminDTO;
 import vn.tdtu.edu.commons.model.Admin;
 import vn.tdtu.edu.commons.service.implement.AdminServiceImpl;
@@ -26,10 +27,11 @@ public class LoginController {
     private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
-    public String loginForm(Model model){
+    public String loginForm(Model model) {
         return "login";
     }
-//
+
+    //
 //    @RequestMapping("/index")
 //    public String home(Model model){
 //        model.addAttribute("title", "Home Page");
@@ -41,55 +43,55 @@ public class LoginController {
 //    }
 //
     @GetMapping("/register")
-    public String register(Model model){
+    public String register(Model model) {
 //        model.addAttribute("title", "Register");
-//        model.addAttribute("adminDTO", new AdminDTO());
+        model.addAttribute("adminDTO", new AdminDTO());
         return "register";
     }
 
+    @PostMapping("/register")
+    public String addNewAdmin(@Valid @ModelAttribute("adminDTO") AdminDTO adminDTO,
+                              BindingResult result,
+                              Model model) {
+
+        try {
+            System.out.println(adminDTO);
+            if (result.hasErrors()) {
+                model.addAttribute("adminDTO", adminDTO);
+                return "register";
+            }
+            String username = adminDTO.getUsername();
+            Admin admin = adminService.findByUsername(username);
+            if (admin != null) {
+                model.addAttribute("adminDTO", adminDTO);
+                System.out.println("admin not null");
+                model.addAttribute("emailError", "Your email has been registered!");
+                return "register";
+            }
+            if (adminDTO.getPassword().equals(adminDTO.getRepeatPassword())) {
+                adminDTO.setPassword(passwordEncoder.encode(adminDTO.getPassword()));
+                adminService.save(adminDTO);
+                System.out.println("success");
+                model.addAttribute("success", "Register successfully!");
+                model.addAttribute("adminDTO", adminDTO);
+            } else {
+                model.addAttribute("adminDTO", adminDTO);
+                model.addAttribute("passwordError", "Your password maybe wrong! Check again!");
+                System.out.println("password not same");
+                return "register";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("errors", "The server has been wrong!");
+        }
+        return "register";
+
+    }
+
     @GetMapping("/forgot-password")
-    public String forgotPassword(Model model){
+    public String forgotPassword(Model model) {
 //        model.addAttribute("title", "Forgot Password");
         return "forgot-password";
     }
-//
-//    @PostMapping("/register-new")
-//    public String addNewAdmin(@Valid @ModelAttribute("adminDTO")AdminDTO adminDTO,
-//                              BindingResult result,
-//                              Model model){
-//
-//        try {
-//
-//            if(result.hasErrors()){
-//                model.addAttribute("adminDTO", adminDTO);
-//                result.toString();
-//                return "register";
-//            }
-//            String username = adminDTO.getUsername();
-//            Admin admin = adminService.findByUsername(username);
-//            if(admin != null){
-//                model.addAttribute("ad", adminDTO);
-//                System.out.println("admin not null");
-//                model.addAttribute("emailError", "Your email has been registered!");
-//                return "register";
-//            }
-//            if(adminDTO.getPassword().equals(adminDTO.getRepeatPassword())){
-//                adminDTO.setPassword(passwordEncoder.encode(adminDTO.getPassword()));
-//                adminService.save(adminDTO);
-//                System.out.println("success");
-//                model.addAttribute("success", "Register successfully!");
-//                model.addAttribute("adminDTO", adminDTO);
-//            }else{
-//                model.addAttribute("adminDTO", adminDTO);
-//                model.addAttribute("passwordError", "Your password maybe wrong! Check again!");
-//                System.out.println("password not same");
-//                return "register";
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            model.addAttribute("errors", "The server has been wrong!");
-//        }
-//        return "register";
-//
-//    }
 }
+
