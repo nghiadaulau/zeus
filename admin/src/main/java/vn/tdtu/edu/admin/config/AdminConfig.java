@@ -2,7 +2,6 @@ package vn.tdtu.edu.admin.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,31 +27,35 @@ public class AdminConfig {
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(){
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService());
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
-    }
-
-    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         AuthenticationManagerBuilder builder = http.getSharedObject(AuthenticationManagerBuilder.class);
         builder.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
         AuthenticationManager manager = builder.build();
         http
-                .csrf().disable()
-                .httpBasic()
-                .and()
                 .authorizeHttpRequests()
-//                .requestMatchers("/api/category/**").hasAuthority("ADMIN")
-                .requestMatchers("/view/**").permitAll()
-                .anyRequest().anonymous()
+                .requestMatchers("/**").permitAll()
+                .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .and()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/do-login")
+                .defaultSuccessUrl("/index")
+                .permitAll()
+                .and()
+                .logout()
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .clearAuthentication(true)
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout")
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/403")
+                .and()
+                .csrf().disable()
                 .authenticationManager(manager)
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+                .httpBasic()
+        ;
 
         return http.build();
 

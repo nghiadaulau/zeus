@@ -61,6 +61,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public void disableById(Long id) {
+        Category category = repo.getById(id);
+        category.set_activated(false);
+        category.set_deleted(false);
+        repo.save(category);
+    }
+
+    @Override
     public List<Category> findAllByActivated() {
         return repo.findAllByActivated();
     }
