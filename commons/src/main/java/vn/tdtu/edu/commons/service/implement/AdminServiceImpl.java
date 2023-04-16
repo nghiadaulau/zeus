@@ -27,12 +27,18 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public Admin findByEmail(String email){
+        return adminRepository.findAdminByEmail(email);
+    }
+
+    @Override
     public Admin save(AdminDTO adminDTO) {
         Admin admin = new Admin();
         admin.setFirstName(adminDTO.getFirstName());
         admin.setLastName(adminDTO.getLastName());
         admin.setUsername(adminDTO.getUsername());
         admin.setPassword(adminDTO.getPassword());
+        admin.setEmail(adminDTO.getEmail());
         admin.setRoles(Collections.singletonList(roleRepository.findByName("ADMIN")));
         return adminRepository.save(admin);
     }

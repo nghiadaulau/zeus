@@ -55,7 +55,6 @@ public class LoginController {
                               Model model) {
 
         try {
-            System.out.println(adminDTO);
             if (result.hasErrors()) {
                 model.addAttribute("adminDTO", adminDTO);
                 return "register";
@@ -64,15 +63,17 @@ public class LoginController {
             Admin admin = adminService.findByUsername(username);
             if (admin != null) {
                 model.addAttribute("adminDTO", adminDTO);
-                System.out.println("admin not null");
                 model.addAttribute("emailError", "Your email has been registered!");
+                return "register";
+            }else if(adminService.findByEmail(adminDTO.getEmail()) != null){
+                model.addAttribute("adminDTO", adminDTO);
+                model.addAttribute("accountError", "Your account already exists!!");
                 return "register";
             }
             if (adminDTO.getPassword().equals(adminDTO.getRepeatPassword())) {
                 adminDTO.setPassword(passwordEncoder.encode(adminDTO.getPassword()));
                 adminService.save(adminDTO);
-                System.out.println("success");
-                model.addAttribute("success", "Register successfully!");
+                model.addAttribute("success", "Register successfully! Please login");
                 model.addAttribute("adminDTO", adminDTO);
             } else {
                 model.addAttribute("adminDTO", adminDTO);
