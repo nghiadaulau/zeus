@@ -1,49 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <title>Login | E-Shopper</title>
-
 <head th:replace="~{/commons/head}">
-</head><!--/head-->
+</head>
+<head>
+    <link th:href="@{/css/login.css}" rel="stylesheet">
+</head>
 <body>
 <header th:replace="~{/commons/header}">
 </header>
 
 <section id="form"><!--form-->
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-4 col-sm-offset-1">
-        <div class="login-form"><!--login form-->
-          <h2>Login to your account</h2>
-          <form action="#">
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email Address" />
-            <span>
-								<input type="checkbox" class="checkbox">
-								Keep me signed in
-							</span>
-            <button type="submit" class="btn btn-default">Login</button>
-          </form>
-        </div><!--/login form-->
-      </div>
-      <div class="col-sm-1">
-        <h2 class="or">OR</h2>
-      </div>
-      <div class="col-sm-4">
-        <div class="signup-form"><!--sign up form-->
-          <h2>New User Signup!</h2>
-          <form action="#">
-            <input type="text" placeholder="Name"/>
-            <input type="email" placeholder="Email Address"/>
-            <input type="password" placeholder="Password"/>
-            <button type="submit" class="btn btn-default">Signup</button>
-          </form>
-        </div><!--/sign up form-->
-      </div>
+    <div class="container">
+        <div class="row">
+            <div class="login-page">
+                <div class="form">
+                    <form class="register-form">
+                        <div class="text-center">
+                            <h1>ĐĂNG KÝ</h1>
+                        </div>
+                        <input id="register-name" type="text" placeholder="Name" />
+                        <input id="register-email" type="email" placeholder="Email Address" />
+                        <input id="register-pwd" type="password" placeholder="Password" />
+                        <div class="row">
+                            <div class="col pull-right">
+                                <p class="message">Already registered? <a href="#">Sign In</a></p>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button id="create-btn">create</button>
+                        </div>
+                    </form>
+                    <form class="login-form">
+                        <div class="text-center">
+                            <h1>ĐĂNG NHẬP</h1>
+                        </div>
+                        <input id="login-name" type="text" placeholder="Name" />
+                        <input id="login-email" type="email" placeholder="Email Address" />
+                        <div class="row">
+                            <div class="col-6 pull-left .visible-*-inline-block">
+                                <input id="zeZ3hL" type="checkbox" /><label id="vsSUK6" for="zeZ3hL">Keep me sign in</label>
+                            </div>
+                            <div class="col-6 pull-right .visible-*-inline-block">
+                                <p class="message">Not registered? <a href="#">Create an account</a></p>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button id="login-btn">login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </section><!--/form-->
 
 <footer th:replace="~{/commons/footer}">
 </footer>
+<script type="text/javascript" th:src="@{/js/login.js}"></script>
 </body>
 </html>
