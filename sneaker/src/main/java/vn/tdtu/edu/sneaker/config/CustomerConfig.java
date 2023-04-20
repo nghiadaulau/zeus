@@ -10,6 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -31,18 +32,29 @@ public class CustomerConfig {
         builder.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
         AuthenticationManager manager = builder.build();
         http
-                .csrf().disable()
-                .httpBasic()
-                .and()
                 .authorizeHttpRequests()
-//                .requestMatchers("/api/category/**").hasAuthority("ADMIN")
-                .anyRequest().anonymous()
+                .requestMatchers("/**").permitAll()
+                .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .and()
+                .formLogin()
+                .loginPage("/auth/login")
+                .loginProcessingUrl("/do-login")
+                .defaultSuccessUrl("/home-page")
+                .permitAll()
+                .and()
+                .logout()
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .clearAuthentication(true)
+                .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout"))
+                .logoutSuccessUrl("/auth/login")
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/403")
+                .and()
+                .csrf().disable()
                 .authenticationManager(manager)
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-
+                .httpBasic();
         return http.build();
 
     }
