@@ -10,8 +10,8 @@ import vn.tdtu.edu.commons.dto.CustomerDTO;
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
-    @GetMapping("/")
-    public String Index(Model model){
+    @GetMapping("/account")
+    public String information(Model model){
 
         return "information";
     }
