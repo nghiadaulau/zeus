@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import jakarta.validation.constraints.Size;
+import vn.tdtu.edu.commons.model.Brand;
 import vn.tdtu.edu.commons.model.Category;
 
 @Data
@@ -18,6 +19,7 @@ public class ProductDTO {
     private double salePrice;
     private int currentQuantity;
     private Category category;
+    private Brand brand;
     private String image;
     private boolean activated;
     private boolean deleted;

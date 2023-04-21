@@ -30,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDTO> findAll() {
         List<Product> products = productRepository.findAll();
-        return transfer(products);
+        return transfer(products).subList(0,8);
     }
 
     @Override
@@ -56,6 +56,9 @@ public class ProductServiceImpl implements ProductService {
             return null;
         }
 
+    }
+    public Product save(Product product) {
+        return productRepository.save(product);
     }
 
     @Override
@@ -160,6 +163,7 @@ public class ProductServiceImpl implements ProductService {
             productDTO.setImage(product.getImage());
             productDTO.setDeleted(product.is_deleted());
             productDTO.setActivated(product.is_activated());
+            productDTO.setBrand(product.getBrand());
             productDtoList.add(productDTO);
         }
         return productDtoList;
