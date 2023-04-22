@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<title>Home | E-Shopper</title>
+<head th:replace="~{/commons/head}">
+</head><!--/head-->
+<head>
+    <link th:href="@{/css/information.css}" rel="stylesheet">
+</head>
+
+<body>
+<header th:replace="~{/commons/header}">
+</header>
+<div class="container">
+    <div class="row profile">
+        <div class="col-md-3 panel panel-default" style="margin-right: 5px">
+            <div class="profile-sidebar">
+                <!-- SIDEBAR USERPIC -->
+                <div class="profile-userpic">
+                    <img src="https://dummyimage.com/200x200/9c9a9c/ffffff.png&text=user+image"
+                         class="img-responsive" alt="">
+                </div>
+                <!-- END SIDEBAR USERPIC -->
+                <!-- SIDEBAR USER TITLE -->
+                <div class="profile-usertitle">
+                    <div class="profile-usertitle-name">
+                        Username
+                    </div>
+                    <div class="logout-btn">
+                        <a href="#">Đăng xuất</a>
+                    </div>
+                </div>
+                <div class="profile-usermenu">
+                    <ul class="nav">
+                        <li class="options active">
+                            <a href="#" onclick="openCity('London', this)" id="default-open">
+                                <i class="glyphicon glyphicon-home tablink"></i>
+                                Tổng quan </a>
+                        </li>
+                        <li class="options">
+                            <a href="#" onclick="openCity('Paris', this)">
+                                <i class="glyphicon glyphicon-user tablink"></i>
+                                Cập nhật tài khoản </a>
+                        </li>
+                        <li class="options">
+                            <a href="#" onclick="openCity('Tokyo', this)">
+                                <i class="glyphicon glyphicon-heart-empty tablink"></i>
+                                Hóa đơn của bạn </a>
+                        </li>
+                        <!-- Add more option here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 panel panel-default" style="background-color: white;">
+            <div id="London" class="tabcontent">
+                <h3>Tab tổng quan</h3>
+                <h3>..</h3>
+                <h3>..</h3>
+                <h3>..</h3>
+                <h3>..</h3>
+                <h3>..</h3>
+                <h3>..</h3>
+            </div>
+            <div id="Paris" class="tabcontent">
+                <h3>Tab cập nhật tài khoản</h3>
+                <h3>..</h3>
+                <h3>..</h3>
+                <h3>..</h3>
+                <h3>..</h3>
+                <h3>..</h3>
+                <h3>..</h3>
+            </div>
+
+            <div id="Tokyo" class="tabcontent">
+                <h3>Tab hóa đơn</h3>
+                <h3>..</h3>
+                <h3>..</h3>
+                <h3>..</h3>
+                <h3>..</h3>
+                <h3>..</h3>
+                <h3>..</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{/commons/footer}">
+</footer>
+<script type="text/javascript" th:src="@{/js/information.js}"></script>
+</body>
+
+</html>
