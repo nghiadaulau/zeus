@@ -10,4 +10,8 @@ public interface CustomerService {
     Customer findByUsername(String username);
 
     Customer saveInfor(Customer customer);
+
+    Customer findByEmail(String email);
+
+    void update(CustomerDTO customerDTO);
 }

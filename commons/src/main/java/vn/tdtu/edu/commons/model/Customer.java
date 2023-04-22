@@ -33,13 +33,13 @@ public class Customer {
     private String address;
 
     private String password;
-    @Lob
-    @Column(name = "image", columnDefinition = "MEDIUMBLOB")
+
     private String image;
 
     @Column(name = "city")
     private String city;
 
+    private String email;
     @OneToOne(mappedBy = "customer")
     private Cart shoppingCart;
     @OneToMany(mappedBy = "customer")

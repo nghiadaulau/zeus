@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Login | E-Shopper</title>
+
+<head th:replace="~{/commons/head}">
+</head><!--/head-->
+<head>
+  <link th:href="@{/css/login.css}" rel="stylesheet">
+</head>
+<body>
+<header th:replace="~{/commons/header}">
+</header>
+</section><!--/form-->
+<section id="form"><!--form-->
+  <div class="container">
+    <div class="row">
+      <div class="login-page">
+        <div class="form">
+          <form class="login-form" th:action="@{/auth/register}" th:object="${customerDTO}" method="post">
+            <div class="text-center">
+              <h1>ĐĂNG KÝ</h1>
+            </div>
+            <input id="register-name" required type="text" th:field="*{username}" placeholder="Username"/>
+            <input id="register-email" required type="email" th:field="*{email}" placeholder="Email Address"/>
+            <input id="register-pwd" required type="password" th:field="*{password}" placeholder="Password"/>
+            <input id="login-pwd" required type="password" th:field="*{repeatPassword}" placeholder="Repeat Password"/>
+            <div class="row">
+              <div th:if = "${errors}" class="alert alert-danger text-center">
+                [[${errors}]]
+              </div>
+              <div th:if = "${success}" class="alert alert-success text-center">
+                [[${success}]]
+              </div>
+              <div class="col-6 pull-right .visible-*-inline-block">
+                <p class="message">Not registered? <a th:href="@{/auth/login}">Login now</a></p>
+              </div>
+            </div>
+            <div class="text-center">
+              <button id="login-btn" type="submit">Sign Up</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!--/form-->
+<footer th:replace="~{/commons/footer}">
+</footer>
+</body>
+</html>

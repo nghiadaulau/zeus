@@ -9,12 +9,11 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import vn.tdtu.edu.commons.dto.AdminDTO;
-import vn.tdtu.edu.commons.model.Admin;
-import vn.tdtu.edu.commons.model.Role;
-import vn.tdtu.edu.commons.repository.AdminRepository;
-import vn.tdtu.edu.commons.repository.RoleRepository;
+import vn.tdtu.edu.commons.model.*;
+import vn.tdtu.edu.commons.repository.*;
 import vn.tdtu.edu.commons.service.implement.AdminServiceImpl;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 @SpringBootApplication(scanBasePackages = {"vn.tdtu.edu.commons.*", "vn.tdtu.edu.admin.*"})
@@ -24,6 +23,11 @@ public class AdminApplication implements CommandLineRunner {
 	@Autowired
 	private RoleRepository roleRepository;
 
+	@Autowired
+	private CategoryRepository categoryRepository;
+
+	@Autowired
+	private BrandRepository brandRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AdminApplication.class, args);
@@ -39,6 +43,7 @@ public class AdminApplication implements CommandLineRunner {
 		userRole.setName("USER");
 		roleRepository.save(adminRole);
 		roleRepository.save(userRole);
+		//End
 	}
 
 }

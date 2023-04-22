@@ -22,12 +22,13 @@ public class Product {
     private double costPrice;
     private double salePrice;
     private int currentQuantity;
-    @Lob
-    @Column(columnDefinition = "MEDIUMBLOB")
     private String image;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "brand_id", referencedColumnName = "brand_id")
+    private Brand brand;
     private boolean is_deleted;
     private boolean is_activated;
 

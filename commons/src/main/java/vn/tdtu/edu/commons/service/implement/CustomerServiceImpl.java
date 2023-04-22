@@ -7,7 +7,6 @@ import vn.tdtu.edu.commons.repository.*;
 import vn.tdtu.edu.commons.dto.*;
 import vn.tdtu.edu.commons.model.*;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 @Service
@@ -23,12 +22,11 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO save(CustomerDTO customerDTO) {
 
         Customer customer = new Customer();
-        customer.setFirstName(customerDTO.getFirstName());
-        customer.setLastName(customerDTO.getLastName());
         customer.setUsername(customerDTO.getUsername());
         customer.setPassword(customerDTO.getPassword());
+        customer.setEmail(customerDTO.getEmail());
+        customer.setImage("avatar.jpg");
         customer.setRoles(Collections.singletonList(repository.findByName("CUSTOMER")));
-
         Customer customerSave = customerRepository.save(customer);
         return mapperDTO(customerSave);
     }
@@ -46,6 +44,28 @@ public class CustomerServiceImpl implements CustomerService {
         customer1.setCountry(customer.getCountry());
         customer1.setPhoneNumber(customer.getPhoneNumber());
         return customerRepository.save(customer1);
+    }
+
+    @Override
+    public Customer findByEmail(String email) {
+        return customerRepository.findByEmail(email);
+    }
+
+    @Override
+    public void update(CustomerDTO customerDTO) {
+        Customer customer = customerRepository.findByUsername(customerDTO.getUsername());
+        customer.setAddress(customerDTO.getAddress());
+        customer.setCity(customerDTO.getCity());
+        customer.setCountry(customerDTO.getCountry());
+        customer.setPhoneNumber(customerDTO.getPhoneNumber());
+        customer.setFirstName(customerDTO.getFirstName());
+        customer.setLastName(customerDTO.getLastName());
+        customerRepository.save(customer);
+    }
+    public void update(String fileName, String username) {
+        Customer customer = customerRepository.findByUsername(username);
+        customer.setImage(fileName);
+        customerRepository.save(customer);
     }
 
     private CustomerDTO mapperDTO(Customer customer){

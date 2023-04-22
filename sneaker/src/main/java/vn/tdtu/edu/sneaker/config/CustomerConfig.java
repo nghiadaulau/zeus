@@ -2,7 +2,6 @@ package vn.tdtu.edu.sneaker.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -33,18 +32,29 @@ public class CustomerConfig {
         builder.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
         AuthenticationManager manager = builder.build();
         http
-                .csrf().disable()
-                .httpBasic()
-                .and()
                 .authorizeHttpRequests()
-//                .requestMatchers("/api/category/**").hasAuthority("ADMIN")
-                .anyRequest().anonymous()
+                .requestMatchers("/**").permitAll()
+                .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .and()
+                .formLogin()
+                .loginPage("/auth/login")
+                .loginProcessingUrl("/do-login")
+                .defaultSuccessUrl("/home-page")
+                .permitAll()
+                .and()
+                .logout()
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .clearAuthentication(true)
+                .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout"))
+                .logoutSuccessUrl("/auth/login")
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/403")
+                .and()
+                .csrf().disable()
                 .authenticationManager(manager)
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-
+                .httpBasic();
         return http.build();
 
     }

@@ -30,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDTO> findAll() {
         List<Product> products = productRepository.findAll();
-        return transfer(products);
+        return transfer(products).subList(0,8);
     }
 
     @Override
@@ -47,7 +47,9 @@ public class ProductServiceImpl implements ProductService {
             product.setDescription(productDTO.getDescription());
             product.setCategory(productDTO.getCategory());
             product.setCostPrice(productDTO.getCostPrice());
+            product.setSalePrice(productDTO.getSalePrice());
             product.setCurrentQuantity(productDTO.getCurrentQuantity());
+            product.setBrand(productDTO.getBrand());
             product.set_activated(true);
             product.set_deleted(false);
             return productRepository.save(product);
@@ -56,6 +58,9 @@ public class ProductServiceImpl implements ProductService {
             return null;
         }
 
+    }
+    public Product save(Product product) {
+        return productRepository.save(product);
     }
 
     @Override
@@ -74,6 +79,7 @@ public class ProductServiceImpl implements ProductService {
             product.setCostPrice(productDTO.getCostPrice());
             product.setCurrentQuantity(productDTO.getCurrentQuantity());
             product.setCategory(productDTO.getCategory());
+            product.setBrand(productDTO.getBrand());
             return productRepository.save(product);
         }catch (Exception e){
             e.printStackTrace();
@@ -99,6 +105,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void disableById(Long id) {
+        Product product = productRepository.getById(id);
+        product.set_activated(false);
+        product.set_deleted(false);
+        productRepository.save(product);
+
+    }
+
+    @Override
     public ProductDTO getById(Long id) {
         Product product = productRepository.getById(id);
         ProductDTO productDTO = new ProductDTO();
@@ -110,6 +125,7 @@ public class ProductServiceImpl implements ProductService {
         productDTO.setSalePrice(product.getSalePrice());
         productDTO.setCostPrice(product.getCostPrice());
         productDTO.setImage(product.getImage());
+        productDTO.setBrand(product.getBrand());
         productDTO.setDeleted(product.is_deleted());
         productDTO.setActivated(product.is_activated());
         return productDTO;
@@ -124,9 +140,43 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductDTO> searchProducts(int pageNo, String keyword) {
+    public Page<ProductDTO> searchProductsCus(int pageNo, String keyword) {
         Pageable pageable = PageRequest.of(pageNo, 5);
         List<ProductDTO> productDTOList = transfer(productRepository.searchProductsList(keyword));
+        Page<ProductDTO> products = toPage(productDTOList, pageable);
+        return products;
+    }
+
+    @Override
+    public Page<ProductDTO> searchProducts(int pageNo, Long categoryId, Long brandId, Double minPrice, Double  maxPrice, String productName) {
+        Pageable pageable = PageRequest.of(pageNo, 5);
+        List<Product> filteredProducts = new ArrayList<>();
+        List<Product> allProducts = productRepository.findAll();
+        for (Product product : allProducts) {
+            if (categoryId != null && !product.getCategory().getId().equals(categoryId)) {
+                continue;
+            }
+
+            if (brandId != null && !product.getBrand().getId().equals(brandId)) {
+                continue;
+            }
+
+            if (minPrice != null && Double.compare(product.getCostPrice(), minPrice) < 0) {
+                continue;
+            }
+
+            if (maxPrice != null && Double.compare(product.getCostPrice(), maxPrice) > 0) {
+                continue;
+            }
+
+            if (productName != null && !product.getName().toLowerCase().contains(productName.toLowerCase())) {
+                continue;
+            }
+
+            filteredProducts.add(product);
+        }
+
+        List<ProductDTO> productDTOList = transfer(filteredProducts);
         Page<ProductDTO> products = toPage(productDTOList, pageable);
         return products;
     }
@@ -160,6 +210,7 @@ public class ProductServiceImpl implements ProductService {
             productDTO.setImage(product.getImage());
             productDTO.setDeleted(product.is_deleted());
             productDTO.setActivated(product.is_activated());
+            productDTO.setBrand(product.getBrand());
             productDtoList.add(productDTO);
         }
         return productDtoList;

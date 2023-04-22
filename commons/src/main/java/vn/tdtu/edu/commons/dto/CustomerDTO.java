@@ -18,8 +18,22 @@ public class CustomerDTO {
 
     private String username;
 
+    private String email;
+    private String phoneNumber;
+    private String address;
+    private String country;
+    private String city;
     @Size(min = 5, max = 20, message = "Password should have 5-20 characters")
     private String password;
 
     private String repeatPassword;
+
+    public CustomerDTO(String thao, String tranVan, String user2, String password) {
+        this.firstName = thao;
+        this.lastName = tranVan;
+        this.password = password;
+        this.username = user2;
+    }
+
+
 }
