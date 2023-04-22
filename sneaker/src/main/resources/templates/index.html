@@ -87,7 +87,7 @@
                             <div class="product-image-wrapper">
                                 <div class="single-products">
                                     <div class="productinfo text-center">
-                                        <img th:src="@{'/images/shop/' + ${product.getImage()}}"
+                                        <img th:src="@{'data:image/png;base64,' + ${product.getImage()}}"
                                              alt=""
                                              src=""/>
                                         <h2 th:text="${#strings
@@ -126,7 +126,7 @@
                                     <div class="product-image-wrapper">
                                         <div class="single-products">
                                             <div class="productinfo text-center">
-                                                <img th:src="@{'/images/shop/'+ ${product.image}}" alt=""  src=""/>
+                                                <img th:src="@{'data:image/png;base64,'+ ${product.image}}" alt=""  src=""/>
                                                 <h2>[[${product.name}]]</h2>
                                                 <p>Brand: [[${product.brand.name}]]</p>
                                                 <p>Category: [[${product.category.name}]]</p>
@@ -146,7 +146,7 @@
                                         <div class="product-image-wrapper">
                                             <div class="single-products">
                                                 <div class="productinfo text-center">
-                                                    <img th:src="@{'/images/shop/'+ ${product.image}}" alt="" src=""/>
+                                                    <img th:src="@{'data:image/png;base64,'+ ${product.image}}" alt="" src=""/>
                                                     <h2>[[${product.name}]]</h2>
                                                     <p>Brand: [[${product.brand.name}]]</p>
                                                     <p>Category: [[${product.category.name}]]</p>
@@ -174,7 +174,7 @@
                                     <div class="product-image-wrapper">
                                         <div class="single-products">
                                             <div class="productinfo text-center">
-                                                <img th:src="@{'/images/shop/' + ${product.image}}" alt=""/>
+                                                <img th:src="@{'data:image/png;base64,' + ${product.image}}" alt=""/>
                                                 <h2>[[${product.name}]]</h2>
                                                 <p>Brand: [[${product.brand.name}]]</p>
                                                 <p>Category: [[${product.category.name}]]</p>
@@ -193,7 +193,7 @@
                                         <div class="product-image-wrapper">
                                             <div class="single-products">
                                                 <div class="productinfo text-center">
-                                                    <img th:src="@{'/images/shop/' + ${product.image}}" alt=""/>
+                                                    <img th:src="@{'data:image/png;base64,' + ${product.image}}" alt=""/>
                                                     <h2>[[${product.name}]]</h2>
                                                     <p>Brand: [[${product.brand.name}]]</p>
                                                     <p>Category: [[${product.category.name}]]</p>
