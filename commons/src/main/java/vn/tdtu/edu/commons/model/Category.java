@@ -19,7 +19,6 @@ public class Category {
     private String name;
     private boolean is_deleted;
     private boolean is_activated;
-    private String href;
 
     public Category(String name){
         this.name = name;

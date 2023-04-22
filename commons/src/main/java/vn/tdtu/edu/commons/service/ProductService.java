@@ -39,4 +39,6 @@ public interface ProductService {
 
     Page<ProductDTO> searchProductsCus(int pageNo, String keyword);
 
+    List<Product>findRandomProducts();
+
 }
