@@ -27,4 +27,11 @@ $(document).ready(function(){
 	        zIndex: 2147483647 // Z-Index for the overlay
 		});
 	});
+
+	$(".nav.nav-tabs li a:first").addClass("active tab-default-open");
+
+	$(".tab-default-open").click();
 });
+
+
+
