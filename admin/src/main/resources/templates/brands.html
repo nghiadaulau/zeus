@@ -28,7 +28,7 @@
         <div th:if="${size == 0}">
           <p>No category</p>
         </div>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add new category</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add new brands</button>
         <div th:if = "${success}" class="text-center alert alert-success">
           <p th:text="${success}"></p>
         </div>
@@ -49,7 +49,7 @@
             <th scope="row" th:text="${brand.id}"></th>
             <td th:text="${brand.name}"></td>
             <td>
-              <a id="editButton" th:href="@{/findById/{id}(id = ${brand.id})}" class="btn btn-primary">Update</a>
+              <a id="editButton" th:href="@{brand/findById/{id}(id = ${brand.id})}" class="btn btn-primary">Update</a>
             </td>
             <td>
               <a th:if = "${brand.is_deleted()} == false" th:href="@{/delete-brand/{id}(id = ${brand.id})}" class="btn btn-danger">Delete</a>
