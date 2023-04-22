@@ -47,7 +47,9 @@ public class ProductServiceImpl implements ProductService {
             product.setDescription(productDTO.getDescription());
             product.setCategory(productDTO.getCategory());
             product.setCostPrice(productDTO.getCostPrice());
+            product.setSalePrice(productDTO.getSalePrice());
             product.setCurrentQuantity(productDTO.getCurrentQuantity());
+            product.setBrand(productDTO.getBrand());
             product.set_activated(true);
             product.set_deleted(false);
             return productRepository.save(product);
@@ -77,6 +79,7 @@ public class ProductServiceImpl implements ProductService {
             product.setCostPrice(productDTO.getCostPrice());
             product.setCurrentQuantity(productDTO.getCurrentQuantity());
             product.setCategory(productDTO.getCategory());
+            product.setBrand(productDTO.getBrand());
             return productRepository.save(product);
         }catch (Exception e){
             e.printStackTrace();
@@ -113,6 +116,7 @@ public class ProductServiceImpl implements ProductService {
         productDTO.setSalePrice(product.getSalePrice());
         productDTO.setCostPrice(product.getCostPrice());
         productDTO.setImage(product.getImage());
+        productDTO.setBrand(product.getBrand());
         productDTO.setDeleted(product.is_deleted());
         productDTO.setActivated(product.is_activated());
         return productDTO;
