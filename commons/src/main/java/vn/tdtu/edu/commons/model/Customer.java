@@ -31,20 +31,15 @@ public class Customer {
     @Column(name = "phone_number")
     private String phoneNumber;
     private String address;
-
     private String password;
-
     private String image;
-
     @Column(name = "city")
     private String city;
-
     private String email;
     @OneToOne(mappedBy = "customer")
     private Cart shoppingCart;
     @OneToMany(mappedBy = "customer")
     private List<Order> orders;
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable( name = "customers_roles",
             joinColumns = @JoinColumn(name = "customer_id", referencedColumnName = "customer_id"),
