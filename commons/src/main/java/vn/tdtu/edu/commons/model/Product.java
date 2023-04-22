@@ -36,4 +36,6 @@ public class Product {
     private boolean is_deleted;
     private boolean is_activated;
 
+
+
 }

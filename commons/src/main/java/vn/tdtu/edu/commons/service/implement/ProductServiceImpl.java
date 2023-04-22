@@ -32,6 +32,9 @@ public class ProductServiceImpl implements ProductService {
         List<Product> products = productRepository.findAll();
         return transfer(products).subList(0,8);
     }
+    public List<Product> getAll() {
+        return  productRepository.findAll();
+    }
 
     @Override
     public Product save(MultipartFile imageProduct, ProductDTO productDTO) {
@@ -149,6 +152,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> findRandomProducts() {
+        return productRepository.findRandomProducts(PageRequest.of(0, 6));
+    }
+
+    @Override
     public Page<ProductDTO> searchProducts(int pageNo, Long categoryId, Long brandId, Double minPrice, Double  maxPrice, String productName) {
         Pageable pageable = PageRequest.of(pageNo, 10);
         List<Product> filteredProducts = new ArrayList<>();
@@ -224,7 +232,6 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getAllProducts() {
         return productRepository.getAllProducts();
     }
-
     @Override
     public List<Product> listViewProducts() {
         return productRepository.listViewProducts();

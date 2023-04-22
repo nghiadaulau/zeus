@@ -41,10 +41,12 @@ class SneakerApplicationTests {
         List<Brand> brands= brandService.findAll();
         for(int i = 0 ; i<9;i++){
             Product product = new Product();
+            product.set_deleted(false);
+            product.set_activated(true);
             product.setName("product "+ i);
             product.setId((long) (i + 1));
-            product.setCategory(categories.get(i%4));
-            product.setBrand(brands.get(i%4));
+            product.setCategory(categories.get(i%5));
+            product.setBrand(brands.get(i%5));
             product.setDescription("Nhu cai dau buoi "+ i);
             product.setImage("product.jpg");
             product.setCostPrice(10000 + i);
