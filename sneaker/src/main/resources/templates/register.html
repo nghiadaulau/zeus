@@ -4,45 +4,46 @@
 
 <head th:replace="~{/commons/head}">
 </head><!--/head-->
+<head>
+  <link th:href="@{/css/login.css}" rel="stylesheet">
+</head>
 <body>
 <header th:replace="~{/commons/header}">
 </header>
-
+</section><!--/form-->
 <section id="form"><!--form-->
   <div class="container">
     <div class="row">
-      <div class="col-sm-4 col-sm-offset-1">
-        <div class="login-form"><!--login form-->
-          <h2>Login to your account</h2>
-          <form action="#">
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email Address" />
-            <span>
-								<input type="checkbox" class="checkbox">
-								Keep me signed in
-							</span>
-            <button type="submit" class="btn btn-default">Login</button>
+      <div class="login-page">
+        <div class="form">
+          <form class="login-form" th:action="@{/auth/register}" th:object="${customerDTO}" method="post">
+            <div class="text-center">
+              <h1>ĐĂNG KÝ</h1>
+            </div>
+            <input id="register-name" required type="text" th:field="*{username}" placeholder="Username"/>
+            <input id="register-email" required type="email" th:field="*{email}" placeholder="Email Address"/>
+            <input id="register-pwd" required type="password" th:field="*{password}" placeholder="Password"/>
+            <input id="login-pwd" required type="password" th:field="*{repeatPassword}" placeholder="Repeat Password"/>
+            <div class="row">
+              <div th:if = "${errors}" class="alert alert-danger text-center">
+                [[${errors}]]
+              </div>
+              <div th:if = "${success}" class="alert alert-success text-center">
+                [[${success}]]
+              </div>
+              <div class="col-6 pull-right .visible-*-inline-block">
+                <p class="message">Not registered? <a th:href="@{/auth/login}">Login now</a></p>
+              </div>
+            </div>
+            <div class="text-center">
+              <button id="login-btn" type="submit">Sign Up</button>
+            </div>
           </form>
-        </div><!--/login form-->
-      </div>
-      <div class="col-sm-1">
-        <h2 class="or">OR</h2>
-      </div>
-      <div class="col-sm-4">
-        <div class="signup-form"><!--sign up form-->
-          <h2>New User Signup!</h2>
-          <form action="#">
-            <input type="text" placeholder="Name"/>
-            <input type="email" placeholder="Email Address"/>
-            <input type="password" placeholder="Password"/>
-            <button type="submit" class="btn btn-default">Signup</button>
-          </form>
-        </div><!--/sign up form-->
+        </div>
       </div>
     </div>
   </div>
 </section><!--/form-->
-
 <footer th:replace="~{/commons/footer}">
 </footer>
 </body>

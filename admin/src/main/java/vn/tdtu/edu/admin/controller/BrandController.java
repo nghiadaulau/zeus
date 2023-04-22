@@ -2,41 +2,40 @@ package vn.tdtu.edu.admin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import vn.tdtu.edu.commons.model.Brand;
 import vn.tdtu.edu.commons.model.Category;
-import vn.tdtu.edu.commons.service.CategoryService;
+import vn.tdtu.edu.commons.service.BrandService;
 
 import java.security.Principal;
 import java.util.List;
 
 @Controller
-public class CategoryController {
+public class BrandController {
     @Autowired
-    private CategoryService categoryService;
+    private BrandService brandService;
 
-    @GetMapping("/categories")
-    public String categories(Model model, Principal principal){
+    @GetMapping("/brands")
+    public String brands(Model model, Principal principal){
         if (principal == null){
             return "redirect:/login";
         }
-        List<Category> categories = categoryService.findAll();
-        model.addAttribute("categories", categories);
-        model.addAttribute("size", categories.size());
-        model.addAttribute("title", "Category");
-        model.addAttribute("categoryNew", new Category());
+        List<Brand> brands = brandService.findAll();
+        model.addAttribute("brands", brands);
+        model.addAttribute("size", brands.size());
+        model.addAttribute("title", "Brand");
+        model.addAttribute("brandNew", new Brand());
         model.addAttribute("username", principal.getName());
-        return "categories";
+        return "brands";
     }
 
-    @PostMapping("/add-category")
-    public String add(@ModelAttribute("categoryNew") Category category, RedirectAttributes attributes){
+    @PostMapping("/add-brand")
+    public String add(@ModelAttribute("brandNew") Brand brand, RedirectAttributes attributes){
         try {
-            categoryService.save(category);
+            brandService.save(brand);
             attributes.addFlashAttribute("success", "Added successfully");
         }catch (DataIntegrityViolationException e){
             e.printStackTrace();
@@ -46,20 +45,18 @@ public class CategoryController {
             e.printStackTrace();
             attributes.addFlashAttribute("failed", "Error server");
         }
-        return "redirect:/categories";
-
+        return "redirect:/brands";
     }
-
-    @GetMapping(value = "/findById/{id}")
+    @GetMapping(value = "brand/findById/{id}")
     @ResponseBody
-    public Category findById(@PathVariable("id")Long id){
-        return categoryService.findById(id);
+    public Brand findById(@PathVariable("id")Long id){
+        return brandService.findById(id);
     }
 
-    @GetMapping("/update-category")
-    public String update(Category category, RedirectAttributes attributes){
-        try {
-            categoryService.update(category);
+    @GetMapping("/update-brand")
+    public String update(Brand brand, RedirectAttributes attributes){
+        try{
+            brandService.update(brand);
             attributes.addFlashAttribute("success","Updated successfully");
         }catch (DataIntegrityViolationException e){
             e.printStackTrace();
@@ -68,42 +65,41 @@ public class CategoryController {
             e.printStackTrace();
             attributes.addFlashAttribute("failed", "Error server");
         }
-        return "redirect:/categories";
+        return "redirect:/brands";
     }
-
-    @GetMapping("/delete-category/{id}")
+    @GetMapping("/delete-brand/{id}")
     public String delete(@PathVariable("id")Long id, RedirectAttributes attributes){
         try {
-            categoryService.deleteById(id);
+            brandService.deleteById(id);
             attributes.addFlashAttribute("success", "Deleted successfully");
         }catch (Exception e){
             e.printStackTrace();
             attributes.addFlashAttribute("failed", "Failed to deleted");
         }
-        return "redirect:/categories";
+        return "redirect:/brands";
     }
 
-    @GetMapping("/enable-category/{id}")
+    @GetMapping("/enable-brand/{id}")
     public String enable(@PathVariable("id")Long id, RedirectAttributes attributes){
         try {
-            categoryService.enabledById(id);
+            brandService.enableById(id);
             attributes.addFlashAttribute("success", "Enabled successfully");
         }catch (Exception e){
             e.printStackTrace();
             attributes.addFlashAttribute("failed", "Failed to enabled");
         }
-        return "redirect:/categories";
+        return "redirect:/brands";
     }
 
-    @GetMapping( "/disable-category/{id}")
+    @GetMapping( "/disable-brand/{id}")
     public String disable(@PathVariable("id") Long id, RedirectAttributes attributes){
         try {
-            categoryService.disableById(id);
+            brandService.disableById(id);
             attributes.addFlashAttribute("success", "Disabled successfully");
         }catch (Exception e){
             e.printStackTrace();
             attributes.addFlashAttribute("failed", "Failed to disabled");
         }
-        return "redirect:/categories";
+        return "redirect:/brands";
     }
 }
