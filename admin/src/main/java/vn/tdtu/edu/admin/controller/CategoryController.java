@@ -2,6 +2,8 @@ package vn.tdtu.edu.admin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +29,7 @@ public class CategoryController {
         model.addAttribute("size", categories.size());
         model.addAttribute("title", "Category");
         model.addAttribute("categoryNew", new Category());
+        model.addAttribute("username", principal.getName());
         return "categories";
     }
 

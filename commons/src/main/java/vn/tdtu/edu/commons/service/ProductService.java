@@ -14,12 +14,13 @@ public interface ProductService {
     Product update(MultipartFile imageProduct, ProductDTO productDto);
     void deleteById(Long id);
     void enableById(Long id);
+    void disableById(Long id);
+
     ProductDTO getById(Long id);
 
     Page<ProductDTO> pageProducts(int pageNo);
 
-    Page<ProductDTO> searchProducts(int pageNo, String keyword);
-
+    Page<ProductDTO> searchProducts(int pageNo, Long categoryId, Long brandId, Double minPrice, Double  maxPrice, String productName);
 
     /*Customer*/
     List<Product> getAllProducts();
@@ -35,4 +36,7 @@ public interface ProductService {
     List<Product> filterHighPrice();
 
     List<Product> filterLowPrice();
+
+    Page<ProductDTO> searchProductsCus(int pageNo, String keyword);
+
 }

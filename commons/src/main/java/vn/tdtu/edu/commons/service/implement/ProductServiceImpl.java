@@ -105,6 +105,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void disableById(Long id) {
+        Product product = productRepository.getById(id);
+        product.set_activated(false);
+        product.set_deleted(false);
+        productRepository.save(product);
+
+    }
+
+    @Override
     public ProductDTO getById(Long id) {
         Product product = productRepository.getById(id);
         ProductDTO productDTO = new ProductDTO();
@@ -131,9 +140,43 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductDTO> searchProducts(int pageNo, String keyword) {
+    public Page<ProductDTO> searchProductsCus(int pageNo, String keyword) {
         Pageable pageable = PageRequest.of(pageNo, 5);
         List<ProductDTO> productDTOList = transfer(productRepository.searchProductsList(keyword));
+        Page<ProductDTO> products = toPage(productDTOList, pageable);
+        return products;
+    }
+
+    @Override
+    public Page<ProductDTO> searchProducts(int pageNo, Long categoryId, Long brandId, Double minPrice, Double  maxPrice, String productName) {
+        Pageable pageable = PageRequest.of(pageNo, 5);
+        List<Product> filteredProducts = new ArrayList<>();
+        List<Product> allProducts = productRepository.findAll();
+        for (Product product : allProducts) {
+            if (categoryId != null && !product.getCategory().getId().equals(categoryId)) {
+                continue;
+            }
+
+            if (brandId != null && !product.getBrand().getId().equals(brandId)) {
+                continue;
+            }
+
+            if (minPrice != null && Double.compare(product.getCostPrice(), minPrice) < 0) {
+                continue;
+            }
+
+            if (maxPrice != null && Double.compare(product.getCostPrice(), maxPrice) > 0) {
+                continue;
+            }
+
+            if (productName != null && !product.getName().toLowerCase().contains(productName.toLowerCase())) {
+                continue;
+            }
+
+            filteredProducts.add(product);
+        }
+
+        List<ProductDTO> productDTOList = transfer(filteredProducts);
         Page<ProductDTO> products = toPage(productDTOList, pageable);
         return products;
     }

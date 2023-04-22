@@ -28,6 +28,7 @@ public class BrandController {
         model.addAttribute("size", brands.size());
         model.addAttribute("title", "Brand");
         model.addAttribute("brandNew", new Brand());
+        model.addAttribute("username", principal.getName());
         return "brands";
     }
 

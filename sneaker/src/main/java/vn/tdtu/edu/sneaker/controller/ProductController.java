@@ -27,7 +27,7 @@ public class ProductController {
 //    Get Params: /search?keySearch =...
     @GetMapping("/search")
     public String goSearch(@RequestParam String keySearch){
-        productService.searchProducts(0,keySearch);
+        productService.searchProductsCus(0,keySearch);
         return "index";
     }
 }
