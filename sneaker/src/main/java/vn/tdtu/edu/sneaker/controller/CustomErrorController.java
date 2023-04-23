@@ -19,13 +19,13 @@ public class CustomErrorController implements ErrorController {
 
             if (statusCode == HttpStatus.BAD_REQUEST.value()){
                 // handle HTTP 400 Bad Request error
-                return "404";
+                return "400";
             } else if (statusCode == HttpStatus.UNAUTHORIZED.value()) {
                 // handle HTTP 401 Unauthorized error
-                return "404";
+                return "401";
             } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
                 // handle HTTP 403 Forbidden error
-                return "404";
+                return "403";
             } else if (statusCode == HttpStatus.NOT_FOUND.value()) {
                 // handle HTTP 404 Not Found error
                 return "404";
@@ -46,7 +46,7 @@ public class CustomErrorController implements ErrorController {
                 return "404";
             } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 // handle HTTP 500  Internal Server error
-                return "404";
+                return "500";
             } else if (statusCode == HttpStatus.NOT_IMPLEMENTED.value()) {
                 // handle HTTP 501 Not Implemented error
                 return "404";
