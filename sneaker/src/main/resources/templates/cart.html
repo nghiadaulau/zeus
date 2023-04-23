@@ -29,82 +29,32 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td class="cart_product">
-            <a href=""><img src="images/cart/one.png" alt=""></a>
-          </td>
-          <td class="cart_description">
-            <h4><a href="">Colorblock Scuba</a></h4>
-            <p>Web ID: 1089772</p>
-          </td>
-          <td class="cart_price">
-            <p>$59</p>
-          </td>
-          <td class="cart_quantity">
-            <div class="cart_quantity_button">
-              <a class="cart_quantity_up" href=""> + </a>
-              <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-              <a class="cart_quantity_down" href=""> - </a>
-            </div>
-          </td>
-          <td class="cart_total">
-            <p class="cart_total_price">$59</p>
-          </td>
-          <td class="cart_delete">
-            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-          </td>
-        </tr>
+        <th:block th:each="cartItem : ${cartItems}">
+          <tr>
+            <td class="cart_product">
+              <a href=""><img width="100px" th:src="@{'data:image/png;base64,' + ${cartItem.product.getImage()}}" alt="" src=""></a>
+            </td>
+            <td class="cart_description">
+              <h4><a th:href="@{'/product/product-details/'+${cartItem.product.id}}"> [[${cartItem.product.name}]]</a></h4>
+              <p>Product Id: [[${cartItem.product.id}]]</p>
+            </td>
+            <td class="cart_price">
+              <p>$[[${cartItem.product.getCostPrice()}]]</p>
+            </td>
+            <td class="cart_quantity">
+              <div class="cart_quantity_button">
+                <input class="cart_quantity_input quantity" type="number" th:id="${cartItem.product.id}" th:value="${cartItem.quantity}" min="1">
+              </div>
+            </td>
+            <td class="cart_total">
+              <p class="cart_total_price total_item" th:id="${cartItem.getProduct().costPrice}">[[${cartItem.getTotalPrice()}]]</p>
+            </td>
+            <td class="cart_delete">
+              <a class="cart_quantity_delete" th:href="@{'/cart/delete/'+${cartItem.product.id}}"><i class="fa fa-times"></i></a>
+            </td>
+          </tr>
 
-        <tr>
-          <td class="cart_product">
-            <a href=""><img src="images/cart/two.png" alt=""></a>
-          </td>
-          <td class="cart_description">
-            <h4><a href="">Colorblock Scuba</a></h4>
-            <p>Web ID: 1089772</p>
-          </td>
-          <td class="cart_price">
-            <p>$59</p>
-          </td>
-          <td class="cart_quantity">
-            <div class="cart_quantity_button">
-              <a class="cart_quantity_up" href=""> + </a>
-              <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-              <a class="cart_quantity_down" href=""> - </a>
-            </div>
-          </td>
-          <td class="cart_total">
-            <p class="cart_total_price">$59</p>
-          </td>
-          <td class="cart_delete">
-            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-          </td>
-        </tr>
-        <tr>
-          <td class="cart_product">
-            <a href=""><img src="images/cart/three.png" alt=""></a>
-          </td>
-          <td class="cart_description">
-            <h4><a href="">Colorblock Scuba</a></h4>
-            <p>Web ID: 1089772</p>
-          </td>
-          <td class="cart_price">
-            <p>$59</p>
-          </td>
-          <td class="cart_quantity">
-            <div class="cart_quantity_button">
-              <a class="cart_quantity_up" href=""> + </a>
-              <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-              <a class="cart_quantity_down" href=""> - </a>
-            </div>
-          </td>
-          <td class="cart_total">
-            <p class="cart_total_price">$59</p>
-          </td>
-          <td class="cart_delete">
-            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-          </td>
-        </tr>
+        </th:block>
         </tbody>
       </table>
     </div>
@@ -175,18 +125,42 @@
       <div class="col-sm-6">
         <div class="total_area">
           <ul>
-            <li>Cart Sub Total <span>$59</span></li>
+            <li>Cart Sub Total <span>$44</span></li>
             <li>Eco Tax <span>$2</span></li>
             <li>Shipping Cost <span>Free</span></li>
-            <li>Total <span>$61</span></li>
+            <li>Total <span>$44</span></li>
           </ul>
-          <a class="btn btn-default update" href="">Update</a>
-          <a class="btn btn-default check_out" href="">Check Out</a>
+          <a class="btn btn-default check_out" th:href="@{/check-out}">Check Out</a>
         </div>
       </div>
     </div>
   </div>
 </section><!--/#do_action-->
 <footer th:replace="~{/commons/footer}"></footer>
+<script>
+  $('.quantity').on('change', function() {
+    let quan = $(this).val()
+    let prod_id = $(this).attr("id")
+    let trElement = $(this).closest('tr');
+    let totalItemElement = trElement.find('.total_item');
+    let price = totalItemElement.attr("id");
+    $.ajax({
+      url: '/cart/update',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        quantity: quan,
+        productId: prod_id
+      }),
+      success: function (response) {
+        // handle successful response
+        totalItemElement.text("$"+(price * quan));
+      },
+      error: function (error) {
+        // handle error response
+      }
+    });
+  });
+</script>
 </body>
 </html>
