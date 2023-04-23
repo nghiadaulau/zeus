@@ -714,9 +714,9 @@ h2.title:before{
 	margin-bottom: 0px;
 }
 
-.category-products .panel-default .panel-heading {
+.category-products .panel-default .panel-title{
   background-color: #FFFFFF;
-  border: 0 none;
+  border: none;
   color: #FFFFFF;
   padding: 5px 20px;
 }
@@ -884,10 +884,12 @@ h2.title {
 
 .productinfo img{
   width: 100%;
+  height: 184px;
+  /*object-fit: contain;*/
 }
 
 .productinfo{
- position:relative;
+  position:relative;
 }
 
 .product-overlay {
@@ -1136,6 +1138,20 @@ h2.title {
 .pagination  li  a:hover{
 	background:#FE980F;
 	color:#fff;
+}
+
+.shipping {
+  z-index: 1000;
+  margin-bottom: 10px;
+}
+
+.panel-title a span {
+  transition: font-size 0.5s ease;
+}
+
+.panel-title a span:hover {
+  font-size: 1.1em;
+  color: #FE980F;
 }
 
 
