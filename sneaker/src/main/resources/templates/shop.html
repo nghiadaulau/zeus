@@ -65,6 +65,10 @@
                 <div class="category-tab"><!--category-tab-->
                     <div class="tab-content">
                         <th:block th:each="category : ${categories}">
+                            <hr>
+                            <i><h1 class="text-center category-title" th:text="${category.getName()}"></h1>
+                            </i>
+                            <hr>
                             <div class="tab-pane fade" th:id="${category.getId()}">
                                 <th:block th:each="product : ${products.get(category.getId())}">
                                     <div class="col-sm-3">

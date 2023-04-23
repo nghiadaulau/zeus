@@ -888,6 +888,10 @@ h2.title {
   /*object-fit: contain;*/
 }
 
+.category-title {
+  color: #696763;
+}
+
 .productinfo{
   position:relative;
 }
