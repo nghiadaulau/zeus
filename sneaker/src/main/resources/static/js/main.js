@@ -27,10 +27,10 @@ $(document).ready(function(){
 	        zIndex: 2147483647 // Z-Index for the overlay
 		});
 	});
-
+	console.log($(".panel-group .panel-default h4:first").text())
 	$(".panel-group .panel-default h4:first").addClass("tab-default-open");
 
-	$(".tab-default-open a span").click();
+	$(".tab-default-open a").click();
 });
 
 function textAbstract(el, maxlength = 50, delimiter = " ") {

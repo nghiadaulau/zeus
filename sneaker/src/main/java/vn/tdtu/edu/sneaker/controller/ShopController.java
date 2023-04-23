@@ -34,6 +34,8 @@ public class ShopController {
         }
 
         model.addAttribute("products", products);
+        model.addAttribute("all_product", productService.getAllProducts());
+        System.out.println(productService.findAll().size());
 
         return "shop";
     }
