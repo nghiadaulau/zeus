@@ -2359,6 +2359,13 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #4e73df;
   border-color: #4e73df;
+  transform: scale(1.01);
+  transition: transform 0.1s ease-in-out;
+}
+
+.add_button {
+  margin-bottom: 36px;
+  margin-left: 75%;
 }
 
 .btn-primary:hover {
@@ -4492,7 +4499,13 @@ input[type="button"].btn-block {
   background-color: #fff;
   background-clip: border-box;
   border: 1px solid #e3e6f0;
-  border-radius: 0.35rem;
+  border-radius: 2.2rem;
+  box-shadow: 13px 15px #383838;
+  transition-duration: 0.5s;
+}
+
+.card:hover {
+  box-shadow: 13px 15px #A0A0A0;
 }
 
 .card > hr {
@@ -9863,6 +9876,62 @@ a:focus {
   }
 }
 
+@keyframes move_down{
+  0%{
+    top:0px;
+  }
+  100%{
+    top:100px;
+  }
+}
+#login_panel{
+  position: relative;
+  top:100px;
+  animation-name:move_down;
+  animation-duration:1s;
+  animation-iteration-count:1;
+}
+
+#panel_title{
+  color: #3333cc;
+  font-size: 30px;
+  text-shadow: 2px 2px 2px #D0D0D0;
+}
+#panel_title:hover {
+  color: #4d0099;
+}
+#username, #password {
+  font-size: 18px;
+  text-shadow: 3px 3px 3px #D3D3D3;
+}
+#username:hover {
+  font-size: 18px;
+  text-shadow: 3px 3px 3px #D3D3D3;
+  transform: scale(1.02);
+  transition: transform 0.1s ease-in-out;
+}
+#password:hover {
+  font-size: 18px;
+  text-shadow: 3px 3px 3px #D3D3D3;
+  transform: scale(1.02);
+  transition: transform 0.1s ease-in-out;
+}
+#username, #password::placeholder {
+  font-size: 18px;
+  text-shadow: 3px 3px 3px #D3D3D3;
+}
+#submit_button {
+  font-size: 20px;
+}
+
+.login_option {
+  font-size: 15px;
+  font-weight: 500;
+}
+.login_input {
+  box-shadow: 6px 6px 3px #E8E8E8;
+}
+
 .animated--grow-in, .sidebar .nav-item .collapse {
   -webkit-animation-name: growIn;
   animation-name: growIn;
@@ -9890,6 +9959,13 @@ a:focus {
   }
 }
 
+.animate {
+  animation-duration: 0.3s;
+  animation-name: fadeIn;
+  animation-delay: 0.2s;
+  animation-fill-mode: backwards;
+}
+
 .animated--fade-in {
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
@@ -9901,7 +9977,7 @@ a:focus {
 
 .bg-gradient-primary {
   background-color: #4e73df;
-  background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+  background-image: linear-gradient(180deg, #80b3ff 10%, #4d0099 100%);
   background-size: cover;
 }
 
