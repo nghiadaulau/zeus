@@ -31,34 +31,34 @@ public class CustomErrorController implements ErrorController {
                 return "404";
             } else if (statusCode == HttpStatus.METHOD_NOT_ALLOWED.value()) {
                 // handle HTTP 405 Not Allowed error
-                return "404";
+                return "405";
             } else if (statusCode == HttpStatus.NOT_ACCEPTABLE.value()) {
                 // handle HTTP 406 Not Acceptable error
-                return "404";
+                return "406";
             } else if (statusCode == HttpStatus.CONFLICT.value()) {
                 // handle HTTP 409 Conflict error
-                return "404";
+                return "409";
             } else if (statusCode == HttpStatus.GONE.value()) {
                 // handle HTTP 410 Gone error
-                return "404";
+                return "410";
             } else if (statusCode == HttpStatus.UNSUPPORTED_MEDIA_TYPE.value()) {
                 // handle HTTP 415  Unsupported Media Type error
-                return "404";
+                return "415";
             } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 // handle HTTP 500  Internal Server error
                 return "500";
             } else if (statusCode == HttpStatus.NOT_IMPLEMENTED.value()) {
                 // handle HTTP 501 Not Implemented error
-                return "404";
+                return "501";
             } else if (statusCode == HttpStatus.BAD_GATEWAY.value()) {
                 // handle HTTP 502 Bad Gateway error
-                return "404";
+                return "502";
             } else if (statusCode == HttpStatus.SERVICE_UNAVAILABLE.value()) {
                 // handle HTTP 503 Service Unavailable error
-                return "404";
+                return "503";
             } else if (statusCode == HttpStatus.GATEWAY_TIMEOUT.value()) {
                 // handle HTTP 504 Gateway Timeout error
-                return "404";
+                return "504";
             }
         }
         return "404";
