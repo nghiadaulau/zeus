@@ -49,6 +49,7 @@
                         </div>
                     </div>
                 </form>
+                <br>
                 <!-- Page Heading -->
                 <div th:if = "${size == 0}">
                     <p>No products in shop</p>
@@ -90,12 +91,9 @@
                             <a th:if = "${product.activated} == false" th:href="@{/enable-product/{id}(id = ${product.id})}" class="btn btn-success">Enable</a>
                             <a th:if = "${product.activated} == true" th:href="@{/disable-product/{id}(id = ${product.id})}" class="btn btn-info">Disable</a>
                         </td>
-
-
                     </tr>
                     </tbody>
                 </table>
-
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li th:if = "${currentPage != 0}" class="page-item">

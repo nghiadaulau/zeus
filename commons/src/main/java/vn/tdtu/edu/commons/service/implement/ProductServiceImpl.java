@@ -46,6 +46,7 @@ public class ProductServiceImpl implements ProductService {
                 imageUpload.uploadImage(imageProduct, imageProduct.getOriginalFilename());
                 product.setImage(Base64.getEncoder().encodeToString(imageProduct.getBytes()));
             }
+            System.out.println(product.getImage());
             product.setName(productDTO.getName());
             product.setDescription(productDTO.getDescription());
             product.setCategory(productDTO.getCategory());
@@ -136,7 +137,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductDTO> pageProducts(int pageNo) {
-        Pageable pageable = PageRequest.of(pageNo, 5);
+        Pageable pageable = PageRequest.of(pageNo, 10);
         List<ProductDTO> products = transfer(productRepository.findAll());
         Page<ProductDTO> productPages = toPage(products, pageable);
         return productPages;
@@ -144,7 +145,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductDTO> searchProductsCus(int pageNo, String keyword) {
-        Pageable pageable = PageRequest.of(pageNo, 5);
+        Pageable pageable = PageRequest.of(pageNo, 10);
         List<ProductDTO> productDTOList = transfer(productRepository.searchProductsList(keyword));
         Page<ProductDTO> products = toPage(productDTOList, pageable);
         return products;
@@ -157,7 +158,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductDTO> searchProducts(int pageNo, Long categoryId, Long brandId, Double minPrice, Double  maxPrice, String productName) {
-        Pageable pageable = PageRequest.of(pageNo, 5);
+        Pageable pageable = PageRequest.of(pageNo, 10);
         List<Product> filteredProducts = new ArrayList<>();
         List<Product> allProducts = productRepository.findAll();
         for (Product product : allProducts) {
