@@ -138,4 +138,8 @@ public class CartServiceImpl implements CartService {
 
         return totalPrice;
     }
+
+    public Cart findByCustomerId(Long id) {
+        return cartRepository.findByCustomerId(id);
+    }
 }

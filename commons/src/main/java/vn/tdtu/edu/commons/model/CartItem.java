@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Data
 @Table(name = "cart_item")
 public class CartItem {
     @Id

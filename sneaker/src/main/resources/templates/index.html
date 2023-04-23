@@ -117,8 +117,8 @@
                     </div>
                     <div class="tab-content">
                         <div class="tab-pane fade active in" th:id="${categories.get(0).id}" >
-                            <th:block th:with="count=0" th:each="product : ${products}" th:if="${product.category.name.equals(categories.get(0).name) and count < 4}">
-                                <div class="col-sm-3">
+                            <th:block th:each="product, iterStat : ${products}" th:if="${product.category.name.equals(categories.get(0).name)}">
+                                <div class="col-sm-3" th:if="${iterStat.index < 4}">
                                     <div class="product-image-wrapper">
                                         <div class="single-products">
                                             <div class="productinfo text-center">
@@ -132,18 +132,18 @@
                                         </div>
                                     </div>
                                 </div>
-                                <th:block th:with="count=${count + 1}"></th:block>
                             </th:block>
                         </div>
-                        <th:block th:each="category, iterStat : ${categories}" th:if="${!iterStat.first}">
+                        <th:block th:each="category, outerIterStat : ${categories}" th:if="${!outerIterStat.first}">
                             <div class="tab-pane fade in" th:id="${category.id}">
-                                <th:block th:with="count=0" th:each="product : ${products}" th:if="${product.category.name.equals(category.name) and count < 4}">
+                                <th:block th:each="product, innerIterStat : ${products}" th:if="${product.category.name.equals(category.name)}">
                                     <div class="col-sm-3">
                                         <div class="product-image-wrapper">
                                             <div class="single-products">
                                                 <div class="productinfo text-center">
-                                                    <img th:src="@{'data:image/png;base64,'+ ${product.image}}" alt="" src=""/>
+                                                    <img th:src="@{'data:image/png;base64,'+ ${product.image}}" alt=""  src=""/>
                                                     <h2>[[${product.name}]]</h2>
+                                                    <h2>[[${innerIterStat.index}]]</h2>
                                                     <p>Brand: [[${product.brand.name}]]</p>
                                                     <p>Category: [[${product.category.name}]]</p>
                                                     <a th:href="@{'/product/product-details/'+${product.id}}" class="btn btn-default add-to-cart"><i class="fa fa-expand"></i>Details</a>
@@ -152,7 +152,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <th:block th:with="count=${count + 1}"></th:block>
                                 </th:block>
                             </div>
                         </th:block>
