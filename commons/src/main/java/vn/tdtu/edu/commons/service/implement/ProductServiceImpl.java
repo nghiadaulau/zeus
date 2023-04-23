@@ -137,9 +137,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductDTO> pageProducts(int pageNo) {
-        Pageable pageable = PageRequest.of(pageNo, 10);
+        Pageable pageable = PageRequest.of(pageNo, 12);
         List<ProductDTO> products = transfer(productRepository.findAll());
         Page<ProductDTO> productPages = toPage(products, pageable);
+
         return productPages;
     }
 
@@ -201,6 +202,7 @@ public class ProductServiceImpl implements ProductService {
                 ? list.size()
                 : (int) (pageable.getOffset() + pageable.getPageSize());
         List<ProductDTO> subList = list.subList(startIndex, endIndex);
+
         return new PageImpl(subList, pageable, list.size());
     }
 

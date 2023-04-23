@@ -1003,8 +1003,8 @@ h2.title {
 }
 
 .category-tab ul {
-  background: #40403E;
-  border-bottom: 1px solid #FE980F;
+  /*background: #40403E;*/
+  /*border-bottom: 1px solid #FE980F;*/
   list-style: none outside none;
   margin: 0 0 30px;
   padding: 0;
@@ -1140,7 +1140,7 @@ h2.title {
 }
 
 .pagination  li  a:hover{
-	background:#FE980F;
+	background:#FE980F !important;
 	color:#fff;
 }
 

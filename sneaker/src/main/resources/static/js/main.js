@@ -27,10 +27,11 @@ $(document).ready(function(){
 	        zIndex: 2147483647 // Z-Index for the overlay
 		});
 	});
-	console.log($(".panel-group .panel-default h4:first").text())
-	$(".panel-group .panel-default h4:first").addClass("tab-default-open");
 
+	$(".panel-group .panel-default h4:first").addClass("tab-default-open");
+	$(".pagination li a:first").addClass("tab-default-open");
 	$(".tab-default-open a").click();
+	$(".tab-default-open").click();
 });
 
 function textAbstract(el, maxlength = 50, delimiter = " ") {
