@@ -1,4 +1,4 @@
-package vn.tdtu.edu.sneaker.controller;
+package vn.tdtu.edu.admin.controller;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
@@ -6,9 +6,8 @@ import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-
 @Controller
-public class CustomErrorController implements ErrorController {
+public class AdminErrorController implements ErrorController {
     @GetMapping("/error")
     public String handleError(HttpServletRequest request) {
 
