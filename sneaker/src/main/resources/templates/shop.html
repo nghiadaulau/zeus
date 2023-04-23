@@ -24,7 +24,7 @@
                             <h4 class="panel-title tab nav-tabs">
                                 <a data-toggle="tab" data-parent="#accordian"
                                    href="#0">
-                                    <!--                                    <span class="badge pull-left" th:text="${category.getName()}"></span>-->
+                                    <span class="badge pull-left" th:text="${'All'}"></span>
                                 </a>
                             </h4>
                         </div>
@@ -78,7 +78,8 @@
                             </div>
                             <ul class="pagination tab nav-tabs">
                                 <th:block th:each="pageNo : ${pagesQuantity}">
-                                    <li><a th:href="${'#page_'+pageNo.toString()}" th:text="${pageNo}" data-toggle="tab"></a>
+                                    <li><a th:href="${'#page_'+pageNo.toString()}" th:text="${pageNo}"
+                                           data-toggle="tab"></a>
                                     </li>
                                 </th:block>
                             </ul>
