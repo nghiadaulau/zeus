@@ -35,7 +35,6 @@ public class ShopController {
 
         model.addAttribute("products", products);
 
-
         return "shop";
     }
 }

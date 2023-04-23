@@ -28,10 +28,31 @@ $(document).ready(function(){
 		});
 	});
 
-	$(".nav.nav-tabs li a:first").addClass("active tab-default-open");
+	$(".panel-group .panel-default h4:first").addClass("tab-default-open");
 
-	$(".tab-default-open").click();
+	$(".tab-default-open a span").click();
 });
 
+function textAbstract(el, maxlength = 50, delimiter = " ") {
+	let txt = $(el).text();
+	if (el == null) {
+		return "";
+	}
+	if (txt.length <= maxlength) {
+		return txt;
+	}
+	let t = txt.substring(0, maxlength);
+	let re = /\s+\S*$/;
+	let m = re.exec(t);
+	t = t.substring(0, m.index);
+	return t + "...";
+}
 
+// Force length of text
+const maxlengthwanted = 21;
 
+$('.productinfo p').each(function (index, element) {
+	$(element).text(textAbstract(element, maxlengthwanted, " "));
+});
+
+// Change after this comment if anyone wanna reuse
