@@ -43,7 +43,7 @@
                         <input type="number" class="form-control" name="max_price" placeholder="Max Price" step="1">
                         <input type="text" class="form-control" name="product" placeholder="Search for product name...">
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">
+                            <button class="btn btn-primary add_button" type="submit">
                                 <i class="fas fa-search fa-sm"></i>
                             </button>
                         </div>
@@ -61,7 +61,7 @@
                     <p th:text = "${error}"></p>
                 </div>
                 <a class="btn btn-primary" th:href = "@{/add-product}">Add new product</a>
-                <table class="table table-striped" th:if = "${size > 0}">
+                <table class="table table-striped animate" th:if = "${size > 0}">
                     <thead>
                     <tr>
                         <th scope="col">Name</th>
