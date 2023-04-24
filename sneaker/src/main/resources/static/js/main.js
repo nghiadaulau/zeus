@@ -28,8 +28,8 @@ $(document).ready(function(){
 		});
 	});
 
-	$(".panel-group .panel-default h4:first").addClass("tab-default-open");
-	$(".pagination li a:first").addClass("tab-default-open");
+	$(".qkq1hF h4 a:first").addClass("tab-default-open");
+	$(".e1W0hK li a:first").addClass("tab-default-open");
 	$(".tab-default-open a").click();
 	$(".tab-default-open").click();
 });
