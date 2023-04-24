@@ -56,7 +56,7 @@ public class CheckOutController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Customer customer = customerService.findByUsername(authentication.getName());
         Cart cart = cartService.findByCustomerId(customer.getId());
-        if(cart.getCartItem().size()!=0){
+        if(cart!=null){
             OrderDTO orderDTO = new OrderDTO();
             orderDTO = orderDTO.transfer(customerDTO);
             orderDTO.setCustomer(customer);
@@ -72,7 +72,6 @@ public class CheckOutController {
                 orderDetailList.add(orderDetail);
                 products.add(cartItem.getProduct());
             }
-            System.out.println(products);
             cartService.deleteItemsFromCart(products,customer);
             orderDTO.setOrderDetails(orderDetailList);
             orderService.save(orderDTO);
