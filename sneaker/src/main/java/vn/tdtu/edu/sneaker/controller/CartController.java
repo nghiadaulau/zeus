@@ -31,52 +31,54 @@ public class CartController {
     @GetMapping("/")
     public String Index(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication.isAuthenticated()){
+        if(!authentication.getAuthorities().toString().equals("[ROLE_ANONYMOUS]")){
             Customer customer = customerService.findByUsername(authentication.getName());
             Cart cart = cartService.findByCustomerId(customer.getId());
             model.addAttribute("username",authentication.getName());
             if(cart==null){
                 model.addAttribute("cartItems",new ArrayList<CartItem>());
+                model.addAttribute("cart",new Cart());
             }
             else
             {
                 model.addAttribute("cartItems",cart.getCartItem());
+                model.addAttribute("cart",cart);
             }
             return "cart";
         }
-        return "login";
+        return "redirect:/auth/login";
     }
     @GetMapping("/add/{id}")
     public String addToCart(@PathVariable("id") Long productID){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication.isAuthenticated()){
+        if(!authentication.getAuthorities().toString().equals("[ROLE_ANONYMOUS]")){
             Product product = productService.getProductById(productID);
             Customer customer = customerService.findByUsername(authentication.getName());
             cartService.addItemToCart(product,1,customer);
             return "redirect:/cart/";
         }
-        return "login";
+        return "redirect:/auth/login";
     }
     @GetMapping("/delete/{id}")
     public String deleteFromCart(@PathVariable("id") Long productID){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication.isAuthenticated()){
+        if(!authentication.getAuthorities().toString().equals("[ROLE_ANONYMOUS]")){
             Product product = productService.getProductById(productID);
             Customer customer = customerService.findByUsername(authentication.getName());
             cartService.deleteItemFromCart(product,customer);
             return "redirect:/cart/";
         }
-        return "login";
+        return "redirect:/auth/login";
     }
     @PostMapping("/update")
     public String addToCart(@RequestBody Map<String, String> body){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication.isAuthenticated()){
+        if(!authentication.getAuthorities().toString().equals("[ROLE_ANONYMOUS]")){
             Product product = productService.getProductById(Long.valueOf(body.get("productId")));
             Customer customer = customerService.findByUsername(authentication.getName());
             cartService.updateItemInCart(product, Integer.parseInt(body.get("quantity")),customer);
             return "redirect:/cart/";
         }
-        return "login";
+        return "redirect:/auth/login";
     }
 }
