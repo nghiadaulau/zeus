@@ -108,7 +108,7 @@ public class CartServiceImpl implements CartService {
         return cartRepository.save(cart);
     }
     @Override
-    public Cart deleteItemsFromCart(List<Product> products, Customer customer) {
+    public void deleteItemsFromCart(List<Product> products, Customer customer) {
         Cart cart = cartRepository.findByCustomerId(customer.getId());
         System.out.println(cart.getId());
         Set<CartItem> cartItems = cart.getCartItem();
@@ -118,17 +118,6 @@ public class CartServiceImpl implements CartService {
             cartItems.remove(item);
             itemRepository.delete(item);
         }
-
-
-        double totalPrice = totalPrice(cartItems);
-        int totalItems = totalItems(cartItems);
-
-        cart.setCartItem(cartItems);
-        cart.setTotalItems(totalItems);
-        cart.setTotalPrices(totalPrice);
-        Cart cs = cartRepository.save(cart);
-        System.out.println(cs.getId());
-        return cs;
     }
     private CartItem findCartItem(Set<CartItem> cartItems, Long productId) {
         if (cartItems == null) {

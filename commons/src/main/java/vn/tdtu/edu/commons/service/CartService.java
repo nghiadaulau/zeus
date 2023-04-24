@@ -12,5 +12,5 @@ public interface CartService {
     Cart updateItemInCart(Product product, int quantity, Customer customer);
 
     Cart deleteItemFromCart(Product product, Customer customer);
-    Cart deleteItemsFromCart(List<Product> product, Customer customer);
+    void deleteItemsFromCart(List<Product> product, Customer customer);
 }

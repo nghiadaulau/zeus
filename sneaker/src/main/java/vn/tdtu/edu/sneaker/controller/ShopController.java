@@ -45,34 +45,14 @@ public class ShopController {
             int pagesNum = (int) Math.ceil((double) productsCount / prodsInAPage);
 
             for (int i = 0; i < pagesNum; i++) {
-//                int fromIndex = i * prodsInAPage;
-//                int toIndex = Math.min(fromIndex + prodsInAPage, productsCount);
-
                 List<Product> products1 = productService
                         .getProductsForPerCategoryByCategoryId(category, i, prodsInAPage);
-
-//                System.out.printf("Page no %d of category %d\n", i + 1, category.getId());
-
-                //                    System.out.printf("Category %d have product with id = %d in page %d\n",
-                //                            category.getId(), product.getId(), i + 1);
                 List<Product> products2 = new ArrayList<>(products1);
-                // Map<pageNo, product>
-//                Map<Integer, List<Product>> innerMap = new HashMap<>();
                 Map<Integer, List<Product>> innerMap = pagesNoForPerCategory.computeIfAbsent(category, k -> new HashMap<>());
                 innerMap.put(i + 1, products2);
                 pagesNoForPerCategory.put(category, innerMap);
             }
         }
-
-//        for (Map.Entry<Category, Map<Integer, List<Product>>> entry : pagesNoForPerCategory.entrySet()) {
-//            for (Map.Entry<Integer, List<Product>> entry1 : entry.getValue().entrySet()) {
-//                for (Product product : entry1.getValue()) {
-//                    System.out.printf("Category %d have product with id=%d in page %d\n"
-//                            , entry.getKey().getId(), product.getId(), entry1.getKey());
-//                }
-//            }
-//            System.out.println();
-//        }
 
         model.addAttribute("products", products);
         model.addAttribute("all_product", productService.findAll());
@@ -94,11 +74,6 @@ public class ShopController {
         for (int i = 0; i < pages; i++) {
             pageNoWithSpecificProducts.put(i + 1, productService.pageProducts(i));
         }
-
-//        for (Map.Entry<Integer, Page<ProductDTO>> entry: pageNoWithSpecificProducts.entrySet()) {
-//            System.out.printf("Page: %d, with %d products\n",entry.getKey(), entry.getValue().getSize());
-//        }
-
         model.addAttribute("pagesQuantity", pagesNo);
         model.addAttribute("pages", pageNoWithSpecificProducts);
         model.addAttribute("pagesQuantityForPerCategory", pagesNoForPerCategory);
@@ -115,7 +90,6 @@ public class ShopController {
 
         for (Category category : categoryService.findAll()) {
             products.put(category.getId(), productService.getProductsInCategory(category.getId()));
-
             int prodsInAPage = 12;
             int productsCount = productService.getProductsInCategory(category.getId()).size();
             int pagesNum = (int) Math.ceil((double) productsCount / prodsInAPage);
@@ -132,7 +106,7 @@ public class ShopController {
         model.addAttribute("products", products);
         model.addAttribute("all_product", productService.findAll());
         model.addAttribute("brands", brandService.findAllByActivated());
-        model.addAttribute("all_product_size", productService.getAll().size());
+        model.addAttribute("all_product_size", products.size());
         model.addAttribute("pages_no_for_per_category", pagesNoForPerCategory);
 
         int prodsInAPage = 12;
