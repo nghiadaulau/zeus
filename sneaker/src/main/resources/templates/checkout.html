@@ -22,7 +22,8 @@
             <input type="text" th:field="*{city}" required placeholder="City">
             <input type="text" th:field="*{address}" required placeholder="Address">
             <p>Shipping Order</p>
-            <textarea th:field="*{messageOrder}" placeholder="Notes about your order, Special Notes for Delivery" rows="16"></textarea>
+            <textarea th:field="*{messageOrder}" placeholder="Notes about your order, Special Notes for Delivery" rows="16"></textarea>f
+            <button type="submit" hidden="hidden" id="btnSubmit"></button>
         </form>
         </div>
       </div>
@@ -93,18 +94,37 @@
     </div>
     <div class="payment-options pull-right">
       <span>
-          <label><input type="radio" name="check_pay[]"> COD</label>
+          <label><input type="radio" name="check_pay[]" value="cod"> COD</label>
       </span>
       <span>
-          <label><input type="radio" name="check_pay[]"> Paypal</label>
+          <label><input type="radio" name="check_pay[]" value="paypal"> Paypal</label>
       </span>
       <br>
-        <button class="btn btn-default check_out pull-right">Pay</button>
+      <div>
+        <button class="btn btn-default check_out pull-right" id="btnBay">Pay</button>
+      </div>
+    </div>
+    <div class="alert alert-success text-center pull-right" id="messagePay"
+         th:text="${message}" th:if="${message}">
     </div>
   </div>
 </section> <!--/#cart_items-->
 <footer th:replace="~{/commons/footer}"></footer>
 <script>
+  $("#btnBay").click(function (){
+    const payment = $("input[name='check_pay[]']:checked")
+    if (payment.length > 0) {
+      const methodPayment = payment.val();
+      if(methodPayment === "cod"){
+        $("#btnSubmit").click();
+      }
+      else{
+      //   paypal is here
+      }
+    } else {
+      alert("Select a payment option!");
+    }
+  })
   $('.quantity').on('change', function() {
     let quan = $(this).val()
     let prod_id = $(this).attr("id")
