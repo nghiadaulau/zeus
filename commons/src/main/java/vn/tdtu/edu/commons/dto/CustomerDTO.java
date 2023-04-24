@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.Size;
-import vn.tdtu.edu.commons.model.Customer;
 
 @Data
 @AllArgsConstructor
@@ -29,17 +28,12 @@ public class CustomerDTO {
 
     private String repeatPassword;
 
-    private String messageOrder;
-
-    public CustomerDTO transfer(Customer customer){
-        this.firstName = customer.getFirstName();
-        this.lastName = customer.getLastName();
-        this.username = customer.getUsername();
-        this.city = customer.getCity();
-        this.country = customer.getCountry();
-        this.address = customer.getAddress();
-        this.phoneNumber = customer.getPhoneNumber();
-        this.email = customer.getEmail();
-        return this;
+    public CustomerDTO(String thao, String tranVan, String user2, String password) {
+        this.firstName = thao;
+        this.lastName = tranVan;
+        this.password = password;
+        this.username = user2;
     }
+
+
 }

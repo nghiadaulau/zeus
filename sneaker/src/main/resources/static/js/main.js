@@ -28,13 +28,9 @@ $(document).ready(function(){
 		});
 	});
 
-	$(".qkq1hF h4 a:first").addClass("tab-default-open");
-	$(".e1W0hK li a:first").addClass("tab-default-open");
-	$(".tab-default-open a").click();
-	$(".tab-default-open").click();
-	$("ul.pagination.tab.nav-tabs.XtydSN li:first-child a").addClass("tab-default-open");
-	$("ul.pagination.tab.nav-tabs.XtydSN li:first-child a.tab-default-open").click();
+	$(".panel-group .panel-default h4:first").addClass("tab-default-open");
 
+	$(".tab-default-open a span").click();
 });
 
 function textAbstract(el, maxlength = 50, delimiter = " ") {

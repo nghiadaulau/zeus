@@ -35,13 +35,10 @@ public class AuthController {
     @GetMapping("/account")
     public String information(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication.getAuthorities().toString());
-
         if(authentication.isAuthenticated()){
             model.addAttribute("username",authentication.getName());
             model.addAttribute("customerDTO",customerService.findByUsername(authentication.getName()));
         }
-
         return "information";
     }
     @GetMapping("/login")
