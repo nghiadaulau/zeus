@@ -3,9 +3,11 @@ package vn.tdtu.edu.commons.service;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 import vn.tdtu.edu.commons.dto.ProductDTO;
+import vn.tdtu.edu.commons.model.Category;
 import vn.tdtu.edu.commons.model.Product;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProductService {
     /*Admin*/
@@ -40,5 +42,5 @@ public interface ProductService {
     Page<ProductDTO> searchProductsCus(int pageNo, String keyword);
 
     List<Product>findRandomProducts();
-
+    Map<Long,List<Product>> get4ProductsByCategoryId(List<Category> categories);
 }

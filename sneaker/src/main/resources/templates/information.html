@@ -191,7 +191,8 @@
                 const arrLocation = locationName.split(",");
                 $("#Country").val(arrLocation[arrLocation.length-1])
                 $("#city").val(arrLocation[arrLocation.length-3])
-                $("#address").val(arrLocation.slice(0, arrLocation.length-3).join(', '))
+                $("#address").val(arrLocation.slice(0,
+                    arrLocation.length-3).join(', '))
                 console.log(locationName);
             });
     }
