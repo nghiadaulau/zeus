@@ -28,19 +28,20 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDTO> findAll() {
         List<Product> products = productRepository.findAll();
-        return transfer(products).subList(0,8);
+        return transfer(products).subList(0, 8);
     }
+
     public List<Product> getAll() {
-        return  productRepository.findAll();
+        return productRepository.findAll();
     }
 
     @Override
     public Product save(MultipartFile imageProduct, ProductDTO productDTO) {
         try {
             Product product = new Product();
-            if(imageProduct == null){
+            if (imageProduct == null) {
                 product.setImage(null);
-            }else{
+            } else {
                 imageUpload.uploadImage(imageProduct, imageProduct.getOriginalFilename());
                 product.setImage(Base64.getEncoder().encodeToString(imageProduct.getBytes()));
             }
@@ -55,23 +56,24 @@ public class ProductServiceImpl implements ProductService {
             product.set_activated(true);
             product.set_deleted(false);
             return productRepository.save(product);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
 
     }
+
     public Product save(Product product) {
         return productRepository.save(product);
     }
 
     @Override
-    public Product update(MultipartFile imageProduct , ProductDTO productDTO) {
+    public Product update(MultipartFile imageProduct, ProductDTO productDTO) {
         try {
             Product product = productRepository.getById(productDTO.getId());
-            if(imageProduct == null){
+            if (imageProduct == null) {
                 product.setImage(product.getImage());
-            }else{
+            } else {
                 imageUpload.uploadImage(imageProduct, imageProduct.getOriginalFilename());
                 product.setImage(Base64.getEncoder().encodeToString(imageProduct.getBytes()));
             }
@@ -83,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
             product.setCategory(productDTO.getCategory());
             product.setBrand(productDTO.getBrand());
             return productRepository.save(product);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -135,9 +137,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductDTO> pageProducts(int pageNo) {
-        Pageable pageable = PageRequest.of(pageNo, 10);
+        Pageable pageable = PageRequest.of(pageNo, 12);
         List<ProductDTO> products = transfer(productRepository.findAll());
         Page<ProductDTO> productPages = toPage(products, pageable);
+
         return productPages;
     }
 
@@ -155,7 +158,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductDTO> searchProducts(int pageNo, Long categoryId, Long brandId, Double minPrice, Double  maxPrice, String productName) {
+    public List<Product> findRandomProductsByBrandAndCategory(Product product) {
+        return productRepository.findRandomProductsByBrandAndCategory(PageRequest.of(0, 6),
+                product.getBrand().getName(),
+                product.getCategory().getName());
+    }
+
+    @Override
+    public Page<ProductDTO> searchProducts(int pageNo, Long categoryId, Long brandId, Double minPrice, Double maxPrice, String productName) {
         Pageable pageable = PageRequest.of(pageNo, 10);
         List<Product> filteredProducts = new ArrayList<>();
         List<Product> allProducts = productRepository.findAll();
@@ -188,24 +198,32 @@ public class ProductServiceImpl implements ProductService {
         return products;
     }
 
-
-
-    private Page toPage(List<ProductDTO> list , Pageable pageable){
-        if(pageable.getOffset() >= list.size()){
+    private Page toPage(List<ProductDTO> list, Pageable pageable) {
+        if (pageable.getOffset() >= list.size()) {
             return Page.empty();
         }
+
         int startIndex = (int) pageable.getOffset();
+
         int endIndex = ((pageable.getOffset() + pageable.getPageSize()) > list.size())
                 ? list.size()
                 : (int) (pageable.getOffset() + pageable.getPageSize());
+
+//        System.out.println("--START TO_PAGE FUNCTION--");
+//        System.out.printf("Offset: %d, size: %d\n", pageable.getOffset(), list.size());
+//        System.out.println("Start index: " + startIndex);
+//        System.out.println("End index: " + endIndex);
+//        System.out.println("--END TO_PAGE FUNCTION--");
         List<ProductDTO> subList = list.subList(startIndex, endIndex);
+
         return new PageImpl(subList, pageable, list.size());
     }
 
 
-    private List<ProductDTO> transfer(List<Product> products){
+    private List<ProductDTO> transfer(List<Product> products) {
         List<ProductDTO> productDtoList = new ArrayList<>();
-        for(Product product : products){
+
+        for (Product product : products) {
             ProductDTO productDTO = new ProductDTO();
             productDTO.setId(product.getId());
             productDTO.setName(product.getName());
@@ -220,6 +238,7 @@ public class ProductServiceImpl implements ProductService {
             productDTO.setBrand(product.getBrand());
             productDtoList.add(productDTO);
         }
+
         return productDtoList;
     }
 
@@ -230,6 +249,7 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getAllProducts() {
         return productRepository.getAllProducts();
     }
+
     @Override
     public List<Product> listViewProducts() {
         return productRepository.listViewProducts();
@@ -261,13 +281,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Map<Long,List<Product>> get4ProductsByCategoryId(List<Category> categories){
-        Map<Long,List<Product>> get4Products = new HashMap<>();
+    public Map<Long, List<Product>> get4ProductsByCategoryId(List<Category> categories) {
+        Map<Long, List<Product>> get4Products = new HashMap<>();
         Pageable topFour = PageRequest.of(0, 4);
-        for(Category i: categories){
-            get4Products.put(i.getId(),productRepository.findProductsByCategoryId(i.getId(),topFour));
+
+        for (Category i : categories) {
+            get4Products.put(i.getId(), productRepository.findProductsByCategoryId(i.getId(), topFour));
         }
+
         return get4Products;
     }
 
+    @Override
+    public List<Product> getProductsForPerCategoryByCategoryId(Category category, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        return productRepository.findProductsByCategoryId(category.getId(), pageable);
+    }
 }

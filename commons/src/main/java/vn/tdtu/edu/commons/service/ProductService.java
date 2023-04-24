@@ -12,17 +12,22 @@ import java.util.Map;
 public interface ProductService {
     /*Admin*/
     List<ProductDTO> findAll();
+
     Product save(MultipartFile imageProduct, ProductDTO productDto);
+
     Product update(MultipartFile imageProduct, ProductDTO productDto);
+
     void deleteById(Long id);
+
     void enableById(Long id);
+
     void disableById(Long id);
 
     ProductDTO getById(Long id);
 
     Page<ProductDTO> pageProducts(int pageNo);
 
-    Page<ProductDTO> searchProducts(int pageNo, Long categoryId, Long brandId, Double minPrice, Double  maxPrice, String productName);
+    Page<ProductDTO> searchProducts(int pageNo, Long categoryId, Long brandId, Double minPrice, Double maxPrice, String productName);
 
     /*Customer*/
     List<Product> getAllProducts();
@@ -41,6 +46,11 @@ public interface ProductService {
 
     Page<ProductDTO> searchProductsCus(int pageNo, String keyword);
 
-    List<Product>findRandomProducts();
-    Map<Long,List<Product>> get4ProductsByCategoryId(List<Category> categories);
+    List<Product> findRandomProducts();
+
+    List<Product> findRandomProductsByBrandAndCategory(Product product);
+
+    Map<Long, List<Product>> get4ProductsByCategoryId(List<Category> categories);
+
+    List<Product> getProductsForPerCategoryByCategoryId(Category category, int pageNo, int pageSize);
 }
