@@ -2,6 +2,7 @@ package vn.tdtu.edu.sneaker.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -35,94 +36,50 @@ public class ShopController {
 
         Map<Long, List<Product>> products = new HashMap<>();
         Map<Long, Page<ProductDTO>> pageNoWithSpecificProductsForPerCategory = new HashMap<>();
-        Map<Long, Integer> pagesNoForPerCategory = new HashMap<>();
-//        System.out.println(productService.getProductsForPerCategoryByCategoryId(categoryService.findAll()));
-
-        for (Map.Entry<Long, List<Product>> entry :
-                productService.getProductsForPerCategoryByCategoryId(categoryService.findAll()).entrySet()) {
-            System.out.printf("Category %d: %d products\n", entry.getKey(), entry.getValue().size());
-        }
+        Map<Category, Map<Integer, List<Product>>> pagesNoForPerCategory = new HashMap<>();
 
         for (Category category : categoryService.findAll()) {
             products.put(category.getId(), productService.getProductsInCategory(category.getId()));
 
-//            System.out.printf("Category %d have %d products\n", category.getId(),
-//                    productService.getProductsInCategory(category.getId()).size());
-//
-//            for (Product product : productService.getProductsInCategory(category.getId())) {
-//                System.out.printf("Category %d have product with id=%d\n", category.getId(),
-//                        product.getId());
-//            }
+            int prodsInAPage = 12;
+            int productsCount = productService.getProductsInCategory(category.getId()).size();
+            int pagesNum = (int) Math.ceil((double) productsCount / prodsInAPage);
 
-//            int pageNo = 0; // Reset pageNo to 0 for each category
-//            Long categoryId = category.getId();
-//            List<Product> productsInCategory = productService.getProductsInCategory(categoryId);
-//
-//            for (Product product : productService.getProductsInCategory(categoryId)) {
-//                System.out.printf("Product id=%d in category %d\n", product.getId(), categoryId);
-//            }
-//
-//            int numProducts = productsInCategory.size();
-//            int prodsInAPage = 12;
-//            int pages = (numProducts + prodsInAPage - 1) / prodsInAPage;
-//
-//            System.out.printf("Category %d has %d pages (%d products)\n", categoryId, pages, numProducts);
-//
-//            for (; pageNo < pages; pageNo++) {
-//                Page<ProductDTO> productsOnPage = productService.pageProducts(pageNo);
-//                List<ProductDTO> productsOnPageForCategory = new ArrayList<>();
-//                for (ProductDTO product : productsOnPage.getContent()) {
-//                    if (product.getCategory().getId().equals(categoryId)) {
-//                        productsOnPageForCategory.add(product);
-//                    }
-//                }
-//                System.out.printf("Category %d, Page %d:\n", categoryId, pageNo + 1);
-//                for (ProductDTO product : productsOnPageForCategory) {
-//                    System.out.printf("  Product(id=%d)\n", product.getId());
-//                }
-//            }
+            for (int i = 0; i < pagesNum; i++) {
+//                int fromIndex = i * prodsInAPage;
+//                int toIndex = Math.min(fromIndex + prodsInAPage, productsCount);
 
+                List<Product> products1 = productService
+                        .getProductsForPerCategoryByCategoryId(category, i, prodsInAPage);
 
-//            int prodsInAPage = 12;
-//            int pages = productService.getProductsInCategory(category.getId()).size() / prodsInAPage;
-//
-//            if (pages >= 1) {
-//                pages = (productService.getProductsInCategory(category.getId()).size() / prodsInAPage) + 1;
-//            } else {
-//                pages = 1;
-//            }
-//
-//            System.out.printf("Category %d have %d pages (%d products)\n",
-//                    category.getId(), pages, productService.getProductsInCategory(category.getId()).size());
-//
-//            for (Product product : productService.getProductsInCategory(category.getId())) {
-//                System.out.printf("Product(id=%d) in category %d\n", product.getId(), category.getId());
-//            }
-//            System.out.printf("Number of pages in category %d: %d\n", category.getId(), pages);
-//
-//            for (int i = 0; i < pages; i++) {
 //                System.out.printf("Page no %d of category %d\n", i + 1, category.getId());
-//                for (Product product : productService.getProductsInCategory(category.getId())) {
-//                    for (ProductDTO productDTO : productService.pageProducts(i)) {
-//                        if (productDTO.getId().equals(product.getId())) {
-//                            System.out.printf("Page no %d of category %d have product with id=%s\n",
-//                                    i + 1, category.getId(), productDTO.getId());
-//                        }
-//                    }
+
+                //                    System.out.printf("Category %d have product with id = %d in page %d\n",
+                //                            category.getId(), product.getId(), i + 1);
+                List<Product> products2 = new ArrayList<>(products1);
+                // Map<pageNo, product>
+//                Map<Integer, List<Product>> innerMap = new HashMap<>();
+                Map<Integer, List<Product>> innerMap = pagesNoForPerCategory.computeIfAbsent(category, k -> new HashMap<>());
+                innerMap.put(i + 1, products2);
+                pagesNoForPerCategory.put(category, innerMap);
+            }
+        }
+
+//        for (Map.Entry<Category, Map<Integer, List<Product>>> entry : pagesNoForPerCategory.entrySet()) {
+//            for (Map.Entry<Integer, List<Product>> entry1 : entry.getValue().entrySet()) {
+//                for (Product product : entry1.getValue()) {
+//                    System.out.printf("Category %d have product with id=%d in page %d\n"
+//                            , entry.getKey().getId(), product.getId(), entry1.getKey());
 //                }
 //            }
-
-
-//            System.out.printf("Size of pageNoWithSpecificProductsForPerCategory after add category %d\n",
-//                    category.getId());
-//            System.out.println(pageNoWithSpecificProductsForPerCategory.size());
-
-        }
+//            System.out.println();
+//        }
 
         model.addAttribute("products", products);
         model.addAttribute("all_product", productService.findAll());
         model.addAttribute("brands", brandService.findAllByActivated());
         model.addAttribute("all_product_size", productService.getAll().size());
+        model.addAttribute("pages_no_for_per_category", pagesNoForPerCategory);
 
         int prodsInAPage = 12;
         int pages = productService.getAllProducts().size() / prodsInAPage;
@@ -139,6 +96,9 @@ public class ShopController {
             pageNoWithSpecificProducts.put(i + 1, productService.pageProducts(i));
         }
 
+//        for (Map.Entry<Integer, Page<ProductDTO>> entry: pageNoWithSpecificProducts.entrySet()) {
+//            System.out.printf("Page: %d, with %d products\n",entry.getKey(), entry.getValue().getSize());
+//        }
 
         model.addAttribute("pagesQuantity", pagesNo);
         model.addAttribute("pages", pageNoWithSpecificProducts);

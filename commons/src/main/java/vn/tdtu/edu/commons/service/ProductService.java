@@ -52,5 +52,5 @@ public interface ProductService {
 
     Map<Long, List<Product>> get4ProductsByCategoryId(List<Category> categories);
 
-    Map<Long, List<Product>> getProductsForPerCategoryByCategoryId(List<Category> categories);
+    List<Product> getProductsForPerCategoryByCategoryId(Category category, int pageNo, int pageSize);
 }
