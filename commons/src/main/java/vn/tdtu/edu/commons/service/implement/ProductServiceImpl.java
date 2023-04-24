@@ -281,13 +281,28 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Map<Long,List<Product>> get4ProductsByCategoryId(List<Category> categories){
-        Map<Long,List<Product>> get4Products = new HashMap<>();
+    public Map<Long, List<Product>> get4ProductsByCategoryId(List<Category> categories) {
+        Map<Long, List<Product>> get4Products = new HashMap<>();
         Pageable topFour = PageRequest.of(0, 4);
-        for(Category i: categories){
-            get4Products.put(i.getId(),productRepository.findProductsByCategoryId(i.getId(),topFour));
+
+        for (Category i : categories) {
+            get4Products.put(i.getId(), productRepository.findProductsByCategoryId(i.getId(), topFour));
         }
+
         return get4Products;
+    }
+
+    @Override
+    public Map<Long, List<Product>> getProductsForPerCategoryByCategoryId(List<Category> categories) {
+        Map<Long, List<Product>> getProducts = new HashMap<>();
+        Pageable pageable = PageRequest.of(0, 12);
+
+        for (Category i : categories) {
+            getProducts.put(i.getId(),
+                    productRepository.findProductsByCategoryId(i.getId(), pageable));
+        }
+
+        return getProducts;
     }
 
 }

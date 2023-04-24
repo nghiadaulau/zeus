@@ -29,15 +29,14 @@ public class DefaultController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("products", productService.getAll());
         model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("get4Products",productService.get4ProductsByCategoryId(categoryService.findAll()));
-            if (authentication.getAuthorities().toString().equals("[ROLE_ANONYMOUS]")) {
-                    model.addAttribute("recommended", productService.findRandomProducts());
-            }
-            else
-            {
-                model.addAttribute("username", authentication.getName());
-                model.addAttribute("recommended", productService.findRandomProducts());
-            }
-            return "index";
+        model.addAttribute("get4Products", productService.get4ProductsByCategoryId(categoryService.findAll()));
+
+        if (authentication.getAuthorities().toString().equals("[ROLE_ANONYMOUS]")) {
+            model.addAttribute("recommended", productService.findRandomProducts());
+        } else {
+            model.addAttribute("username", authentication.getName());
+            model.addAttribute("recommended", productService.findRandomProducts());
+        }
+        return "index";
     }
 }

@@ -36,6 +36,12 @@ public class ShopController {
         Map<Long, List<Product>> products = new HashMap<>();
         Map<Long, Page<ProductDTO>> pageNoWithSpecificProductsForPerCategory = new HashMap<>();
         Map<Long, Integer> pagesNoForPerCategory = new HashMap<>();
+//        System.out.println(productService.getProductsForPerCategoryByCategoryId(categoryService.findAll()));
+
+        for (Map.Entry<Long, List<Product>> entry :
+                productService.getProductsForPerCategoryByCategoryId(categoryService.findAll()).entrySet()) {
+            System.out.printf("Category %d: %d products\n", entry.getKey(), entry.getValue().size());
+        }
 
         for (Category category : categoryService.findAll()) {
             products.put(category.getId(), productService.getProductsInCategory(category.getId()));
