@@ -27,34 +27,16 @@ public class DefaultController {
     @GetMapping("/home-page")
     public String Index(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            if (authentication.isAuthenticated()) {
-                // Handle case login but user is anonymous
-                if (authentication.getName().equals("anonymousUser")) {
-                    System.out.println("Anonymous User");
-//                    return "redirect:/auth/login";
-                    // DEBUG
-                    model.addAttribute("products", productService.getAll());
-                    model.addAttribute("categories", categoryService.findAll());
-                    model.addAttribute("recommended", productService.findRandomProducts());
-                    return "index";
-                }
-                System.out.println("User logged in");
-                model.addAttribute("username", authentication.getName());
-                model.addAttribute("products", productService.getAll());
-                model.addAttribute("categories", categoryService.findAll());
-                model.addAttribute("recommended", productService.findRandomProducts());
+        model.addAttribute("products", productService.getAll());
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("get4Products", productService.get4ProductsByCategoryId(categoryService.findAll()));
 
-            } else {
-                System.out.println("User not logged in");
-
-//                return "redirect:/auth/login";
-                // DEBUG
-            }
-            return "index";
+        if (authentication.getAuthorities().toString().equals("[ROLE_ANONYMOUS]")) {
+            model.addAttribute("recommended", productService.findRandomProducts());
+        } else {
+            model.addAttribute("username", authentication.getName());
+            model.addAttribute("recommended", productService.findRandomProducts());
         }
-        System.out.println("Null Authentication");
-
-        return "redirect:/auth/login";
+        return "index";
     }
 }
