@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vn.tdtu.edu.commons.dto.CustomerDTO;
 import vn.tdtu.edu.commons.dto.OrderDTO;
-import vn.tdtu.edu.commons.model.Cart;
-import vn.tdtu.edu.commons.model.CartItem;
-import vn.tdtu.edu.commons.model.Customer;
-import vn.tdtu.edu.commons.model.OrderDetail;
+import vn.tdtu.edu.commons.model.*;
 import vn.tdtu.edu.commons.service.implement.CartServiceImpl;
 import vn.tdtu.edu.commons.service.implement.CustomerServiceImpl;
 import vn.tdtu.edu.commons.service.implement.OrderServiceImpl;
@@ -65,18 +62,18 @@ public class CheckOutController {
             orderDTO.setCustomer(customer);
             orderDTO.setTotalPrice(cart.getTotalPrices());
             List<OrderDetail> orderDetailList = new ArrayList<>();
+            List<Product> products = new ArrayList<>();
             for(CartItem cartItem: cart.getCartItem()){
-                if(cartItem==null){
-                    break;
-                }
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setProduct(cartItem.getProduct());
                 orderDetail.setTotalPrice(cartItem.getTotalPrice());
                 orderDetail.setQuantity(cartItem.getQuantity());
                 orderDetail.setUnitPrice(cartItem.getProduct().getCostPrice());
                 orderDetailList.add(orderDetail);
-                cartService.deleteItemFromCart(cartItem.getProduct(),customer);
+                products.add(cartItem.getProduct());
             }
+            System.out.println(products);
+            cartService.deleteItemsFromCart(products,customer);
             orderDTO.setOrderDetails(orderDetailList);
             orderService.save(orderDTO);
             ra.addFlashAttribute("message","Order successfully!");
