@@ -22,7 +22,7 @@ public class Order {
     private Date deliveryDate;
     private double totalPrice;
     private double shippingFee;
-    private int orderStatus;
+    private String orderStatus;
     private String full_name;
     @Column(name = "phone_number")
     private String phoneNumber;
