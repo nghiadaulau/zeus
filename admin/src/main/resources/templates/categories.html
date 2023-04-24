@@ -2,6 +2,12 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 
 <head th:replace="fragments :: header">
+  <style>
+    .add_button {
+      margin-bottom: 36px;
+      margin-left: 80%;
+    }
+  </style>
 </head>
 <body id="page-top">
 <!-- Page Wrapper -->
@@ -28,14 +34,14 @@
         <div th:if="${size == 0}">
           <p>No category</p>
         </div>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add new category</button>
+        <button type="button" class="btn btn-primary add_button" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add new category</button>
         <div th:if = "${success}" class="text-center alert alert-success">
           <p th:text="${success}"></p>
         </div>
         <div th:if = "${failed}" class="text-center alert alert-danger">
           <p th:text="${failed}"></p>
         </div>
-        <table class="table table-bordered" th:if="${size > 0}">
+        <table class="table table-bordered animate" th:if="${size > 0}">
           <thead>
           <tr>
             <th scope="col">Category Index</th>
