@@ -14,9 +14,7 @@ import vn.tdtu.edu.commons.dto.*;
 import vn.tdtu.edu.commons.model.*;
 import vn.tdtu.edu.commons.utils.ImageUpload;
 
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -280,6 +278,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> filterLowPrice() {
         return productRepository.filterLowPrice();
+    }
+
+    @Override
+    public Map<Long,List<Product>> get4ProductsByCategoryId(List<Category> categories){
+        Map<Long,List<Product>> get4Products = new HashMap<>();
+        Pageable topFour = PageRequest.of(0, 4);
+        for(Category i: categories){
+            get4Products.put(i.getId(),productRepository.findProductsByCategoryId(i.getId(),topFour));
+        }
+        return get4Products;
     }
 
 }
