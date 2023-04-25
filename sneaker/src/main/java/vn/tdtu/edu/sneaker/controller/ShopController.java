@@ -1,5 +1,6 @@
 package vn.tdtu.edu.sneaker.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.parameters.P;
@@ -9,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import vn.tdtu.edu.commons.dto.ProductDTO;
+import vn.tdtu.edu.commons.model.Brand;
 import vn.tdtu.edu.commons.model.Category;
 import vn.tdtu.edu.commons.model.Product;
 import vn.tdtu.edu.commons.service.implement.BrandServiceImpl;
@@ -30,10 +32,16 @@ public class ShopController {
     @Autowired
     BrandServiceImpl brandService;
 
-    @GetMapping("/")
-    public String Index(Model model) {
+    @GetMapping({"/",
+    "/filterByDesc",
+    "/filterByAsc"})
+    public String Index(Model model, HttpServletRequest request) {
         model.addAttribute("categories", categoryService.findAll());
+        int n = request.getRequestURI().split("/").length;
+        String sortBy = request.getRequestURI().split("/")[n-1];
+//        System.out.println(sortBy);
 
+        // Process for category
         Map<Long, List<Product>> products = new HashMap<>();
         Map<Long, Page<ProductDTO>> pageNoWithSpecificProductsForPerCategory = new HashMap<>();
         Map<Category, Map<Integer, List<Product>>> pagesNoForPerCategory = new HashMap<>();
@@ -48,15 +56,25 @@ public class ShopController {
             for (int i = 0; i < pagesNum; i++) {
 //                int fromIndex = i * prodsInAPage;
 //                int toIndex = Math.min(fromIndex + prodsInAPage, productsCount);
+                List<Product> products1;
 
-                List<Product> products1 = productService
-                        .getProductsForPerCategoryByCategoryId(category, i, prodsInAPage);
+                if (sortBy.equals("filterByDesc")) {
+                    products1 = productService
+                            .getProductsForPerCategoryByCategoryIdOrderByCostPriceDesc(category, i, prodsInAPage);
+                } else if (sortBy.equals("filterByAsc")) {
+                    products1 = productService
+                            .getProductsForPerCategoryByCategoryIdOrderByCostPriceAsc(category, i, prodsInAPage);
+                } else {
+                    products1 = productService
+                            .getProductsForPerCategoryByCategoryId(category, i, prodsInAPage);
+                }
 
 //                System.out.printf("Page no %d of category %d\n", i + 1, category.getId());
 
                 //                    System.out.printf("Category %d have product with id = %d in page %d\n",
                 //                            category.getId(), product.getId(), i + 1);
                 List<Product> products2 = new ArrayList<>(products1);
+
                 // Map<pageNo, product>
 //                Map<Integer, List<Product>> innerMap = new HashMap<>();
                 Map<Integer, List<Product>> innerMap = pagesNoForPerCategory.computeIfAbsent(category, k -> new HashMap<>());
@@ -76,7 +94,6 @@ public class ShopController {
 //        }
 
         model.addAttribute("products", products);
-        model.addAttribute("all_product", productService.findAll());
         model.addAttribute("brands", brandService.findAllByActivated());
         model.addAttribute("all_product_size", productService.getAll().size());
         model.addAttribute("pages_no_for_per_category", pagesNoForPerCategory);
@@ -93,7 +110,14 @@ public class ShopController {
         Map<Integer, Page<ProductDTO>> pageNoWithSpecificProducts = new HashMap<>();
 
         for (int i = 0; i < pages; i++) {
-            pageNoWithSpecificProducts.put(i + 1, productService.pageProducts(i));
+            if (sortBy.equals("filterByDesc")) {
+                pageNoWithSpecificProducts.put(i + 1, productService.pageProductsCustom(i, "filterByDesc"));
+            } else if (sortBy.equals("filterByAsc")) {
+                pageNoWithSpecificProducts.put(i + 1, productService.pageProductsCustom(i, "filterByAsc"));
+            } else {
+                pageNoWithSpecificProducts.put(i + 1, productService.pageProducts(i));
+            }
+
         }
 
 //        for (Map.Entry<Integer, Page<ProductDTO>> entry: pageNoWithSpecificProducts.entrySet()) {
@@ -102,8 +126,13 @@ public class ShopController {
 
         model.addAttribute("pagesQuantity", pagesNo);
         model.addAttribute("pages", pageNoWithSpecificProducts);
+        model.addAttribute("all_product", productService.findAll());
         model.addAttribute("pagesQuantityForPerCategory", pagesNoForPerCategory);
         model.addAttribute("pagesForPerCategory", pageNoWithSpecificProductsForPerCategory);
+
+        // ******************************************************************************************************
+        // **********************************   Process for brand   *********************************************
+        // ******************************************************************************************************
 
         return "shop";
     }

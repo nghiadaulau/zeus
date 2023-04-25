@@ -34,7 +34,6 @@ $(document).ready(function(){
 	$(".tab-default-open").click();
 	$("ul.pagination.tab.nav-tabs.XtydSN li:first-child a").addClass("tab-default-open");
 	$("ul.pagination.tab.nav-tabs.XtydSN li:first-child a.tab-default-open").click();
-
 });
 
 function textAbstract(el, maxlength = 50, delimiter = " ") {

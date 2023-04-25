@@ -1,6 +1,7 @@
 package vn.tdtu.edu.commons.service;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 import vn.tdtu.edu.commons.dto.ProductDTO;
 import vn.tdtu.edu.commons.model.Category;
@@ -26,7 +27,7 @@ public interface ProductService {
     ProductDTO getById(Long id);
 
     Page<ProductDTO> pageProducts(int pageNo);
-
+    Page<ProductDTO> pageProductsCustom(int pageNo, String sortBy);
     Page<ProductDTO> searchProducts(int pageNo, Long categoryId, Long brandId, Double minPrice, Double maxPrice, String productName);
 
     /*Customer*/
@@ -53,4 +54,6 @@ public interface ProductService {
     Map<Long, List<Product>> get4ProductsByCategoryId(List<Category> categories);
 
     List<Product> getProductsForPerCategoryByCategoryId(Category category, int pageNo, int pageSize);
+    List<Product> getProductsForPerCategoryByCategoryIdOrderByCostPriceDesc(Category category, int pageNo, int pageSize);
+    List<Product> getProductsForPerCategoryByCategoryIdOrderByCostPriceAsc(Category category, int pageNo, int pageSize);
 }
