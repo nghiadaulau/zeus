@@ -15,12 +15,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vn.tdtu.edu.commons.dto.CustomerDTO;
 import vn.tdtu.edu.commons.model.Customer;
+import vn.tdtu.edu.commons.model.Order;
 import vn.tdtu.edu.commons.service.implement.CustomerServiceImpl;
+import vn.tdtu.edu.commons.service.implement.OrderServiceImpl;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Controller
 @RequestMapping("/auth")
@@ -29,20 +32,23 @@ public class AuthController {
     private CustomerServiceImpl customerService;
 
     @Autowired
+    private OrderServiceImpl orderService;
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private ResourceLoader resourceLoader;
     @GetMapping("/account")
     public String information(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication.getAuthorities().toString());
-
-        if(authentication.isAuthenticated()){
-            model.addAttribute("username",authentication.getName());
-            model.addAttribute("customerDTO",customerService.findByUsername(authentication.getName()));
+        if(!authentication.getAuthorities().toString().equals("[ROLE_ANONYMOUS]")){
+            Customer customer = customerService.findByUsername(authentication.getName());
+            model.addAttribute("username",customer.getUsername());
+            model.addAttribute("customerDTO",customer);
+            List<Order> orders = orderService.findByCustomerId(customer.getId());
+            model.addAttribute("orders",orders);
+            return "information";
         }
-
-        return "information";
+        return "redirect:/auth/login";
     }
     @GetMapping("/login")
     public String login(Model model){

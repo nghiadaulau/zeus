@@ -6,6 +6,7 @@ import vn.tdtu.edu.commons.service.CartService;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import vn.tdtu.edu.commons.repository.*;
@@ -110,7 +111,6 @@ public class CartServiceImpl implements CartService {
     @Override
     public void deleteItemsFromCart(List<Product> products, Customer customer) {
         Cart cart = cartRepository.findByCustomerId(customer.getId());
-        System.out.println(cart.getId());
         Set<CartItem> cartItems = cart.getCartItem();
 
         for(Product product: products){
@@ -126,7 +126,7 @@ public class CartServiceImpl implements CartService {
         CartItem cartItem = null;
 
         for (CartItem item : cartItems) {
-            if (item.getProduct().getId() == productId) {
+            if (Objects.equals(item.getProduct().getId(), productId)) {
                 cartItem = item;
             }
         }
