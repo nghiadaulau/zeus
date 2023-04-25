@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.Size;
 import vn.tdtu.edu.commons.model.Brand;
 import vn.tdtu.edu.commons.model.Category;
+import vn.tdtu.edu.commons.model.Product;
 
 @Data
 @NoArgsConstructor

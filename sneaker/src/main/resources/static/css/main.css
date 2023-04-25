@@ -340,6 +340,10 @@ ul.sub-menu {
     }
 }
 
+/*.active {*/
+/*    background: #FDB45E;*/
+/*}*/
+
 /*************************
 *******Footer CSS******
 **************************/
@@ -1849,6 +1853,9 @@ h2.title {
     margin-left: 20px
 }
 
+.lcBguv {
+    display: none;
+}
 
 /*************************
 *******checkout CSS******

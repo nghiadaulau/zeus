@@ -49,6 +49,7 @@ public class ProductController {
     @GetMapping("/search")
     public String goSearch(@RequestParam String keySearch) {
         productService.searchProductsCus(0, keySearch);
+
         return "index";
     }
 }

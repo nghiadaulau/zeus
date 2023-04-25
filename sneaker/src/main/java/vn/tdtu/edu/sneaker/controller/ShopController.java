@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import vn.tdtu.edu.commons.dto.ProductDTO;
 import vn.tdtu.edu.commons.model.Brand;
 import vn.tdtu.edu.commons.model.Category;
@@ -32,74 +33,48 @@ public class ShopController {
     @Autowired
     BrandServiceImpl brandService;
 
-    @GetMapping({"/",
-    "/filterByDesc",
-    "/filterByAsc"})
-    public String Index(Model model, HttpServletRequest request) {
-        model.addAttribute("categories", categoryService.findAll());
-        int n = request.getRequestURI().split("/").length;
-        String sortBy = request.getRequestURI().split("/")[n-1];
-//        System.out.println(sortBy);
+    List<Product> products = new ArrayList<>();
+    List<Category> categories = new ArrayList<>();
+    List<Brand> brands = new ArrayList<>();
 
-        // Process for category
-        Map<Long, List<Product>> products = new HashMap<>();
-        Map<Long, Page<ProductDTO>> pageNoWithSpecificProductsForPerCategory = new HashMap<>();
-        Map<Category, Map<Integer, List<Product>>> pagesNoForPerCategory = new HashMap<>();
+    @GetMapping("/")
+    public String Index(Model model,
+                        @RequestParam(name = "brand", required = false) Long brand_id,
+                        @RequestParam(name = "category", required = false) Long category_id,
+                        @RequestParam(name = "sortBy", required = false) String sortBy) {
 
-        for (Category category : categoryService.findAll()) {
-            products.put(category.getId(), productService.getProductsInCategory(category.getId()));
+        return "redirect:/shop/filter?brand=0&category=0";
+    }
 
-            int prodsInAPage = 12;
-            int productsCount = productService.getProductsInCategory(category.getId()).size();
-            int pagesNum = (int) Math.ceil((double) productsCount / prodsInAPage);
+    @GetMapping({"/filter",
+            "/filterByDesc",
+            "/filterByAsc"})
+    public String filter(Model model,
+                         @RequestParam(name = "brand", required = false) Long brand_id,
+                         @RequestParam(name = "category", required = false) Long category_id,
+                         @RequestParam(name = "sortBy", required = false) String sortBy) {
+        categories = new ArrayList<>(categoryService.findAll());
+        brands = new ArrayList<>(brandService.findAllByActivated());
 
-            for (int i = 0; i < pagesNum; i++) {
-//                int fromIndex = i * prodsInAPage;
-//                int toIndex = Math.min(fromIndex + prodsInAPage, productsCount);
-                List<Product> products1;
+        model.addAttribute("categories", categories);
+        model.addAttribute("brands", brands);
 
-                if (sortBy.equals("filterByDesc")) {
-                    products1 = productService
-                            .getProductsForPerCategoryByCategoryIdOrderByCostPriceDesc(category, i, prodsInAPage);
-                } else if (sortBy.equals("filterByAsc")) {
-                    products1 = productService
-                            .getProductsForPerCategoryByCategoryIdOrderByCostPriceAsc(category, i, prodsInAPage);
-                } else {
-                    products1 = productService
-                            .getProductsForPerCategoryByCategoryId(category, i, prodsInAPage);
-                }
-
-//                System.out.printf("Page no %d of category %d\n", i + 1, category.getId());
-
-                //                    System.out.printf("Category %d have product with id = %d in page %d\n",
-                //                            category.getId(), product.getId(), i + 1);
-                List<Product> products2 = new ArrayList<>(products1);
-
-                // Map<pageNo, product>
-//                Map<Integer, List<Product>> innerMap = new HashMap<>();
-                Map<Integer, List<Product>> innerMap = pagesNoForPerCategory.computeIfAbsent(category, k -> new HashMap<>());
-                innerMap.put(i + 1, products2);
-                pagesNoForPerCategory.put(category, innerMap);
-            }
-        }
-
-//        for (Map.Entry<Category, Map<Integer, List<Product>>> entry : pagesNoForPerCategory.entrySet()) {
-//            for (Map.Entry<Integer, List<Product>> entry1 : entry.getValue().entrySet()) {
-//                for (Product product : entry1.getValue()) {
-//                    System.out.printf("Category %d have product with id=%d in page %d\n"
-//                            , entry.getKey().getId(), product.getId(), entry1.getKey());
-//                }
-//            }
-//            System.out.println();
-//        }
-
-        model.addAttribute("products", products);
-        model.addAttribute("brands", brandService.findAllByActivated());
-        model.addAttribute("all_product_size", productService.getAll().size());
-        model.addAttribute("pages_no_for_per_category", pagesNoForPerCategory);
+        products.clear();
 
         int prodsInAPage = 12;
-        int pages = productService.getAllProducts().size() / prodsInAPage;
+        int productsCount;
+
+        if (brand_id == 0 && category_id == 0) {
+            productsCount = productService.getAll().size();
+        } else if (brand_id == 0) {
+            productsCount = productService.getProductsInCategory(category_id).size();
+        } else if (category_id == 0) {
+            productsCount = productService.getProductsInBrand(brand_id).size();
+        } else {
+            productsCount = productService.getProductsInBrandAndCategory(category_id, brand_id).size();
+        }
+
+        int pages = (int) Math.ceil((double) productsCount / prodsInAPage);
 
         List<Integer> pagesNo = new ArrayList<>();
 
@@ -109,30 +84,127 @@ public class ShopController {
 
         Map<Integer, Page<ProductDTO>> pageNoWithSpecificProducts = new HashMap<>();
 
-        for (int i = 0; i < pages; i++) {
-            if (sortBy.equals("filterByDesc")) {
-                pageNoWithSpecificProducts.put(i + 1, productService.pageProductsCustom(i, "filterByDesc"));
-            } else if (sortBy.equals("filterByAsc")) {
-                pageNoWithSpecificProducts.put(i + 1, productService.pageProductsCustom(i, "filterByAsc"));
-            } else {
-                pageNoWithSpecificProducts.put(i + 1, productService.pageProducts(i));
+        // Check null
+        if (sortBy != null) {
+            if (brand_id != null && category_id != null) {
+                if (brand_id == 0 && category_id == 0) {
+                    for (int i = 0; i < pages; i++) {
+                        if (sortBy.equals("filterByDesc")) {
+                            pageNoWithSpecificProducts.put(i + 1,
+                                    productService.getProductsByConditions(i, category_id, brand_id, "filterByDesc"));
+                        }
+                        if (sortBy.equals("filterByAsc")) {
+                            pageNoWithSpecificProducts.put(i + 1,
+                                    productService.getProductsByConditions(i, category_id, brand_id, "filterByAsc"));
+                        }
+                    }
+                } else if (brand_id == 0) {
+                    for (int i = 0; i < pages; i++) {
+                        if (sortBy.equals("filterByDesc")) {
+                            pageNoWithSpecificProducts.put(i + 1,
+                                    productService.getProductsByConditions(i, category_id, null, "filterByDesc"));
+                        }
+                        if (sortBy.equals("filterByAsc")) {
+                            pageNoWithSpecificProducts.put(i + 1,
+                                    productService.getProductsByConditions(i, category_id, null, "filterByAsc"));
+                        }
+                    }
+                } else if (category_id == 0) {
+                    for (int i = 0; i < pages; i++) {
+                        if (sortBy.equals("filterByDesc")) {
+                            pageNoWithSpecificProducts.put(i + 1,
+                                    productService.getProductsByConditions(i, null, brand_id, "filterByDesc"));
+                        }
+                        if (sortBy.equals("filterByAsc")) {
+                            pageNoWithSpecificProducts.put(i + 1,
+                                    productService.getProductsByConditions(i, null, brand_id, "filterByAsc"));
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < pages; i++) {
+                        if (sortBy.equals("filterByDesc")) {
+                            pageNoWithSpecificProducts.put(i + 1,
+                                    productService.getProductsByConditions(i, category_id, brand_id, "filterByDesc"));
+                        }
+                        if (sortBy.equals("filterByAsc")) {
+                            pageNoWithSpecificProducts.put(i + 1,
+                                    productService.getProductsByConditions(i, category_id, brand_id, "filterByAsc"));
+                        }
+                    }
+                }
             }
-
+            if (brand_id == null) {
+                for (int i = 0; i < pages; i++) {
+                    if (sortBy.equals("filterByDesc")) {
+                        pageNoWithSpecificProducts.put(i + 1,
+                                productService.getProductsByConditions(i, category_id, null, "filterByDesc"));
+                    }
+                    if (sortBy.equals("filterByAsc")) {
+                        pageNoWithSpecificProducts.put(i + 1,
+                                productService.getProductsByConditions(i, category_id, null, "filterByAsc"));
+                    }
+                }
+            }
+            if (category_id == null) {
+                for (int i = 0; i < pages; i++) {
+                    if (sortBy.equals("filterByDesc")) {
+                        pageNoWithSpecificProducts.put(i + 1,
+                                productService.getProductsByConditions(i, null, brand_id, "filterByDesc"));
+                    }
+                    if (sortBy.equals("filterByAsc")) {
+                        pageNoWithSpecificProducts.put(i + 1,
+                                productService.getProductsByConditions(i, null, brand_id, "filterByAsc"));
+                    }
+                }
+            }
+            if (category_id == null && brand_id == null) {
+                return "redirect:/shop/";
+            }
+        } else {
+            if (brand_id != null && category_id != null) {
+                if (brand_id == 0 && category_id == 0) {
+                    for (int i = 0; i < pages; i++) {
+                        pageNoWithSpecificProducts.put(i + 1,
+                                productService.getProductsByConditions(i, category_id, brand_id, null));
+                    }
+//                    return "redirect:/shop/";
+                } else if (brand_id == 0) {
+                    for (int i = 0; i < pages; i++) {
+                        pageNoWithSpecificProducts.put(i + 1,
+                                productService.getProductsByConditions(i, category_id, null, null));
+                    }
+                } else if (category_id == 0) {
+                    for (int i = 0; i < pages; i++) {
+                        pageNoWithSpecificProducts.put(i + 1,
+                                productService.getProductsByConditions(i, null, brand_id, null));
+                    }
+                } else {
+                    for (int i = 0; i < pages; i++) {
+                        pageNoWithSpecificProducts.put(i + 1,
+                                productService.getProductsByConditions(i, category_id, brand_id, null));
+                    }
+                }
+            }
+            if (brand_id == null) {
+                for (int i = 0; i < pages; i++) {
+                    pageNoWithSpecificProducts.put(i + 1,
+                            productService.getProductsByConditions(i, category_id, null, null));
+                }
+            }
+            if (category_id == null) {
+                for (int i = 0; i < pages; i++) {
+                    pageNoWithSpecificProducts.put(i + 1,
+                            productService.getProductsByConditions(i, null, brand_id, null));
+                }
+            }
+            if (category_id == null && brand_id == null) {
+                return "redirect:/shop/";
+            }
         }
 
-//        for (Map.Entry<Integer, Page<ProductDTO>> entry: pageNoWithSpecificProducts.entrySet()) {
-//            System.out.printf("Page: %d, with %d products\n",entry.getKey(), entry.getValue().getSize());
-//        }
-
+        model.addAttribute("all_product", products);
         model.addAttribute("pagesQuantity", pagesNo);
         model.addAttribute("pages", pageNoWithSpecificProducts);
-        model.addAttribute("all_product", productService.findAll());
-        model.addAttribute("pagesQuantityForPerCategory", pagesNoForPerCategory);
-        model.addAttribute("pagesForPerCategory", pageNoWithSpecificProductsForPerCategory);
-
-        // ******************************************************************************************************
-        // **********************************   Process for brand   *********************************************
-        // ******************************************************************************************************
 
         return "shop";
     }
