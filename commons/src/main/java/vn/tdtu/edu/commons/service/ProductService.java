@@ -69,6 +69,6 @@ public interface ProductService {
 
     List<Product> getProductsForPerCategoryByCategoryIdOrderByCostPriceAsc(Category category, int pageNo, int pageSize);
 
-    List<Product> search(String s);
+    List<Product> search(String s, String sortBy);
 
 }

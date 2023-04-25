@@ -57,17 +57,12 @@ public class ShopController {
 
         if (Objects.equals(keySearch, "")) {
             // Should be alert something
-        } else {
-            for (ProductDTO product : productService.searchProductsCus(0, keySearch)) {
-                System.out.println(product.getId());
-            }
         }
 
         products.clear();
 
         int prodsInAPage = 12;
-        int pages = (int) Math.ceil((double) productService.search(keySearch).size() / prodsInAPage);
-//                productService.searchProductsCus(0, keySearch).getSize();
+        int pages = (int) Math.ceil((double) productService.search(keySearch, null).size() / prodsInAPage);
 
         List<Integer> pagesNo = new ArrayList<>();
 
@@ -78,7 +73,7 @@ public class ShopController {
         Map<Integer, Page<ProductDTO>> pageNoWithSpecificProducts = new HashMap<>();
 
         for (int i = 0; i < pages; i++) {
-            pageNoWithSpecificProducts.put(i + 1, productService.searchProductsCus(0, keySearch));
+            pageNoWithSpecificProducts.put(i + 1, productService.searchProductsCus(i, keySearch));
         }
 
         model.addAttribute("pagesQuantity", pagesNo);

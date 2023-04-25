@@ -63,7 +63,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findProductsByCategoryIdOrderByCostPriceDesc(Long id, Pageable pageable);
     List<Product> findProductsByCategoryIdOrderByCostPriceAsc(Long id, Pageable pageable);
 
-    @Query("SELECT p FROM Product p where p.brand.name like ?1 or p.name" +
-            " like ?1 or p.category.name like ?1 or p.description like ?1")
+    @Query("SELECT DISTINCT p FROM Product p where p.brand.name like %?1% or p.name" +
+            " like %?1% or p.category.name like %?1% or p.description like %?1%")
     List<Product> search(String s);
 }

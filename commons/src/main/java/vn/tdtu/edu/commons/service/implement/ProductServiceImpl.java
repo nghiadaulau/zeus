@@ -379,7 +379,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findProductsByCategoryIdOrderByCostPriceAsc(category.getId(), pageable);
     }
 
-    public List<Product> search(String s) {
+    public List<Product> search(String s, String sortBy) {
         return productRepository.search(s);
     }
 }
