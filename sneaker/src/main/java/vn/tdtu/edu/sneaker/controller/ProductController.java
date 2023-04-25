@@ -15,10 +15,7 @@ import vn.tdtu.edu.commons.service.implement.BrandServiceImpl;
 import vn.tdtu.edu.commons.service.implement.CategoryServiceImpl;
 import vn.tdtu.edu.commons.service.implement.ProductServiceImpl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/product")
@@ -46,10 +43,17 @@ public class ProductController {
     }
 
     //    Get Params: /search?keySearch =...
-    @GetMapping("/search")
-    public String goSearch(@RequestParam String keySearch) {
-        productService.searchProductsCus(0, keySearch);
-
-        return "index";
-    }
+//    @GetMapping("/search")
+//    public String goSearch(@RequestParam(name="keySearch", required = false) String keySearch) {
+//        if (Objects.equals(keySearch, "")) {
+////            return "redirect:/shop/";
+//            // Should be alert something
+//        } else {
+//            for (ProductDTO product : productService.searchProductsCus(0, keySearch)) {
+//                System.out.println(product.getId());
+//            }
+//        }
+//
+//        return "redirect:/shop/search";
+//    }
 }

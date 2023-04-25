@@ -165,8 +165,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductDTO> searchProductsCus(int pageNo, String keyword) {
-        Pageable pageable = PageRequest.of(pageNo, 10);
-        List<ProductDTO> productDTOList = transfer(productRepository.searchProductsList(keyword));
+        Pageable pageable = PageRequest.of(pageNo, 12);
+        List<ProductDTO> productDTOList = transfer(productRepository.search(keyword));
         Page<ProductDTO> products = toPage(productDTOList, pageable);
 
         return products;
@@ -377,5 +377,9 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getProductsForPerCategoryByCategoryIdOrderByCostPriceAsc(Category category, int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         return productRepository.findProductsByCategoryIdOrderByCostPriceAsc(category.getId(), pageable);
+    }
+
+    public List<Product> search(String s) {
+        return productRepository.search(s);
     }
 }

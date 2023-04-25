@@ -18,10 +18,7 @@ import vn.tdtu.edu.commons.service.implement.BrandServiceImpl;
 import vn.tdtu.edu.commons.service.implement.CategoryServiceImpl;
 import vn.tdtu.edu.commons.service.implement.ProductServiceImpl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/shop")
@@ -38,12 +35,56 @@ public class ShopController {
     List<Brand> brands = new ArrayList<>();
 
     @GetMapping("/")
-    public String Index(Model model,
+    public String index(Model model,
                         @RequestParam(name = "brand", required = false) Long brand_id,
                         @RequestParam(name = "category", required = false) Long category_id,
                         @RequestParam(name = "sortBy", required = false) String sortBy) {
 
         return "redirect:/shop/filter?brand=0&category=0";
+    }
+
+    @GetMapping("/search")
+    public String search(Model model,
+                         @RequestParam(name = "brand", required = false) Long brand_id,
+                         @RequestParam(name = "category", required = false) Long category_id,
+                         @RequestParam(name = "sortBy", required = false) String sortBy,
+                         @RequestParam(name = "keySearch", required = false) String keySearch) {
+        categories = new ArrayList<>(categoryService.findAll());
+        brands = new ArrayList<>(brandService.findAllByActivated());
+
+        model.addAttribute("categories", categories);
+        model.addAttribute("brands", brands);
+
+        if (Objects.equals(keySearch, "")) {
+            // Should be alert something
+        } else {
+            for (ProductDTO product : productService.searchProductsCus(0, keySearch)) {
+                System.out.println(product.getId());
+            }
+        }
+
+        products.clear();
+
+        int prodsInAPage = 12;
+        int pages = (int) Math.ceil((double) productService.search(keySearch).size() / prodsInAPage);
+//                productService.searchProductsCus(0, keySearch).getSize();
+
+        List<Integer> pagesNo = new ArrayList<>();
+
+        for (int i = 0; i < pages; i++) {
+            pagesNo.add(i + 1);
+        }
+
+        Map<Integer, Page<ProductDTO>> pageNoWithSpecificProducts = new HashMap<>();
+
+        for (int i = 0; i < pages; i++) {
+            pageNoWithSpecificProducts.put(i + 1, productService.searchProductsCus(0, keySearch));
+        }
+
+        model.addAttribute("pagesQuantity", pagesNo);
+        model.addAttribute("pages", pageNoWithSpecificProducts);
+
+        return "shop";
     }
 
     @GetMapping({"/filter",

@@ -69,7 +69,6 @@ public interface ProductService {
 
     List<Product> getProductsForPerCategoryByCategoryIdOrderByCostPriceAsc(Category category, int pageNo, int pageSize);
 
-    @Query("SELECT p FROM Product p where p.brand.name like ?1 or p.name" +
-            " like ?1 or p.category.name like ?1 or p.description like ?1")
     List<Product> search(String s);
+
 }
