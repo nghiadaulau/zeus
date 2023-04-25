@@ -83,7 +83,10 @@
                         <td th:text = "${product.costPrice}"></td>
                         <td th:text = "${product.salePrice}"></td>
                         <td th:text = "${product.currentQuantity}"></td>
-                        <td><img src="" style="height: 40px; width: 40px;" th:src = "@{'data:image/jpeg;base64,' + ${product.image}}"></td>
+                        <td>
+                            <span class="hidden_box"><img src="" style="height: 40px; width: 40px;" th:src = "@{'data:image/jpeg;base64,' + ${product.image}}"></span>
+                            <span class="hidden_image"><img th:src = "@{'data:image/jpeg;base64,' + ${product.image}}" height="250" width="250"></span>
+                        </td>
                         <td><a th:href="@{/update-product/{id} (id = ${product.id})}" class="btn btn-primary">Update</a></td>
                         <td>
                             <a th:if = "${product.deleted} == false" th:href="@{/delete-product/{id}(id = ${product.id})}" class="btn btn-danger">Delete</a>

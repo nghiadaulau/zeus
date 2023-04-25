@@ -7,8 +7,7 @@
 <body>
 <header th:replace="~{/commons/header}">
 </header>
-
-<section id="slider"><!--slider-->
+<section class="animate" id="slider"><!--slider-->
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
@@ -28,7 +27,7 @@
                                 <button type="button" class="btn btn-default get">Get it now</button>
                             </div>
                             <div class="col-sm-6">
-                                <img th:src="@{/images/home/girl1.jpg}" class="girl img-responsive" alt="" src=""/>
+                                <img th:src="@{/images/home/girl1.jpg}" class="girl img-responsive slider_img" alt="" src=""/>
                                 <img th:src="@{/images/home/pricing.png}" class="pricing" alt="" src=""/>
                             </div>
                         </div>
@@ -40,7 +39,7 @@
                                 <button type="button" class="btn btn-default get">Get it now</button>
                             </div>
                             <div class="col-sm-6">
-                                <img th:src="@{/images/home/girl2.jpg}" class="girl img-responsive" alt="" src=""/>
+                                <img th:src="@{/images/home/girl2.jpg}" class="girl img-responsive slider_img" alt="" src=""/>
                                 <img th:src="@{/images/home/pricing.png}" class="pricing" alt="" src=""/>
                             </div>
                         </div>
@@ -53,7 +52,7 @@
                                 <button type="button" class="btn btn-default get">Get it now</button>
                             </div>
                             <div class="col-sm-6">
-                                <img th:src="@{/images/home/girl3.jpg}" class="girl img-responsive" alt="" src=""/>
+                                <img th:src="@{/images/home/girl3.jpg}" class="girl img-responsive slider_img" alt="" src=""/>
                                 <img th:src="@{/images/home/pricing.png}" class="pricing" alt="" src=""/>
                             </div>
                         </div>
@@ -73,7 +72,7 @@
     </div>
 </section><!--/slider-->
 
-<section>
+<section id="main animate">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
@@ -83,7 +82,7 @@
                         <div class="col-sm-3">
                             <div class="product-image-wrapper">
                                 <div class="single-products">
-                                    <div class="productinfo text-center">
+                                    <div class="productinfo text-center product_filter_small">
                                         <img th:src="@{'data:image/png;base64,' + ${product.getImage()}}"
                                              alt=""
                                              src=""/>
@@ -122,7 +121,7 @@
                                 <div class="col-sm-3">
                                     <div class="product-image-wrapper">
                                         <div class="single-products">
-                                            <div class="productinfo text-center">
+                                            <div class="productinfo text-center product_filter">
                                                 <img th:src="@{'data:image/png;base64,'+ ${product.image}}" alt=""  src=""/>
                                                 <h2>[[${product.name}]]</h2>
                                                 <p>Brand: [[${product.brand.name}]]</p>
@@ -142,7 +141,7 @@
                                     <div class="col-sm-3">
                                         <div class="product-image-wrapper">
                                             <div class="single-products">
-                                                <div class="productinfo text-center">
+                                                <div class="productinfo text-center product_filter">
                                                     <img th:src="@{'data:image/png;base64,'+ ${product.image}}" alt="" src=""/>
                                                     <h2>[[${product.name}]]</h2>
                                                     <p>Brand: [[${product.brand.name}]]</p>
@@ -170,7 +169,7 @@
                                 <div class="col-sm-4">
                                     <div class="product-image-wrapper">
                                         <div class="single-products">
-                                            <div class="productinfo text-center">
+                                            <div class="productinfo text-center product_filter">
                                                 <img th:src="@{'data:image/png;base64,' + ${product.image}}" alt=""/>
                                                 <h2>[[${product.name}]]</h2>
                                                 <p>Brand: [[${product.brand.name}]]</p>
@@ -189,7 +188,7 @@
                                     <div class="col-sm-4">
                                         <div class="product-image-wrapper">
                                             <div class="single-products">
-                                                <div class="productinfo text-center">
+                                                <div class="productinfo text-center product_filter">
                                                     <img th:src="@{'data:image/png;base64,' + ${product.image}}" alt=""/>
                                                     <h2>[[${product.name}]]</h2>
                                                     <p>Brand: [[${product.brand.name}]]</p>

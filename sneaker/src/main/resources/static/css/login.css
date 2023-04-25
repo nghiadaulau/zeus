@@ -1,5 +1,5 @@
 .login-page {
-    width: 360px;
+    width: 40%;
     padding: 8% 0 0;
     margin: auto;
 }
@@ -27,7 +27,7 @@
 }
 
 #vsSUK6 {
-    color: #b3b3b3;
+    color: #FFFFFF;
     font-size: 14px;
 }
 
@@ -59,15 +59,71 @@
 
 .form .message {
     /* margin: 15px 0 0; */
-    color: #b3b3b3;
+    color: #FFFFFF;
     font-size: 14px;
 }
 
 .form .message a {
-    /* color: #4CAF50; */
+     color: #FE980F;
     text-decoration: none;
 }
-
+.form .message a:hover {
+    color: #fdb45e;
+}
+#login_title {
+    color: #FE980F;
+    text-shadow: 3px 3px 3px #000000;
+}
+#login_title:hover {
+    color: #fdb45e;
+}
 .form .register-form {
     display: none;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.animate {
+    animation-duration: 0.8s;
+    animation-name: fadeIn;
+    animation-fill-mode: backwards;
+}
+#login-name, #login-pwd {
+    font-size: 18px;
+    text-shadow: 3px 3px 3px #D3D3D3;
+}
+#login-name:hover {
+    font-size: 18px;
+    text-shadow: 3px 3px 3px #D3D3D3;
+    transform: scale(1.02);
+    transition: transform 0.1s ease-in-out;
+}
+#login-pwd:hover {
+    font-size: 18px;
+    text-shadow: 3px 3px 3px #D3D3D3;
+    transform: scale(1.02);
+    transition: transform 0.1s ease-in-out;
+}
+#login-name, #login-pwd::placeholder {
+    font-size: 18px;
+    text-shadow: 3px 3px 3px #D3D3D3;
+}
+#login-btn {
+    color: #FE980F;
+    font-size: 20px;
+    font-weight: 400;
+    box-shadow: 6px 6px 3px #000000;
+}
+#login-btn:hover {
+    color: #fdb45e;
+}
+.login_input {
+    box-shadow: 6px 6px 3px #000000;
 }
