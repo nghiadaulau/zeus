@@ -1,6 +1,5 @@
 package vn.tdtu.edu.sneaker.controller;
 
-import jakarta.mail.Multipart;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -23,7 +22,9 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/auth")
@@ -45,7 +46,7 @@ public class AuthController {
             model.addAttribute("username",customer.getUsername());
             model.addAttribute("customerDTO",customer);
             List<Order> orders = orderService.findByCustomerId(customer.getId());
-            model.addAttribute("orders",orders);
+            model.addAttribute("orders", Objects.requireNonNullElseGet(orders, () -> new ArrayList<Order>()));
             return "information";
         }
         return "redirect:/auth/login";
@@ -99,7 +100,7 @@ public class AuthController {
         return "register";
     }
     @PostMapping("/update")
-    public String update(Model model, @ModelAttribute("customerDTO") CustomerDTO customerDTO){
+    public String update( @ModelAttribute("customerDTO") CustomerDTO customerDTO){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         customerDTO.setUsername(authentication.getName());
         customerService.update(customerDTO);

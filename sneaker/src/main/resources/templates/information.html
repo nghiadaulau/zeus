@@ -7,7 +7,17 @@
 <head>
     <link th:href="@{/css/information.css}" rel="stylesheet">
 </head>
+<style>
+    .hKVaPN:hover {
+        background-color: lightblue;
+        text-align: center;
+        font-size: medium;
+    }
 
+    .hKVaPN:active {
+        background-color: cornflowerblue;
+    }
+</style>
 <body>
 <header th:replace="~{/commons/header}">
 </header>
@@ -82,10 +92,7 @@
                     <span>Country: [[${customerDTO.country}]]</span>
                 </div>
                 <div class="form-horizontal">
-                    <span>Quantity bills: to do something</span>
-                </div>
-                <div class="form-horizontal">
-                    <span>Total bills: to do something</span>
+                    <span>Quantity bills: [[${orders.size()}]]</span>
                 </div>
             </div>
             <div id="Paris" class="tabcontent">
@@ -126,78 +133,30 @@
                 </form>
             </div>
             <div id="Tokyo" class="tabcontent">
-                <!--                if orders.size() < 1-->
-                <!--                do something...-->
-                <!--                else-->
-                <!--                Dùng cho for each-->
-                <!--                    <div id="order-id" class="col-sm-2 order-id" th:text="${order.getOrder_id()}" name="order-id">-->
-                <!--                    </div>-->
-                <!--                    <div class="col-sm-6" th:text="${order.getOrder_name()}" name="order-name">-->
-                <!--                    </div>-->
-                <!--                    <div class="col-sm-4" th:text="${order.getCreate_at()}" name="order-create-at">-->
-                <!--                    </div>-->
-                <!--                Dùng cho for each-->
                 <h3>Danh sách hóa đơn</h3>
                 <div class="row cart-titles">
                     <div class="col-sm-2">Mã hóa đơn</div>
-                    <div class="col-sm-6">
-                        Tên hóa đơn
+                    <div class="col-sm-3">Ngày đặt hàng</div>
+                    <div class="col-sm-3">Ngày vận chuyển</div>
+                    <div class="col-sm-2">
+                        Trạng thái
                     </div>
-                    <div class="col-sm-4">
-                        Ngày tạo
+                    <div class="col-sm-2">
+                        Total
                     </div>
                 </div>
                 <hr>
-                <div class="row order">
-                    <div class="col-sm-2 order-id" name="order-id">01</div>
-                    <div class="col-sm-6" name="order-name">Hóa đơn mua hàng</div>
-                    <div class="col-sm-4" name="order-create-at">xx/xx/20xx</div>
-                </div>
-                <div class="row order">
-                    <div class="col-sm-2 order-id" name="order-id">02</div>
-                    <div class="col-sm-6" name="order-name">Hóa đơn mua hàng</div>
-                    <div class="col-sm-4" name="order-create-at">xx/xx/20xx</div>
-                </div>
-                <div class="row order">
-                    <div class="col-sm-2 order-id" name="order-id">03</div>
-                    <div class="col-sm-6" name="order-name">Hóa đơn mua hàng</div>
-                    <div class="col-sm-4" name="order-create-at">xx/xx/20xx</div>
-                </div>
-                <div class="row order">
-                    <div class="col-sm-2 order-id" name="order-id">04</div>
-                    <div class="col-sm-6" name="order-name">Hóa đơn mua hàng</div>
-                    <div class="col-sm-4" name="order-create-at">xx/xx/20xx</div>
-                </div>
-                <div class="row order">
-                    <div class="col-sm-2 order-id" name="order-id">05</div>
-                    <div class="col-sm-6" name="order-name">Hóa đơn mua hàng</div>
-                    <div class="col-sm-4" name="order-create-at">xx/xx/20xx</div>
-                </div>
-                <div class="row order">
-                    <div class="col-sm-2 order-id" name="order-id">06</div>
-                    <div class="col-sm-6" name="order-name">Hóa đơn mua hàng</div>
-                    <div class="col-sm-4" name="order-create-at">xx/xx/20xx</div>
-                </div>
-                <div class="row order">
-                    <div class="col-sm-2 order-id" name="order-id">07</div>
-                    <div class="col-sm-6" name="order-name">Hóa đơn mua hàng</div>
-                    <div class="col-sm-4" name="order-create-at">xx/xx/20xx</div>
-                </div>
-                <div class="row order">
-                    <div class="col-sm-2 order-id" name="order-id">08</div>
-                    <div class="col-sm-6" name="order-name">Hóa đơn mua hàng</div>
-                    <div class="col-sm-4" name="order-create-at">xx/xx/20xx</div>
-                </div>
-                <div class="row order">
-                    <div class="col-sm-2 order-id" name="order-id">09</div>
-                    <div class="col-sm-6" name="order-name">Hóa đơn mua hàng</div>
-                    <div class="col-sm-4" name="order-create-at">xx/xx/20xx</div>
-                </div>
-                <div class="row order">
-                    <div class="col-sm-2 order-id" name="order-id">10</div>
-                    <div class="col-sm-6" name="order-name">Hóa đơn mua hàng</div>
-                    <div class="col-sm-4" name="order-create-at">xx/xx/20xx</div>
-                </div>
+                <th:block th:each="order : ${orders}">
+                    <div class="row order hKVaPN">
+                        <div class="col-sm-2 order-id" th:text="${order.id}"></div>
+                        <div class="col-sm-3 order-id" th:text="${order.getOrderDate()}"></div>
+                        <div class="col-sm-3 order-id" th:text="${order.getDeliveryDate()}"></div>
+                        <div class="col-sm-2 order-id" th:text="${order.getOrderStatus() == 1 ?
+                         'Depending' : (order.getOrderStatus() == 2 ? 'Done' : 'Cancel')}"></div>
+                        <div class="col-sm-2 order-id" th:text="'$'+${order.getTotalPrice()}"></div>
+                    </div>
+                    <hr>
+                </th:block>
             </div>
         </div>
     </div>
@@ -207,6 +166,9 @@
 
 <script type="text/javascript" th:src="@{/js/information.js}"></script>
 <script>
+    $(".hKVaPN").click(function (){
+        alert(123)
+    })
     function openCity(cityName, elmnt) {
         let i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tabcontent");
