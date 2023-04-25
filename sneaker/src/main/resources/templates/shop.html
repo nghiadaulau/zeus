@@ -39,7 +39,21 @@
                                 </h4>
                             </div>
                         </th:block>
-                    </div>
+                    </div><!--/category-productsr-->
+
+                    <div class="brands_products"><!--brands_products-->
+                        <h2>Brands</h2>
+                        <div class="brands-name">
+                            <th:block th:each="brand : ${brands}">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li><a th:href="'b'+${brand.getId()}">
+                                        <span class="pull-left" th:text="${brand.getName()}"></span></a>
+                                    </li>
+                                </ul>
+                            </th:block>
+                        </div>
+                    </div><!--/brands_products-->
+
                     <div class="shipping text-center"><!--shipping-->
                         <img th:src="@{/images/home/shipping.jpg}" alt=""/>
                     </div><!--/shipping-->
@@ -52,7 +66,16 @@
                         <!--All product-->
                         <div class="tab-pane fade" th:id="0">
                             <hr>
-                            <h1> Danh sách sản phẩm</h1>
+                            <h1> Danh sách sản phẩm
+                                <span class="dropdown pull-right">
+                                    <span class="fa fa-filter dropdown-toggle"
+                                          data-toggle="dropdown"></span>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="sortByDesc" href="/shop/filterByDesc">Giá cao đến thấp</a></li>
+                                        <li><a class="sortByAsc" href="/shop/filterByAsc">Giá thấp đến cao</a></li>
+                                    </ul>
+                                </span>
+                            </h1>
                             <hr>
                             <div class="tab-content">
                                 <th:block th:each="pageNo : ${pagesQuantity}">
@@ -89,12 +112,21 @@
                         <th:block th:each="category : ${pages_no_for_per_category}">
                             <div class="tab-pane fade" th:id="${category.getKey().getId()}">
                                 <hr>
-                                <h1 th:text="${category.getKey().getName()}"></h1>
+                                <h1 th:utext="${category.getKey().getName() +
+                                    '&lt;span class=&quot;dropdown pull-right&quot;&gt;' +
+                                    '&lt;span class=&quot;fa fa-filter dropdown-toggle&quot; data-toggle=&quot;dropdown&quot;&gt;&lt;/span&gt;' +
+                                    '&lt;ul class=&quot;dropdown-menu&quot;&gt;' +
+                                    '&lt;li&gt;&lt;a class=&quot;sortByDesc&quot; href=&quot;/shop/filterByDesc&quot;&gt;Giá cao đến thấp&lt;/a&gt;&lt;/li&gt;' +
+                                    '&lt;li&gt;&lt;a class=&quot;sortByAsc&quot; href=&quot;/shop/filterByAsc&quot;&gt;Giá thấp đến cao&lt;/a&gt;&lt;/li&gt;' +
+                                    '&lt;/ul&gt;' +
+                                    '&lt;/span&gt;'}">
+                                </h1>
                                 <hr>
                                 <div class="tab-content">
                                     <th:block th:each="innerMap : ${category.getValue()}">
                                         <th:block th:each="pageNo : ${innerMap.getKey()}">
-                                            <div class="tab-pane fade" th:id="${'page_'+pageNo+'_c_'+category.getKey().getId()}">
+                                            <div class="tab-pane fade"
+                                                 th:id="${'page_'+pageNo+'_c_'+category.getKey().getId()}">
                                                 <th:block th:each="product : ${innerMap.getValue()}">
                                                     <div class="col-sm-3">
                                                         <div class="product-image-wrapper">
@@ -117,10 +149,12 @@
                                         </th:block>
                                     </th:block>
                                 </div>
-                                <ul class="pagination tab nav-tabs XtydSN" style="display: flex; justify-content: center">
+                                <ul class="pagination tab nav-tabs XtydSN"
+                                    style="display: flex; justify-content: center">
                                     <th:block th:each="innerMap : ${category.getValue()}">
                                         <th:block th:each="pageNo : ${innerMap.getKey()}">
-                                            <li><a th:href="${'#page_'+pageNo+'_c_'+category.getKey().getId()}" th:text="${pageNo}"
+                                            <li><a th:href="${'#page_'+pageNo+'_c_'+category.getKey().getId()}"
+                                                   th:text="${pageNo}"
                                                    data-toggle="tab"></a>
                                             </li>
                                         </th:block>

@@ -145,6 +145,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<ProductDTO> pageProductsCustom(int pageNo, String sortBy) {
+        Pageable pageable = PageRequest.of(pageNo, 12);
+        List<ProductDTO> products = new ArrayList<>();
+
+        if (sortBy.equals("filterByDesc")) {
+           products = transfer(productRepository.filterHighPrice());
+        } else if (sortBy.equals("filterByAsc")) {
+           products = transfer(productRepository.filterLowPrice());
+        } else {
+            products = transfer(productRepository.findAll());
+        }
+
+        Page<ProductDTO> productPages = toPage(products, pageable);
+
+        return productPages;
+    }
+
+    @Override
     public Page<ProductDTO> searchProductsCus(int pageNo, String keyword) {
         Pageable pageable = PageRequest.of(pageNo, 10);
         List<ProductDTO> productDTOList = transfer(productRepository.searchProductsList(keyword));
@@ -204,11 +222,6 @@ public class ProductServiceImpl implements ProductService {
                 ? list.size()
                 : (int) (pageable.getOffset() + pageable.getPageSize());
 
-//        System.out.println("--START TO_PAGE FUNCTION--");
-//        System.out.printf("Offset: %d, size: %d\n", pageable.getOffset(), list.size());
-//        System.out.println("Start index: " + startIndex);
-//        System.out.println("End index: " + endIndex);
-//        System.out.println("--END TO_PAGE FUNCTION--");
         List<ProductDTO> subList = list.subList(startIndex, endIndex);
 
         return new PageImpl(subList, pageable, list.size());
@@ -236,7 +249,6 @@ public class ProductServiceImpl implements ProductService {
 
         return productDtoList;
     }
-
 
     /*Customer*/
 
@@ -291,5 +303,17 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getProductsForPerCategoryByCategoryId(Category category, int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         return productRepository.findProductsByCategoryId(category.getId(), pageable);
+    }
+
+    @Override
+    public List<Product> getProductsForPerCategoryByCategoryIdOrderByCostPriceDesc(Category category, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        return productRepository.findProductsByCategoryIdOrderByCostPriceDesc(category.getId(), pageable);
+    }
+
+    @Override
+    public List<Product> getProductsForPerCategoryByCategoryIdOrderByCostPriceAsc(Category category, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        return productRepository.findProductsByCategoryIdOrderByCostPriceAsc(category.getId(), pageable);
     }
 }
