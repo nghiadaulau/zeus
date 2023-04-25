@@ -43,7 +43,7 @@
                         <input type="number" class="form-control" name="max_price" placeholder="Max Price" step="1">
                         <input type="text" class="form-control" name="product" placeholder="Search for product name...">
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">
+                            <button class="btn btn-primary add_button" type="submit">
                                 <i class="fas fa-search fa-sm"></i>
                             </button>
                         </div>
@@ -61,7 +61,7 @@
                     <p th:text = "${error}"></p>
                 </div>
                 <a class="btn btn-primary" th:href = "@{/add-product}">Add new product</a>
-                <table class="table table-striped" th:if = "${size > 0}">
+                <table class="table table-striped animate" th:if = "${size > 0}">
                     <thead>
                     <tr>
                         <th scope="col">Name</th>
@@ -83,7 +83,7 @@
                         <td th:text = "${product.costPrice}"></td>
                         <td th:text = "${product.salePrice}"></td>
                         <td th:text = "${product.currentQuantity}"></td>
-                        <td><img src="" style="height: 40px; width: 40px;" th:src = "@{'data:image/jpeg;base64,' + ${product.image}}"></td>
+                        <td><img data-toggle="modal" data-target="#myModal" src="" style="height: 40px; width: 40px;" th:src = "@{'data:image/jpeg;base64,' + ${product.image}}"></td>
                         <td><a th:href="@{/update-product/{id} (id = ${product.id})}" class="btn btn-primary">Update</a></td>
                         <td>
                             <a th:if = "${product.deleted} == false" th:href="@{/delete-product/{id}(id = ${product.id})}" class="btn btn-danger">Delete</a>
@@ -123,7 +123,19 @@
 
 </div>
 <!-- End of Page Wrapper -->
-
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Image</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img src="path/to/image" style="width: 100%;">
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Scroll to Top Button-->
 <a th:replace="fragments :: scroll">
 </a>
@@ -132,8 +144,15 @@
 
 <!-- Bootstrap core JavaScript-->
 <div th:replace="fragments :: script"></div>
-<script th:src="@{/js/categories.js}"></script>
-
+<!--<script th:src="@{/js/categories.js}"></script>-->
+<script>
+    $(document).ready(function() {
+        $('img').on('click', function() {
+            $('.modal-body img').attr('src', $(this).attr('src'));
+            $('#myModal').modal('show');
+        });
+    });
+</script>
 </body>
 
 </html>

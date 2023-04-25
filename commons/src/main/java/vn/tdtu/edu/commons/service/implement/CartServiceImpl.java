@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import vn.tdtu.edu.commons.service.CartService;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import vn.tdtu.edu.commons.repository.*;
@@ -106,7 +108,16 @@ public class CartServiceImpl implements CartService {
 
         return cartRepository.save(cart);
     }
+    public void deleteItemsFromCart(List<Product> products, Customer customer) {
+        Cart cart = cartRepository.findByCustomerId(customer.getId());
+        Set<CartItem> cartItems = cart.getCartItem();
 
+        for(Product product: products){
+            CartItem item = findCartItem(cartItems, product.getId());
+            cartItems.remove(item);
+            itemRepository.delete(item);
+        }
+    }
     private CartItem findCartItem(Set<CartItem> cartItems, Long productId) {
         if (cartItems == null) {
             return null;
@@ -114,7 +125,7 @@ public class CartServiceImpl implements CartService {
         CartItem cartItem = null;
 
         for (CartItem item : cartItems) {
-            if (item.getProduct().getId() == productId) {
+            if (Objects.equals(item.getProduct().getId(), productId)) {
                 cartItem = item;
             }
         }

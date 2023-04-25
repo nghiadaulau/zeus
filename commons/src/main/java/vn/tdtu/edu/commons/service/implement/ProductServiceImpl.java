@@ -71,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
     public Product update(MultipartFile imageProduct, ProductDTO productDTO) {
         try {
             Product product = productRepository.getById(productDTO.getId());
-            if (imageProduct == null) {
+            if (imageProduct == null || imageProduct.isEmpty()) {
                 product.setImage(product.getImage());
             } else {
                 imageUpload.uploadImage(imageProduct, imageProduct.getOriginalFilename());
@@ -89,7 +89,6 @@ public class ProductServiceImpl implements ProductService {
             e.printStackTrace();
             return null;
         }
-
     }
 
     @Override

@@ -3,11 +3,14 @@ package vn.tdtu.edu.commons.service.implement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.tdtu.edu.commons.dto.OrderDTO;
+import vn.tdtu.edu.commons.model.Customer;
 import vn.tdtu.edu.commons.model.Order;
 import vn.tdtu.edu.commons.model.OrderDetail;
 import vn.tdtu.edu.commons.repository.OrderDetailsRepository;
 import vn.tdtu.edu.commons.repository.OrderRepository;
 import vn.tdtu.edu.commons.service.OrderService;
+
+import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -38,5 +41,10 @@ public class OrderServiceImpl implements OrderService {
             orderDetailsRepository.save(orderDetail);
         }
         return orderRepository.save(order);
+    }
+
+    @Override
+    public List<Order> findByCustomerId(Long id) {
+        return orderRepository.findByCustomerId(id);
     }
 }
