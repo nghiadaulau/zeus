@@ -71,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
     public Product update(MultipartFile imageProduct, ProductDTO productDTO) {
         try {
             Product product = productRepository.getById(productDTO.getId());
-            if (imageProduct == null) {
+            if (imageProduct == null || imageProduct.isEmpty()) {
                 product.setImage(product.getImage());
             } else {
                 imageUpload.uploadImage(imageProduct, imageProduct.getOriginalFilename());
@@ -89,7 +89,6 @@ public class ProductServiceImpl implements ProductService {
             e.printStackTrace();
             return null;
         }
-
     }
 
     @Override
@@ -191,18 +190,23 @@ public class ProductServiceImpl implements ProductService {
             if (categoryId != null && !product.getCategory().getId().equals(categoryId)) {
                 continue;
             }
+
             if (brandId != null && !product.getBrand().getId().equals(brandId)) {
                 continue;
             }
+
             if (minPrice != null && Double.compare(product.getCostPrice(), minPrice) < 0) {
                 continue;
             }
+
             if (maxPrice != null && Double.compare(product.getCostPrice(), maxPrice) > 0) {
                 continue;
             }
+
             if (productName != null && !product.getName().toLowerCase().contains(productName.toLowerCase())) {
                 continue;
             }
+
             filteredProducts.add(product);
         }
 
