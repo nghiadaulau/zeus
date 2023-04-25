@@ -2,7 +2,10 @@ $('.options').on('click', function () {
     $('li.active').removeClass('active');
     $(this).addClass('active');
 });
-
+$('.hKVaPN').on('click', function() {
+    const index = $('.hKVaPN').index(this);
+    $('.modalForm').eq(index).click();
+});
 function openCity(cityName, elmnt) {
     let i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");

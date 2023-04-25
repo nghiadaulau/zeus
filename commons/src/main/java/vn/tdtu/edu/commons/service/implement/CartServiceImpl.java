@@ -108,7 +108,6 @@ public class CartServiceImpl implements CartService {
 
         return cartRepository.save(cart);
     }
-    @Override
     public void deleteItemsFromCart(List<Product> products, Customer customer) {
         Cart cart = cartRepository.findByCustomerId(customer.getId());
         Set<CartItem> cartItems = cart.getCartItem();
