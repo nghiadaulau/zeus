@@ -27,4 +27,35 @@ $(document).ready(function(){
 	        zIndex: 2147483647 // Z-Index for the overlay
 		});
 	});
+
+	$(".qkq1hF h4 a:first").addClass("tab-default-open");
+	$(".e1W0hK li a:first").addClass("tab-default-open");
+	$(".tab-default-open a").click();
+	$(".tab-default-open").click();
+	$("ul.pagination.tab.nav-tabs.XtydSN li:first-child a").addClass("tab-default-open");
+	$("ul.pagination.tab.nav-tabs.XtydSN li:first-child a.tab-default-open").click();
 });
+
+function textAbstract(el, maxlength = 50, delimiter = " ") {
+	let txt = $(el).text();
+	if (el == null) {
+		return "";
+	}
+	if (txt.length <= maxlength) {
+		return txt;
+	}
+	let t = txt.substring(0, maxlength);
+	let re = /\s+\S*$/;
+	let m = re.exec(t);
+	t = t.substring(0, m.index);
+	return t + "...";
+}
+
+// Force length of text
+const maxlengthwanted = 21;
+
+$('.productinfo p').each(function (index, element) {
+	$(element).text(textAbstract(element, maxlengthwanted, " "));
+});
+
+// Change after this comment if anyone wanna reuse

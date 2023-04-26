@@ -7,7 +7,18 @@
 <head>
     <link th:href="@{/css/information.css}" rel="stylesheet">
 </head>
-
+<style>
+    .hKVaPN:hover {
+        background-color: lightblue;
+        text-align: center;
+        font-size: medium;
+        cursor: pointer;
+    }
+    .hKVaPN:active {
+        cursor: pointer;
+        background-color: cornflowerblue;
+    }
+</style>
 <body>
 <header th:replace="~{/commons/header}">
 </header>
@@ -82,129 +93,120 @@
                     <span>Country: [[${customerDTO.country}]]</span>
                 </div>
                 <div class="form-horizontal">
-                    <span>Quantity bills: to do something</span>
-                </div>
-                <div class="form-horizontal">
-                    <span>Total bills: to do something</span>
+                    <span>Quantity bills: [[${orders.size()}]]</span>
                 </div>
             </div>
-            <div id="Paris" class="tabcontent" >
+            <div id="Paris" class="tabcontent">
                 <h3>Cập nhật tài khoản</h3>
-                    <form th:action="@{/auth/update}" th:object="${customerDTO}" method="post">
-                        <div class="col-sm-7">
-                            <label for="firstName"> First Name:
-                                <input id="firstName" class="input-group" width="100%" type="text" required th:field="*{firstName}" placeholder="First name" />
-                            </label>
-                            <label for="lastName"> Last Name:
-                                <input id="lastName" class="input-group" width="100%" type="text" required th:field="*{lastName}" placeholder="Last name" />
-                            </label>
-                            <label for="phone"> Phone number:
-                                <input id="phone" class="input-group" width="100%" type="text" required th:field="*{phoneNumber}" placeholder="Phone number" />
-                            </label>
-                            <label for="Country"> Country:
-                                <input id="Country" class="input-group" width="100%" type="text" required th:field="*{country}" placeholder="Country" />
-                            </label>
-                            <label for="city"> City:
-                                <input id="city" class="input-group" width="100%" type="text" required th:field="*{city}" placeholder="City" />
-                            </label>
-                            <label for="address"> Address:
-                                <input id="address" class="input-group" width="100%" type="text" required th:field="*{address}" placeholder="Address" />
-                            </label>
-                            <div>
-                                <button class="btn btn-primary" type="submit">Change</button>
-                            </div>
+                <form th:action="@{/auth/update}" th:object="${customerDTO}" method="post">
+                    <div class="col-sm-7">
+                        <label for="firstName"> First Name:
+                            <input id="firstName" class="input-group" width="100%" type="text" required
+                                   th:field="*{firstName}" placeholder="First name"/>
+                        </label>
+                        <label for="lastName"> Last Name:
+                            <input id="lastName" class="input-group" width="100%" type="text" required
+                                   th:field="*{lastName}" placeholder="Last name"/>
+                        </label>
+                        <label for="phone"> Phone number:
+                            <input id="phone" class="input-group" width="100%" type="text" required
+                                   th:field="*{phoneNumber}" placeholder="Phone number"/>
+                        </label>
+                        <label for="Country"> Country:
+                            <input id="Country" class="input-group" width="100%" type="text" required
+                                   th:field="*{country}" placeholder="Country"/>
+                        </label>
+                        <label for="city"> City:
+                            <input id="city" class="input-group" width="100%" type="text" required th:field="*{city}"
+                                   placeholder="City"/>
+                        </label>
+                        <label for="address"> Address:
+                            <input id="address" class="input-group" width="100%" type="text" required
+                                   th:field="*{address}" placeholder="Address"/>
+                        </label>
+                        <div>
+                            <button class="btn btn-primary" type="submit">Change</button>
                         </div>
-                        <div class="col-sm-5">
-                            <div id="map" style="width: 100%;height: 300px"></div>
-                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div id="map" style="width: 100%;height: 300px"></div>
+                    </div>
                 </form>
             </div>
-
             <div id="Tokyo" class="tabcontent">
-                <h3>Tab hóa đơn</h3>
-                <h3>..</h3>
-                <h3>..</h3>
-                <h3>..</h3>
-                <h3>..</h3>
-                <h3>..</h3>
-                <h3>..</h3>
+                <h3>Danh sách hóa đơn</h3>
+                <div class="row cart-titles">
+                    <div class="col-sm-2">Mã hóa đơn</div>
+                    <div class="col-sm-3">Ngày đặt hàng</div>
+                    <div class="col-sm-3">Ngày vận chuyển</div>
+                    <div class="col-sm-2">
+                        Trạng thái
+                    </div>
+                    <div class="col-sm-2">
+                        Total
+                    </div>
+                </div>
+                <hr>
+                <th:block th:each="order : ${orders}">
+                    <div class="row order hKVaPN">
+                        <div class="col-sm-2 order-id" th:text="${order.id}"></div>
+                        <div class="col-sm-3 order-id" th:text="${order.getOrderDate()}"></div>
+                        <div class="col-sm-3 order-id" th:text="${order.getDeliveryDate()}"></div>
+                        <div class="col-sm-2 order-id" th:text="${order.getOrderStatus() == 1 ?
+                         'Depending' : (order.getOrderStatus() == 2 ? 'Done' : 'Cancel')}"></div>
+                        <div class="col-sm-2 order-id" th:text="'$'+${order.getTotalPrice()}"></div>
+                    </div>
+                    <button type="button" style="display: none!important;" class="btn btn-info btn-lg modalForm" data-toggle="modal" th:data-target="'#'+${order.id}">Open Modal</button>
+                    <div th:id="${order.id}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Order detail</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p th:text="'Code: '+${order.id}"></p>
+                                    <hr>
+                                    <p th:text="'Order day: '+${order.getOrderDate()}"></p>
+                                    <hr>
+                                    <p th:text="'Delivery day: '+${order.getDeliveryDate()}"></p>
+                                    <hr>
+                                    <p th:text="'Status: '+${order.getOrderStatus() == 1 ?
+                                    'Depending' : (order.getOrderStatus() == 2 ? 'Done' : 'Cancel')}"></p>
+                                    <hr>
+                                    <p>Order detail:</p>
+                                        <th:block th:each="orderDetail : ${order.getOrderDetails()}">
+                                            <ul>
+                                                <li><img width="100px" th:src="@{'data:image/png;base64,' + ${orderDetail.product.getImage()}}" alt="" src=""></li>
+                                                <li><p th:text="'Name product: '+${orderDetail.product.name}"></p></li>
+                                                <li><p th:text="'Quantity: '+${orderDetail.quantity}"></p></li>
+                                                <li><p th:text="'Price: '+${orderDetail.product.costPrice}"></p></li>
+                                                <li><p th:text="'Total: '+${orderDetail.getTotalPrice()}"></p></li>
+                                            </ul>
+                                            <hr>
+                                        </th:block>
+                                    <p th:text="'Total cost:'+${order.getTotalPrice()}"></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <hr>
+                </th:block>
             </div>
         </div>
     </div>
 </div>
 <footer th:replace="~{/commons/footer}">
 </footer>
+
 <script type="text/javascript" th:src="@{/js/information.js}"></script>
-<script>
-    let map;
-    let marker;
-    function initMap(callback) {
-        map = new google.maps.Map($("#map")[0], {
-            zoom: 8,
-        });
-
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
-                    };
-                    map.setCenter(pos);
-                    marker = new google.maps.Marker({
-                        position: pos,
-                        map: map,
-                    });
-                    getLocationName(pos.lat, pos.lng);
-                },
-                () => {
-                    handleLocationError(true, map.getCenter());
-                }
-            );
-        } else {
-            // Browser doesn't support Geolocation
-            handleLocationError(false, map.getCenter());
-        }
-
-        // Add a click listener to the map to allow the user to pick a new location
-        map.addListener("click", (event) => {
-            const lat = event.latLng.lat();
-            const lng = event.latLng.lng();
-            marker.setPosition({lat: lat, lng: lng});
-            getLocationName(lat, lng);
-        });
-    }
-
-    function handleLocationError(browserHasGeolocation, pos) {
-        console.log(
-            browserHasGeolocation
-                ? "Error: The Geolocation service failed."
-                : "Error: Your browser doesn't support geolocation."
-        );
-    }
-
-    function getLocationName(lat, lng) {
-        fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
-            .then(response => response.json())
-            .then(data => {
-                const locationName = data.display_name;
-                const arrLocation = locationName.split(",");
-                $("#Country").val(arrLocation[arrLocation.length-1])
-                $("#city").val(arrLocation[arrLocation.length-3])
-                $("#address").val(arrLocation.slice(0, arrLocation.length-3).join(', '))
-                console.log(locationName);
-            });
-    }
-    $("#imageInput").change(function() {
-        const file = this.files[0];
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            $("#newImage").attr("src", e.target.result);
-        }
-        reader.readAsDataURL(file);
-    });
-</script>
 <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" async defer></script>
+
 </body>
 
 </html>

@@ -1,6 +1,5 @@
 package vn.tdtu.edu.sneaker.controller;
 
-import jakarta.mail.Multipart;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -15,12 +14,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vn.tdtu.edu.commons.dto.CustomerDTO;
 import vn.tdtu.edu.commons.model.Customer;
+import vn.tdtu.edu.commons.model.Order;
 import vn.tdtu.edu.commons.service.implement.CustomerServiceImpl;
+import vn.tdtu.edu.commons.service.implement.OrderServiceImpl;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/auth")
@@ -29,17 +33,23 @@ public class AuthController {
     private CustomerServiceImpl customerService;
 
     @Autowired
+    private OrderServiceImpl orderService;
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private ResourceLoader resourceLoader;
     @GetMapping("/account")
     public String information(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication.isAuthenticated()){
-            model.addAttribute("username",authentication.getName());
-            model.addAttribute("customerDTO",customerService.findByUsername(authentication.getName()));
+        if(!authentication.getAuthorities().toString().equals("[ROLE_ANONYMOUS]")){
+            Customer customer = customerService.findByUsername(authentication.getName());
+            model.addAttribute("username",customer.getUsername());
+            model.addAttribute("customerDTO",customer);
+            List<Order> orders = orderService.findByCustomerId(customer.getId());
+            model.addAttribute("orders", Objects.requireNonNullElseGet(orders, () -> new ArrayList<Order>()));
+            return "information";
         }
-        return "information";
+        return "redirect:/auth/login";
     }
     @GetMapping("/login")
     public String login(Model model){
@@ -90,7 +100,7 @@ public class AuthController {
         return "register";
     }
     @PostMapping("/update")
-    public String update(Model model, @ModelAttribute("customerDTO") CustomerDTO customerDTO){
+    public String update( @ModelAttribute("customerDTO") CustomerDTO customerDTO){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         customerDTO.setUsername(authentication.getName());
         customerService.update(customerDTO);
