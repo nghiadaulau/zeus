@@ -10,17 +10,17 @@
 <header th:replace="~{/commons/header}">
 </header>
 
-<section id="form"><!--form-->
+<section id="form" class="animate"><!--form-->
     <div class="container">
         <div class="row">
-            <div class="login-page">
+            <div class="login-page ">
                 <div class="form">
-                    <form class="login-form" th:action="@{/do-login}" method="post">
+                    <form class="login-form justify-content-center" th:action="@{/do-login}" method="post">
                         <div class="text-center">
-                            <h1>ĐĂNG NHẬP</h1>
+                            <h1 id="login_title">ĐĂNG NHẬP</h1>
                         </div>
-                        <input id="login-name" type="text" name="username" placeholder="Name" />
-                        <input id="login-pwd" type="password" name="password" placeholder="Password" />
+                        <input id="login-name" class="login_input" type="text" name="username" placeholder="Name" />
+                        <input id="login-pwd" class="login_input" type="password" name="password" placeholder="Password" />
                         <div class="row">
                             <div class="col-6 pull-left .visible-*-inline-block">
                                 <input id="zeZ3hL" type="checkbox" /><label id="vsSUK6" for="zeZ3hL">Keep me sign in</label>

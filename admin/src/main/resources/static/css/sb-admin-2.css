@@ -2361,13 +2361,35 @@ fieldset:disabled a.btn {
   border-color: #4e73df;
   transform: scale(1.01);
   transition: transform 0.1s ease-in-out;
+<<<<<<< Updated upstream
+}
+
+.add_button {
+  margin-bottom: 36px;
+  margin-left: 75%;
+=======
+>>>>>>> Stashed changes
 }
 
 .add_button {
   margin-bottom: 36px;
   margin-left: 75%;
 }
+.hidden_image {
+  display: none;
+}
+.hidden_box:hover ~ .hidden_image {
+  display: block;
+  position: absolute;
+  z-index: 2;
+}
+.hidden_box {
+  z-index:99;
+}
 
+.hidden_box img {
+  z-index: 99;
+}
 .btn-primary:hover {
   color: #fff;
   background-color: #2e59d9;
