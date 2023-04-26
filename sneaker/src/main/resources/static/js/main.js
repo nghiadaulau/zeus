@@ -66,7 +66,7 @@ $('.productinfo p').each(function (index, element) {
 // $(".AZlYga:first").addClass("active category-default-open");
 let storedData = localStorage.getItem("data");
 let data = storedData ? JSON.parse(storedData) : {};
-
+// Category buttons
 $('.AZlYga').click(function () {
     // $(this).parent().parent().find('.active').removeClass("active");
     // $(this).addClass("active");
@@ -92,7 +92,7 @@ $('.AZlYga').click(function () {
         }
     });
 })
-
+// Brand buttons
 $('.oEqkPY').click(function () {
     // $(this).parent().parent().find('.active').removeClass("active");
     // $(this).addClass("active");
@@ -122,7 +122,7 @@ $('.oEqkPY').click(function () {
         }
     });
 })
-
+// Shop filter by DESC
 $(".zBgVhp").click(function () {
     data.sortBy = 'filterByDesc'
 
@@ -150,7 +150,7 @@ $(".zBgVhp").click(function () {
         }
     });
 })
-
+// Shop filter by ASC
 $(".bhinFw").click(function () {
     data.sortBy = 'filterByAsc'
 
@@ -178,4 +178,68 @@ $(".bhinFw").click(function () {
         }
     });
 })
+// Search filter by DESC
+let storedDataForSearch = localStorage.getItem("data_for_search");
+let data_for_search = storedDataForSearch ? JSON.parse(storedDataForSearch) : {};
+$(".search_box").on("keypress","input", function (e) {
+    // 13 is the enter button
+    if(e.which === 13){
+        // alert("The value of search box is: " + inputVal);
+        data_for_search.keySearch = $(this).val()
 
+        $.ajax({
+            url: "/shop/search",
+            type: "get",
+            data: data_for_search,
+            success: function () {
+                window.location = `/shop/search?keySearch=${data_for_search['keySearch']}`;
+
+                // Store the data values in localStorage before changing the window location
+                localStorage.setItem("data_for_search", JSON.stringify(data_for_search));
+                window.location = `/shop/search?keySearch=${data_for_search['keySearch']}`;
+            },
+            error: function () {
+                // Code to handle error
+            }
+        });
+    }
+})
+$(".OewQPG").click(function () {
+    data_for_search.sortBy = 'filterByDesc'
+
+    $.ajax({
+        url: "/shop/search",
+        type: "get",
+        data: data_for_search,
+        success: function () {
+            window.location = `/shop/search?keySearch=${data_for_search['keySearch']}&sortBy=${data_for_search['sortBy']}`;
+
+            // Store the data values in localStorage before changing the window location
+            localStorage.setItem("data_for_search", JSON.stringify(data_for_search));
+            window.location = `/shop/search?keySearch=${data_for_search['keySearch']}&sortBy=${data_for_search['sortBy']}`;
+        },
+        error: function () {
+            // Code to handle error
+        }
+    });
+})
+// Search filter by ASC
+$(".xxEGwG").click(function () {
+    data_for_search.sortBy = 'filterByAsc'
+
+    $.ajax({
+        url: "/shop/search",
+        type: "get",
+        data: data_for_search,
+        success: function () {
+            window.location = `/shop/search?keySearch=${data_for_search['keySearch']}&sortBy=${data_for_search['sortBy']}`;
+
+            // Store the data values in localStorage before changing the window location
+            localStorage.setItem("data_for_search", JSON.stringify(data_for_search));
+            window.location = `/shop/search?keySearch=${data_for_search['keySearch']}&sortBy=${data_for_search['sortBy']}`;
+        },
+        error: function () {
+            // Code to handle error
+        }
+    });
+})

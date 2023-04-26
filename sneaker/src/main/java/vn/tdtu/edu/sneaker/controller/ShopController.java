@@ -62,29 +62,29 @@ public class ShopController {
         products.clear();
 
         int prodsInAPage = 12;
-        int pages = (int) Math.ceil((double) productService.search(keySearch, null).size() / prodsInAPage);
+        int pages = (int) Math.ceil((double) productService.search(keySearch).size() / prodsInAPage);
 
-        List<Integer> pagesNo = new ArrayList<>();
 
-        for (int i = 0; i < pages; i++) {
-            pagesNo.add(i + 1);
-        }
 
-        Map<Integer, Page<ProductDTO>> pageNoWithSpecificProducts = new HashMap<>();
+//        List<Integer> pagesNo = new ArrayList<>();
+//
+//        for (int i = 0; i < pages; i++) {
+//            pagesNo.add(i + 1);
+//        }
+//
+//        Map<Integer, Page<ProductDTO>> pageNoWithSpecificProducts = new HashMap<>();
+//
+//        for (int i = 0; i < pages; i++) {
+//            pageNoWithSpecificProducts.put(i + 1, productService.searchProductsCus(i, keySearch));
+//        }
+//
+//        model.addAttribute("pagesQuantity", pagesNo);
+//        model.addAttribute("pages", pageNoWithSpecificProducts);
 
-        for (int i = 0; i < pages; i++) {
-            pageNoWithSpecificProducts.put(i + 1, productService.searchProductsCus(i, keySearch));
-        }
-
-        model.addAttribute("pagesQuantity", pagesNo);
-        model.addAttribute("pages", pageNoWithSpecificProducts);
-
-        return "shop";
+        return "search";
     }
 
-    @GetMapping({"/filter",
-            "/filterByDesc",
-            "/filterByAsc"})
+    @GetMapping("/filter")
     public String filter(Model model,
                          @RequestParam(name = "brand", required = false) Long brand_id,
                          @RequestParam(name = "category", required = false) Long category_id,
@@ -122,7 +122,7 @@ public class ShopController {
 
         // Check null
         if (sortBy != null) {
-            if (brand_id != null && category_id != null) {
+            if (category_id != null) {
                 if (brand_id == 0 && category_id == 0) {
                     for (int i = 0; i < pages; i++) {
                         if (sortBy.equals("filterByDesc")) {
@@ -169,18 +169,6 @@ public class ShopController {
                     }
                 }
             }
-            if (brand_id == null) {
-                for (int i = 0; i < pages; i++) {
-                    if (sortBy.equals("filterByDesc")) {
-                        pageNoWithSpecificProducts.put(i + 1,
-                                productService.getProductsByConditions(i, category_id, null, "filterByDesc"));
-                    }
-                    if (sortBy.equals("filterByAsc")) {
-                        pageNoWithSpecificProducts.put(i + 1,
-                                productService.getProductsByConditions(i, category_id, null, "filterByAsc"));
-                    }
-                }
-            }
             if (category_id == null) {
                 for (int i = 0; i < pages; i++) {
                     if (sortBy.equals("filterByDesc")) {
@@ -193,11 +181,8 @@ public class ShopController {
                     }
                 }
             }
-            if (category_id == null && brand_id == null) {
-                return "redirect:/shop/";
-            }
         } else {
-            if (brand_id != null && category_id != null) {
+            if (category_id != null) {
                 if (brand_id == 0 && category_id == 0) {
                     for (int i = 0; i < pages; i++) {
                         pageNoWithSpecificProducts.put(i + 1,
@@ -221,20 +206,11 @@ public class ShopController {
                     }
                 }
             }
-            if (brand_id == null) {
-                for (int i = 0; i < pages; i++) {
-                    pageNoWithSpecificProducts.put(i + 1,
-                            productService.getProductsByConditions(i, category_id, null, null));
-                }
-            }
             if (category_id == null) {
                 for (int i = 0; i < pages; i++) {
                     pageNoWithSpecificProducts.put(i + 1,
                             productService.getProductsByConditions(i, null, brand_id, null));
                 }
-            }
-            if (category_id == null && brand_id == null) {
-                return "redirect:/shop/";
             }
         }
 

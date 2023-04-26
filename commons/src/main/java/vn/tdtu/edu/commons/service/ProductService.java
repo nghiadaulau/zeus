@@ -55,6 +55,9 @@ public interface ProductService {
 
     Page<ProductDTO> getProductsByConditions(int pages, Long category_id, Long brand_id, String sortBy);
 
+    Page<ProductDTO> getProductsByConditionsCustom(int pages, Long category_id,
+                                                   Long brand_id, String sortBy, String s);
+
     List<Product> findRandomProducts();
 
     List<Product> findRandomProductsByBrandAndCategory(Product product);
@@ -69,6 +72,6 @@ public interface ProductService {
 
     List<Product> getProductsForPerCategoryByCategoryIdOrderByCostPriceAsc(Category category, int pageNo, int pageSize);
 
-    List<Product> search(String s, String sortBy);
+    List<Product> search(String s);
 
 }
