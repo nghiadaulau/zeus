@@ -28,7 +28,6 @@ $(document).ready(function () {
         });
     });
 
-    $(".lcBguv").addClass("tab-default-open");
     $(".e1W0hK li a:first").addClass("tab-default-open");
     // $(".tab-default-open a").click();
     $(".tab-default-open").click();

@@ -45,16 +45,8 @@ public class ShopController {
 
     @GetMapping("/search")
     public String search(Model model,
-                         @RequestParam(name = "brand", required = false) Long brand_id,
-                         @RequestParam(name = "category", required = false) Long category_id,
                          @RequestParam(name = "sortBy", required = false) String sortBy,
                          @RequestParam(name = "keySearch", required = false) String keySearch) {
-        categories = new ArrayList<>(categoryService.findAll());
-        brands = new ArrayList<>(brandService.findAllByActivated());
-
-        model.addAttribute("categories", categories);
-        model.addAttribute("brands", brands);
-
         if (Objects.equals(keySearch, "")) {
             // Should be alert something
         }
@@ -62,8 +54,7 @@ public class ShopController {
         products.clear();
 
         int prodsInAPage = 12;
-        int pages = (int) Math.ceil((double) productService.search(keySearch).size() / prodsInAPage);
-
+        int pages = (int) Math.ceil((double) productService.search(keySearch, null).size() / prodsInAPage);
 
 
 //        List<Integer> pagesNo = new ArrayList<>();
@@ -188,7 +179,6 @@ public class ShopController {
                         pageNoWithSpecificProducts.put(i + 1,
                                 productService.getProductsByConditions(i, category_id, brand_id, null));
                     }
-//                    return "redirect:/shop/";
                 } else if (brand_id == 0) {
                     for (int i = 0; i < pages; i++) {
                         pageNoWithSpecificProducts.put(i + 1,
