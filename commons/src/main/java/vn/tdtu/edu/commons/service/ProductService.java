@@ -51,7 +51,7 @@ public interface ProductService {
 
     List<Product> filterLowPrice();
 
-    Page<ProductDTO> searchProductsCus(int pageNo, String keyword);
+    Page<ProductDTO> searchProductsCus(int pageNo, String keyword, String sortBy);
 
     Page<ProductDTO> getProductsByConditions(int pages, Long category_id, Long brand_id, String sortBy);
 
@@ -72,6 +72,6 @@ public interface ProductService {
 
     List<Product> getProductsForPerCategoryByCategoryIdOrderByCostPriceAsc(Category category, int pageNo, int pageSize);
 
-    List<Product> search(String s, String sortBy);
+    List<Product> search(String s);
 
 }

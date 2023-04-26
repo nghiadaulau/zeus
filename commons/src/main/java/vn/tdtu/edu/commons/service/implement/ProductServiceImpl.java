@@ -163,9 +163,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductDTO> searchProductsCus(int pageNo, String keyword) {
+    public Page<ProductDTO> searchProductsCus(int pageNo, String keyword, String sortBy) {
         Pageable pageable = PageRequest.of(pageNo, 12);
-        List<ProductDTO> productDTOList = transfer(productRepository.search(keyword));
+        List<ProductDTO> productDTOList = new ArrayList<>();
+        List<Product> found = productRepository.search(keyword);
+
+        if (sortBy != null) {
+            if (sortBy.equals("filterByAsc")) {
+                found.sort(Comparator.comparingDouble(Product::getCostPrice));
+                productDTOList = transfer(found);
+            }
+            if (sortBy.equals("filterByDesc")) {
+                found.sort(Comparator.comparingDouble(Product::getCostPrice).reversed());
+                productDTOList = transfer(found);
+            }
+        } else {
+            productDTOList = transfer(found);
+        }
+
         Page<ProductDTO> products = toPage(productDTOList, pageable);
 
         return products;
@@ -378,7 +393,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findProductsByCategoryIdOrderByCostPriceAsc(category.getId(), pageable);
     }
 
-    public List<Product> search(String s, String sortBy) {
+    public List<Product> search(String s) {
         return productRepository.search(s);
     }
 }

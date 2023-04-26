@@ -54,23 +54,34 @@ public class ShopController {
         products.clear();
 
         int prodsInAPage = 12;
-        int pages = (int) Math.ceil((double) productService.search(keySearch, null).size() / prodsInAPage);
+        int pages = (int) Math.ceil((double) productService.search(keySearch).size() / prodsInAPage);
+
+        List<Integer> pagesNo = new ArrayList<>();
+
+        for (int i = 0; i < pages; i++) {
+            pagesNo.add(i + 1);
+        }
+
+        Map<Integer, Page<ProductDTO>> pageNoWithSpecificProducts = new HashMap<>();
+
+        if (sortBy != null) {
+            for (int i = 0; i < pages; i++) {
+                if (sortBy.equals("filterByDesc")) {
+                    pageNoWithSpecificProducts.put(i + 1, productService.searchProductsCus(i, keySearch, "filterByDesc"));
+                }
+                if (sortBy.equals("filterByAsc")) {
+                    pageNoWithSpecificProducts.put(i + 1, productService.searchProductsCus(i, keySearch, "filterByAsc"));
+                }
+            }
+        } else {
+            for (int i = 0; i < pages; i++) {
+                pageNoWithSpecificProducts.put(i + 1, productService.searchProductsCus(i, keySearch, null));
+            }
+        }
 
 
-//        List<Integer> pagesNo = new ArrayList<>();
-//
-//        for (int i = 0; i < pages; i++) {
-//            pagesNo.add(i + 1);
-//        }
-//
-//        Map<Integer, Page<ProductDTO>> pageNoWithSpecificProducts = new HashMap<>();
-//
-//        for (int i = 0; i < pages; i++) {
-//            pageNoWithSpecificProducts.put(i + 1, productService.searchProductsCus(i, keySearch));
-//        }
-//
-//        model.addAttribute("pagesQuantity", pagesNo);
-//        model.addAttribute("pages", pageNoWithSpecificProducts);
+        model.addAttribute("pagesQuantity", pagesNo);
+        model.addAttribute("pages", pageNoWithSpecificProducts);
 
         return "search";
     }
