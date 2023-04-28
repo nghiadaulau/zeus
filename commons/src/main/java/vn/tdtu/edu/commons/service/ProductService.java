@@ -1,7 +1,7 @@
 package vn.tdtu.edu.commons.service;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.multipart.MultipartFile;
 import vn.tdtu.edu.commons.dto.ProductDTO;
 import vn.tdtu.edu.commons.model.Category;
@@ -27,7 +27,9 @@ public interface ProductService {
     ProductDTO getById(Long id);
 
     Page<ProductDTO> pageProducts(int pageNo);
+
     Page<ProductDTO> pageProductsCustom(int pageNo, String sortBy);
+
     Page<ProductDTO> searchProducts(int pageNo, Long categoryId, Long brandId, Double minPrice, Double maxPrice, String productName);
 
     /*Customer*/
@@ -41,11 +43,20 @@ public interface ProductService {
 
     List<Product> getProductsInCategory(Long categoryId);
 
+    List<Product> getProductsInBrand(Long brandId);
+
+    List<Product> getProductsInBrandAndCategory(Long categoryId, Long brandId);
+
     List<Product> filterHighPrice();
 
     List<Product> filterLowPrice();
 
-    Page<ProductDTO> searchProductsCus(int pageNo, String keyword);
+    Page<ProductDTO> searchProductsCus(int pageNo, String keyword, String sortBy);
+
+    Page<ProductDTO> getProductsByConditions(int pages, Long category_id, Long brand_id, String sortBy);
+
+//    Page<ProductDTO> getProductsByConditionsCustom(int pages, Long category_id,
+//                                                   Long brand_id, String sortBy, String s);
 
     List<Product> findRandomProducts();
 
@@ -53,7 +64,14 @@ public interface ProductService {
 
     Map<Long, List<Product>> get4ProductsByCategoryId(List<Category> categories);
 
-    List<Product> getProductsForPerCategoryByCategoryId(Category category, int pageNo, int pageSize);
+    List<Product> getProductsForPerCategoryByCategory(Category category, int pageNo, int pageSize);
+
+    List<Product> getProductsForPerCategoryByCategoryID(Long categoryID, int pageNo, int pageSize);
+
     List<Product> getProductsForPerCategoryByCategoryIdOrderByCostPriceDesc(Category category, int pageNo, int pageSize);
+
     List<Product> getProductsForPerCategoryByCategoryIdOrderByCostPriceAsc(Category category, int pageNo, int pageSize);
+
+    List<Product> search(String s);
+
 }

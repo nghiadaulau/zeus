@@ -15,59 +15,15 @@
 
 <section>
     <div class="container">
-        <div class="row">
-            <div class="col">
-                <h3>Brands</h3>
-            </div>
-        </div>
-        <div class="row brands">
-            <div class="col-2" style="margin-right: 5px">
-                <button type="button" class="btn-brand pull-left oEqkPY"
-                        th:text="${'All'}"
-                        th:value="${0}"
-                        name="brand"></button>
-            </div>
-            <th:block th:each="brand : ${brands}">
-                <div class="col-2" style="margin-right: 5px">
-                    <button type="button" class="btn-brand pull-left oEqkPY"
-                            th:text="${brand.getName()}"
-                            th:value="${brand.getId()}"
-                            name="brand">
-                    </button>
-                </div>
-            </th:block>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h3>Categories</h3>
-            </div>
-        </div>
-        <div class="row categories">
-            <div class="col-2" style="margin-right: 5px">
-                <button type="button" class="btn-category pull-left AZlYga"
-                        th:text="${'All'}"
-                        th:value="${0}"
-                        name="category"></button>
-            </div>
-            <th:block th:each="category : ${categories}">
-                <div class="col-2" style="margin-right: 5px">
-                    <button type="button" class="btn-category pull-left AZlYga"
-                            th:text="${category.getName()}"
-                            th:value="${category.getId()}"
-                            name="category">
-                    </button>
-                </div>
-            </th:block>
-        </div>
         <hr>
         <h1> Danh sách sản phẩm
             <span class="dropdown pull-right">
-                <span class="fa fa-filter dropdown-toggle"
-                      data-toggle="dropdown"></span>
-                <ul class="dropdown-menu">
-                       <li><a class="sortByDesc zBgVhp">Giá cao đến thấp</a></li>
-                        <li><a class="sortByAsc bhinFw">Giá thấp đến cao</a></li>
-                </ul>
+                 <span class="fa fa-filter dropdown-toggle"
+                       data-toggle="dropdown"></span>
+                 <ul class="dropdown-menu">
+                       <li><a class="sortByDesc OewQPG">Giá cao đến thấp</a></li>
+                       <li><a class="sortByAsc xxEGwG">Giá thấp đến cao</a></li>
+                 </ul>
             </span>
         </h1>
         <div class="row products">

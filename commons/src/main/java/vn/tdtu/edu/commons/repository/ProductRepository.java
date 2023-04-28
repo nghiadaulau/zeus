@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import vn.tdtu.edu.commons.dto.ProductDTO;
 import vn.tdtu.edu.commons.model.Brand;
 import vn.tdtu.edu.commons.model.Category;
 import vn.tdtu.edu.commons.model.Product;
@@ -23,8 +24,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("select p from Product p where p.description like %?1% or p.name like %?1%")
     List<Product> searchProductsList(String keyword);
 
-
-
     /*Customer*/
     @Query("select p from Product p where p.is_activated = true and p.is_deleted = false")
     List<Product> getAllProducts();
@@ -41,7 +40,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "select p from Product p inner join Category c on c.id = p.category.id where c.id = ?1 and p.is_deleted = false and p.is_activated = true")
     List<Product> getProductsInCategory(Long categoryId);
 
-
+    @Query(value = "select p from Product p inner join Brand b on b.id = p.brand.id where b.id = ?1 and b.is_deleted = false and b.is_activated = true")
+    List<Product> getProductsInBrand(Long brandId);
+    @Query(value = "select p from Product p inner join Brand b on b.id = p.brand.id join Category c  on c.id = p.category.id " +
+            "where b.id = ?1 and b.is_deleted = false and b.is_activated = true " +
+            "and c.id = ?1 and p.is_deleted = false and p.is_activated = true")
+    List<Product> getProductsInBrandAndCategory(Long categoryId, Long brandId);
     @Query("select p from Product p where p.is_activated = true and p.is_deleted = false" +
             " order by p.costPrice desc")
     List<Product> filterHighPrice();
@@ -59,4 +63,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findProductsByCategoryIdOrderByCostPriceDesc(Long id, Pageable pageable);
     List<Product> findProductsByCategoryIdOrderByCostPriceAsc(Long id, Pageable pageable);
 
+    @Query("SELECT DISTINCT p FROM Product p where p.brand.name like %?1% or p.name" +
+            " like %?1% or p.category.name like %?1% or p.description like %?1%")
+    List<Product> search(String s);
 }

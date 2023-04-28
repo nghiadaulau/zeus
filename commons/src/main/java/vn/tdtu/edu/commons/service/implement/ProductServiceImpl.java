@@ -143,15 +143,16 @@ public class ProductServiceImpl implements ProductService {
         return productPages;
     }
 
+
     @Override
     public Page<ProductDTO> pageProductsCustom(int pageNo, String sortBy) {
         Pageable pageable = PageRequest.of(pageNo, 12);
         List<ProductDTO> products = new ArrayList<>();
 
         if (sortBy.equals("filterByDesc")) {
-           products = transfer(productRepository.filterHighPrice());
+            products = transfer(productRepository.filterHighPrice());
         } else if (sortBy.equals("filterByAsc")) {
-           products = transfer(productRepository.filterLowPrice());
+            products = transfer(productRepository.filterLowPrice());
         } else {
             products = transfer(productRepository.findAll());
         }
@@ -162,10 +163,64 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductDTO> searchProductsCus(int pageNo, String keyword) {
-        Pageable pageable = PageRequest.of(pageNo, 10);
-        List<ProductDTO> productDTOList = transfer(productRepository.searchProductsList(keyword));
+    public Page<ProductDTO> searchProductsCus(int pageNo, String keyword, String sortBy) {
+        Pageable pageable = PageRequest.of(pageNo, 12);
+        List<ProductDTO> productDTOList = new ArrayList<>();
+        List<Product> found = productRepository.search(keyword);
+
+        if (sortBy != null) {
+            if (sortBy.equals("filterByAsc")) {
+                found.sort(Comparator.comparingDouble(Product::getCostPrice));
+                productDTOList = transfer(found);
+            }
+            if (sortBy.equals("filterByDesc")) {
+                found.sort(Comparator.comparingDouble(Product::getCostPrice).reversed());
+                productDTOList = transfer(found);
+            }
+        } else {
+            productDTOList = transfer(found);
+        }
+
         Page<ProductDTO> products = toPage(productDTOList, pageable);
+
+        return products;
+    }
+
+    @Override
+    public Page<ProductDTO> getProductsByConditions(int pages, Long category_id, Long brand_id, String sortBy) {
+        Pageable pageable = PageRequest.of(pages, 12);
+        List<Product> filteredProducts = new ArrayList<>();
+
+        if (brand_id != null && category_id != null) {
+            if (brand_id == 0 && category_id == 0) {
+                filteredProducts.addAll(productRepository.findAll());
+            }
+        }
+
+        for (Product product : productRepository.findAll()) {
+            if (category_id != null && !product.getCategory().getId().equals(category_id)) {
+                continue;
+            }
+
+            if (brand_id != null && !product.getBrand().getId().equals(brand_id)) {
+                continue;
+            }
+
+            filteredProducts.add(product);
+        }
+
+        if (sortBy != null) {
+            if (sortBy.equals("filterByAsc")) {
+                filteredProducts.sort(Comparator.comparingDouble(Product::getCostPrice));
+            }
+            if (sortBy.equals("filterByDesc")) {
+                filteredProducts.sort(Comparator.comparingDouble(Product::getCostPrice).reversed());
+            }
+        }
+
+        List<ProductDTO> productDTOList = transfer(filteredProducts);
+        Page<ProductDTO> products = toPage(productDTOList, pageable);
+
         return products;
     }
 
@@ -186,6 +241,7 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(pageNo, 10);
         List<Product> filteredProducts = new ArrayList<>();
         List<Product> allProducts = productRepository.findAll();
+
         for (Product product : allProducts) {
             if (categoryId != null && !product.getCategory().getId().equals(categoryId)) {
                 continue;
@@ -282,6 +338,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> getProductsInBrand(Long brandId) {
+        return productRepository.getProductsInBrand(brandId);
+    }
+
+    @Override
+    public List<Product> getProductsInBrandAndCategory(Long categoryId, Long brandId) {
+        return productRepository.getProductsInBrandAndCategory(categoryId, brandId);
+    }
+
+    @Override
     public List<Product> filterHighPrice() {
         return productRepository.filterHighPrice();
     }
@@ -304,9 +370,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductsForPerCategoryByCategoryId(Category category, int pageNo, int pageSize) {
+    public List<Product> getProductsForPerCategoryByCategory(Category category, int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         return productRepository.findProductsByCategoryId(category.getId(), pageable);
+    }
+
+    @Override
+    public List<Product> getProductsForPerCategoryByCategoryID(Long categoryID, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        return productRepository.findProductsByCategoryId(categoryID, pageable);
     }
 
     @Override
@@ -319,5 +391,9 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getProductsForPerCategoryByCategoryIdOrderByCostPriceAsc(Category category, int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         return productRepository.findProductsByCategoryIdOrderByCostPriceAsc(category.getId(), pageable);
+    }
+
+    public List<Product> search(String s) {
+        return productRepository.search(s);
     }
 }
