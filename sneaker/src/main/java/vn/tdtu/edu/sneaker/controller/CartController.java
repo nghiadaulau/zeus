@@ -59,6 +59,17 @@ public class CartController {
         }
         return "redirect:/auth/login";
     }
+    @PostMapping("/add")
+    public String addToCart(@RequestParam Long productId, @RequestParam Integer quantity){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(!authentication.getAuthorities().toString().equals("[ROLE_ANONYMOUS]")){
+            Product product = productService.getProductById(productId);
+            Customer customer = customerService.findByUsername(authentication.getName());
+            cartService.addItemToCart(product, quantity,customer);
+            return "redirect:/cart/";
+        }
+        return "redirect:/auth/login";
+    }
     @GetMapping("/delete/{id}")
     public String deleteFromCart(@PathVariable("id") Long productID){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -70,8 +81,9 @@ public class CartController {
         }
         return "redirect:/auth/login";
     }
+
     @PostMapping("/update")
-    public String addToCart(@RequestBody Map<String, String> body){
+    public String update(@RequestBody Map<String, String> body){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(!authentication.getAuthorities().toString().equals("[ROLE_ANONYMOUS]")){
             Product product = productService.getProductById(Long.valueOf(body.get("productId")));
