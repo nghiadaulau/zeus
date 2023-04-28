@@ -65,16 +65,17 @@
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             <li><a th:href="@{/home-page}" class="active">Home</a></li>
-                            <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
-                                <ul role="menu" class="sub-menu">
-                                    <li><a th:unless="${username}" th:href="@{/shop/}">Products</a></li>
-                                    <li><a th:unless="${username}" th:href="@{'/auth/login'}">Login</a></li>
-                                    <li><a th:if="${username}" th:href="@{/check-out/}">Checkout</a></li>
-                                    <li><a th:if="${username}" th:href="@{/cart/}">Cart</a></li>
-                                </ul>
+                            <li class="dropdown"><a href="#">Shop</a>
+<!--                                <i class="fa fa-angle-down"></i>-->
+<!--                                <ul role="menu" class="sub-menu">-->
+<!--                                    <li><a th:unless="${username}" th:href="@{/shop/}">Products</a></li>-->
+<!--                                    <li><a th:unless="${username}" th:href="@{'/auth/login'}">Login</a></li>-->
+<!--                                    <li><a th:if="${username}" th:href="@{/check-out/}">Checkout</a></li>-->
+<!--                                    <li><a th:if="${username}" th:href="@{/cart/}">Cart</a></li>-->
+<!--                                </ul>-->
                             </li>
-                            <li><a th:href="@{/blog/}">Blog List</a></li>
-                            <li><a th:href="@{/contact/}">Contact</a></li>
+<!--                            <li><a th:href="@{/blog/}">Blog List</a></li>-->
+                            <li><a th:href="@{#footer}">Contact</a></li>
                         </ul>
                     </div>
                 </div>
