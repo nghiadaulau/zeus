@@ -187,21 +187,26 @@
                         <div class="carousel-inner">
                             <div class="item active">
                                 <th:block th:each="product,iterStat : ${recommended}" th:if="${iterStat.index < 3}">
-                                <div class="col-sm-4">
-                                    <div class="product-image-wrapper">
-                                        <div class="single-products">
-                                            <div class="productinfo text-center product_filter">
-                                                <img th:src="@{'data:image/png;base64,' + ${product.image}}" alt=""/>
-                                                <h2>[[${product.name}]]</h2>
-                                                <p>Brand: [[${product.brand.name}]]</p>
-                                                <p>Category: [[${product.category.name}]]</p>
-                                                <a th:href="@{'/product/product-details/'+${product.id}}" class="btn btn-default add-to-cart"><i class="fa fa-expand"></i>Details</a>
-                                                <a th:href="@{'/cart/add/'+${product.id}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    <div class="col-sm-4">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <a th:href="@{'/product/product-details/'+${product.id}}"> <img
+                                                            th:src="@{'data:image/png;base64,' + ${product.getImage()}}"
+                                                            alt=""/></h2></a>
+                                                    <a th:href="@{'/product/product-details/'+${product.id}}"><h2
+                                                            th:text="${#strings.replace(#numbers.formatDecimal(product.getCostPrice(), 0, 'COMMA',2,'POINT'), '.00', '$')}"></h2>
+                                                    </a>
+                                                    <a th:href="@{'/product/product-details/'+${product.id}}"><p
+                                                            th:text="${product.getName()}"></p></a>
+                                                    <a th:href="@{'/product/product-details/'+${product.id}}"
+                                                       class="btn btn-default add-to-cart"><i class="fa fa-expand"></i>Details</a>
+                                                    <a th:href="@{'/cart/add/'+${product.id}}"
+                                                       class="btn btn-default add-to-cart"><i
+                                                            class="fa fa-shopping-cart"></i>Add to cart</a></div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
                                 </th:block>
                             </div>
                             <div class="item">
@@ -209,14 +214,16 @@
                                     <div class="col-sm-4">
                                         <div class="product-image-wrapper">
                                             <div class="single-products">
-                                                <div class="productinfo text-center product_filter">
-                                                    <img th:src="@{'data:image/png;base64,' + ${product.image}}" alt=""/>
-                                                    <h2>[[${product.name}]]</h2>
-                                                    <p>Brand: [[${product.brand.name}]]</p>
-                                                    <p>Category: [[${product.category.name}]]</p>
-                                                    <a th:href="@{'/product/product-details/'+${product.id}}" class="btn btn-default add-to-cart"><i class="fa fa-expand"></i>Details</a>
-                                                    <a th:href="@{'/cart/add/'+${product.id}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                </div>
+                                                <div class="productinfo text-center">
+                                                    <img th:src="@{'data:image/png;base64,' + ${product.getImage()}}"
+                                                         alt=""/>
+                                                    <h2 th:text="${#strings.replace(#numbers.formatDecimal(product.getCostPrice(), 0, 'COMMA',2,'POINT'), '.00', '$')}"></h2>
+                                                    <p th:text="${product.getName()}"></p>
+                                                    <a th:href="@{'/product/product-details/'+${product.id}}"
+                                                       class="btn btn-default add-to-cart"><i class="fa fa-expand"></i>Details</a>
+                                                    <a th:href="@{'/cart/add/'+${product.id}}"
+                                                       class="btn btn-default add-to-cart"><i
+                                                            class="fa fa-shopping-cart"></i>Add to cart</a></div>
                                             </div>
                                         </div>
                                     </div>
