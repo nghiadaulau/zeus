@@ -8,6 +8,9 @@
     <link th:href="@{/css/information.css}" rel="stylesheet">
 </head>
 <style>
+    input {
+        width: 100% !important;
+    }
     .hKVaPN:hover {
         background-color: lightblue;
         text-align: center;
@@ -32,9 +35,15 @@
                     <div class="profile-userpic">
                         <img th:src="@{'/images/user/'+${customerDTO.image}}" required="required" id="newImage"
                              class="img-responsive" alt="" src="">
+                        <div style="display: flex; justify-content: center; text-align: center">
+                            <label for="inputTag" style="cursor: pointer">
+                                Select Image<br>
+                                <i class="fa fa-2x fa-camera"></i>
+                                <input type="file" style="display: none" id="inputTag" title="Select new avatar" name="image" accept="image/*">
+                            </label>
+                            <span id="imageName"></span>
+                        </div>
                     </div>
-                    <input type="file" id="imageInput" title="Select new avatar" name="image" accept="image/*">
-                    <button type="submit" class="btn btn-default">Upload</button>
                 </form>
                 <!-- END SIDEBAR USERPIC -->
                 <!-- SIDEBAR USER TITLE -->
@@ -71,62 +80,94 @@
         <div class="col-md-8 panel panel-default" style="background-color: white;">
             <div id="London" class="tabcontent">
                 <h3>Thông tin tổng quan</h3>
-                <div class="form-horizontal">
-                    <span>First Name: [[${customerDTO.firstName}]]</span>
+                <hr/>
+                <div>
+                    <div class="form-horizontal col-sm-6">
+                        <span>First Name: [[${customerDTO.firstName}]]</span>
+                        <hr/>
+                    </div>
+                    <div class="form-horizontal col-sm-6">
+                        <span>Last Name: [[${customerDTO.lastName}]]</span>
+                        <hr/>
+                    </div>
                 </div>
-                <div class="form-horizontal">
-                    <span>Last Name: [[${customerDTO.lastName}]]</span>
+                <div>
+                    <div class="form-horizontal col-sm-6">
+                        <span>Phone: [[${customerDTO.phoneNumber}]]</span>
+                        <hr/>
+                    </div>
+                    <div class="form-horizontal col-sm-6">
+                        <span>Email: [[${customerDTO.email}]]</span>
+                        <hr/>
+                    </div>
                 </div>
-                <div class="form-horizontal">
-                    <span>Phone: [[${customerDTO.phoneNumber}]]</span>
+                <div>
+                    <div class="form-horizontal col-sm-6">
+                        <span>Address: [[${customerDTO.address}]]</span>
+                        <hr/>
+                    </div>
+                    <div class="form-horizontal col-sm-6">
+                        <span>City: [[${customerDTO.city}]]</span>
+                        <hr/>
+                    </div>
                 </div>
-                <div class="form-horizontal">
-                    <span>Email: [[${customerDTO.email}]]</span>
-                </div>
-                <div class="form-horizontal">
-                    <span>Address: [[${customerDTO.address}]]</span>
-                </div>
-                <div class="form-horizontal">
-                    <span>City: [[${customerDTO.city}]]</span>
-                </div>
-                <div class="form-horizontal">
-                    <span>Country: [[${customerDTO.country}]]</span>
-                </div>
-                <div class="form-horizontal">
-                    <span>Quantity bills: [[${orders.size()}]]</span>
+                <div>
+                    <div class="form-horizontal col-sm-6">
+                        <span>Country: [[${customerDTO.country}]]</span>
+                        <hr/>
+                    </div>
+                    <div class="form-horizontal col-sm-6">
+                        <span>Quantity bills: [[${orders.size()}]]</span>
+                        <hr/>
+                    </div>
                 </div>
             </div>
             <div id="Paris" class="tabcontent">
                 <h3>Cập nhật tài khoản</h3>
                 <form th:action="@{/auth/update}" th:object="${customerDTO}" method="post">
                     <div class="col-sm-7">
-                        <label for="firstName"> First Name:
+                        <div>
+                            <label for="firstName"> First Name:
+                            </label>
                             <input id="firstName" class="input-group" width="100%" type="text" required
                                    th:field="*{firstName}" placeholder="First name"/>
-                        </label>
-                        <label for="lastName"> Last Name:
+                        </div>
+                        <div>
+                            <label for="lastName"> Last Name:
+                            </label>
                             <input id="lastName" class="input-group" width="100%" type="text" required
                                    th:field="*{lastName}" placeholder="Last name"/>
-                        </label>
-                        <label for="phone"> Phone number:
-                            <input id="phone" class="input-group" width="100%" type="text" required
-                                   th:field="*{phoneNumber}" placeholder="Phone number"/>
-                        </label>
-                        <label for="Country"> Country:
-                            <input id="Country" class="input-group" width="100%" type="text" required
-                                   th:field="*{country}" placeholder="Country"/>
-                        </label>
-                        <label for="city"> City:
-                            <input id="city" class="input-group" width="100%" type="text" required th:field="*{city}"
-                                   placeholder="City"/>
-                        </label>
-                        <label for="address"> Address:
-                            <input id="address" class="input-group" width="100%" type="text" required
-                                   th:field="*{address}" placeholder="Address"/>
-                        </label>
-                        <div>
-                            <button class="btn btn-primary" type="submit">Change</button>
                         </div>
+                       <div>
+                           <label for="phone"> Phone number:
+
+                           </label>
+                           <input id="phone" class="input-group" width="100%" type="text" required
+                                  th:field="*{phoneNumber}" placeholder="Phone number"/>
+                       </div>
+                     <div>
+                         <label for="Country"> Country:
+
+                         </label>
+                         <input id="Country" class="input-group" width="100%" type="text" required
+                                th:field="*{country}" placeholder="Country"/>
+                     </div>
+                    <div>
+                        <label for="city"> City:
+                        </label>
+                        <input id="city" class="input-group" width="100%" type="text" required th:field="*{city}"
+                               placeholder="City"/>
+                    </div>
+                    <div>
+                        <label for="address"> Address:
+
+                        </label>
+                        <input id="address" class="input-group" width="100%" type="text" required
+                               th:field="*{address}" placeholder="Address"/>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" type="submit">Change</button>
+                    </div>
                     </div>
                     <div class="col-sm-5">
                         <div id="map" style="width: 100%;height: 300px"></div>
@@ -206,7 +247,17 @@
 
 <script type="text/javascript" th:src="@{/js/information.js}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" async defer></script>
+<script>
+    let input = document.getElementById("inputTag");
+    let imageName = document.getElementById("imageName")
 
+    input.addEventListener("change", ()=>{
+        let inputImage = document.querySelector("input[type=file]").files[0];
+
+        imageName.innerText = inputImage.name;
+        $("#upload").click();
+    })
+</script>
 </body>
 
 </html>
