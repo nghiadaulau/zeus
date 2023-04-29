@@ -7,7 +7,7 @@
 </header>
 
 <section id="cart_items">
-  <div class="container">
+  <div id="checkout_page" class="container animate">
     <div class="shopper-informations">
         <div class="shopper-info">
           <form th:action="@{/check-out/order}" method="post" th:object="${customerDTO}">
@@ -32,7 +32,7 @@
     </div>
 
     <div class="table-responsive cart_info">
-      <table class="table table-condensed">
+      <table class="table table-condensed check_out_table">
         <thead>
         <tr class="cart_menu">
           <td class="image">Item</td>

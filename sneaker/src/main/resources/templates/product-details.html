@@ -12,12 +12,12 @@
                 <div class="tab-content">
                     <div class="product-details" th:object="${product}"><!--product-details-->
                         <div class="col-sm-5">
-                            <div class="view-product productinfo">
+                            <div class="view-product animate">
                                 <img th:src="'data:image/png;base64,' + ${product.getImage()}" alt=""/>
                             </div>
                         </div>
                         <div class="col-sm-7">
-                            <div class="product-information"><!--/product-information-->
+                            <div class="product-information animate"><!--/product-information-->
                                 <img src="/images/product-details/new.jpg" class="new-arrival" alt=""/>
                                 <h2 th:text="${product.getName()}"></h2>
                                 <p th:text="${'PID:'+product.getId()}"></p>
@@ -105,7 +105,7 @@
                                                     <div class="productinfo text-center">
                                                         <img th:src="@{'data:image/png;base64,' + ${product.image}}"
                                                              alt=""/>
-                                                        <h2>[[${product.name}]]</h2>
+                                                        <h2 class="recommended_slide" >[[${product.name}]]</h2>
                                                         <p>Brand: [[${product.brand.name}]]</p>
                                                         <p>Category: [[${product.category.name}]]</p>
                                                         <a th:href="@{'/product/product-details/'+${product.id}}"
@@ -129,7 +129,7 @@
                                                     <div class="productinfo text-center">
                                                         <img th:src="@{'data:image/png;base64,' + ${product.image}}"
                                                              alt=""/>
-                                                        <h2>[[${product.name}]]</h2>
+                                                        <h2 class="recommended_slide" >[[${product.name}]]</h2>
                                                         <p>Brand: [[${product.brand.name}]]</p>
                                                         <p>Category: [[${product.category.name}]]</p>
                                                         <a th:href="@{'/product/product-details/'+${product.id}}"

@@ -10,12 +10,15 @@ body {
 /* Profile sidebar */
 .profile-sidebar {
     padding: 20px 0 0 0;
-    background: #fff;
+    background: #ff921d;
+    border-top-left-radius: 50px;
 }
 
 .profile-userpic img {
     float: none;
     margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
     width: 50%;
     height: 50%;
     -webkit-border-radius: 50% !important;
@@ -29,8 +32,8 @@ body {
 }
 
 .profile-usertitle-name {
-    color: #5a7391;
-    font-size: 16px;
+    color: #050513;
+    font-size: 22px;
     font-weight: 600;
     margin-bottom: 7px;
 }
@@ -46,21 +49,26 @@ body {
 .profile-usermenu {
     margin-top: 30px;
 }
-
+.list_ops {
+    margin-bottom: 30px;
+}
 .profile-usermenu ul li {
-    border-bottom: 1px solid #f0f4f7;
 }
 
 .profile-usermenu ul li:last-child {
-    border-bottom: none;
 }
-
-.profile-usermenu ul li a {
-    color: #93a3b5;
-    font-size: 14px;
+#imageInput {
+    color: #FFF;
     font-weight: 400;
 }
-
+.profile-usermenu ul li a {
+    color: #404040;
+    font-size: 15px;
+    font-weight: 500;
+}
+#firstName, #lastName, #phone, #Country, #city, #address {
+    margin: 5px 5px 5px 5px;
+}
 .profile-usermenu ul li a i {
     margin-right: 8px;
     font-size: 14px;
@@ -68,18 +76,18 @@ body {
 
 .profile-usermenu ul li a:hover {
     background-color: #fafcfd;
-    color: #5b9bd1;
+    color: #000;
 }
 
 .profile-usermenu ul li.active {
-    border-bottom: none;
 }
 
 .profile-usermenu ul li.active a {
-    color: #5b9bd1;
-    background-color: #f6f9fb;
-    border-left: 2px solid #5b9bd1;
+    color: #000000;
+    background-color: #ffdcb9;
     margin-left: -2px;
+    font-size: 15px;
+    font-weight: 500;
 }
 
 .img-responsive {
