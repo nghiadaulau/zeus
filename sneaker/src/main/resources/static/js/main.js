@@ -64,7 +64,7 @@ $('.productinfo p').each(function (index, element) {
 // $(".oEqkPY:first").addClass("active brand-default-open");
 // $(".AZlYga:first").addClass("active category-default-open");
 let storedData = localStorage.getItem("data");
-let data = storedData ? JSON.parse(storedData) : {};
+let data = storedData ? JSON.parse(storedData) : {'brand': 0, 'category': 0};
 // Category buttons
 $('.AZlYga').click(function () {
     // $(this).parent().parent().find('.active').removeClass("active");
@@ -117,7 +117,7 @@ $('.oEqkPY').click(function () {
             window.location = `/shop/filter?brand=${data['brand']}&category=${data['category']}`;
         },
         error: function () {
-            // Code to handle error
+            window.location = `/shop/filter?brand=0&category=0`;
         }
     });
 })
@@ -145,7 +145,7 @@ $(".zBgVhp").click(function () {
             window.location = `/shop/filter?brand=${data['brand']}&category=${data['category']}&sortBy=${data['sortBy']}`;
         },
         error: function () {
-            // Code to handle error
+            window.location = `/shop/filter?brand=0&category=0`;
         }
     });
 })
@@ -173,7 +173,7 @@ $(".bhinFw").click(function () {
             window.location = `/shop/filter?brand=${data['brand']}&category=${data['category']}&sortBy=${data['sortBy']}`;
         },
         error: function () {
-            // Code to handle error
+            window.location = `/shop/filter?brand=0&category=0`;
         }
     });
 })
@@ -198,7 +198,7 @@ $(".search_box").on("keypress","input", function (e) {
                 window.location = `/shop/search?keySearch=${data_for_search['keySearch']}`;
             },
             error: function () {
-                // Code to handle error
+                window.location = `/shop/filter?brand=0&category=0`;
             }
         });
     }
@@ -218,7 +218,7 @@ $(".OewQPG").click(function () {
             window.location = `/shop/search?keySearch=${data_for_search['keySearch']}&sortBy=${data_for_search['sortBy']}`;
         },
         error: function () {
-            // Code to handle error
+            window.location = `/shop/filter?brand=0&category=0`;
         }
     });
 })
@@ -238,7 +238,7 @@ $(".xxEGwG").click(function () {
             window.location = `/shop/search?keySearch=${data_for_search['keySearch']}&sortBy=${data_for_search['sortBy']}`;
         },
         error: function () {
-            // Code to handle error
+            window.location = `/shop/filter?brand=0&category=0`;
         }
     });
 })
