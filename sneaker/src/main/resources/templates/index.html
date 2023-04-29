@@ -27,7 +27,8 @@
                                 <button type="button" class="btn btn-default get">Get it now</button>
                             </div>
                             <div class="col-sm-6">
-                                <img th:src="@{/images/home/girl1.jpg}" class="girl img-responsive slider_img" alt="" src=""/>
+                                <img th:src="@{/images/home/girl1.jpg}" class="girl img-responsive slider_img" alt=""
+                                     src=""/>
                                 <img th:src="@{/images/home/pricing.png}" class="pricing" alt="" src=""/>
                             </div>
                         </div>
@@ -39,7 +40,8 @@
                                 <button type="button" class="btn btn-default get">Get it now</button>
                             </div>
                             <div class="col-sm-6">
-                                <img th:src="@{/images/home/girl2.jpg}" class="girl img-responsive slider_img" alt="" src=""/>
+                                <img th:src="@{/images/home/girl2.jpg}" class="girl img-responsive slider_img" alt=""
+                                     src=""/>
                                 <img th:src="@{/images/home/pricing.png}" class="pricing" alt="" src=""/>
                             </div>
                         </div>
@@ -48,11 +50,13 @@
                             <div class="col-sm-6">
                                 <h1><span>SNEAKER</span>LUXE</h1>
                                 <h2>Elevate your sneaker game with SneakerLuxe.</h2>
-                                <p>Step up your footwear game with SneakerLuxe's refined sophistication and prestige.</p>
+                                <p>Step up your footwear game with SneakerLuxe's refined sophistication and
+                                    prestige.</p>
                                 <button type="button" class="btn btn-default get">Get it now</button>
                             </div>
                             <div class="col-sm-6">
-                                <img th:src="@{/images/home/girl3.jpg}" class="girl img-responsive slider_img" alt="" src=""/>
+                                <img th:src="@{/images/home/girl3.jpg}" class="girl img-responsive slider_img" alt=""
+                                     src=""/>
                                 <img th:src="@{/images/home/pricing.png}" class="pricing" alt="" src=""/>
                             </div>
                         </div>
@@ -93,9 +97,11 @@
                                     </div>
                                     <div class="product-overlay">
                                         <div class="overlay-content">
-                                            <a th:href="@{'/product/product-details/'+${product.id}}"><h2>$56</h2></a>
-                                            <a th:href="@{'/product/product-details/'+${product.id}}"><p>Easy Polo Black
-                                                Edition</p></a>
+                                            <a th:href="@{'/product/product-details/'+${product.id}}">
+                                                <h2  th:text="${#strings
+                        .replace(#numbers.formatDecimal(product.getCostPrice(), 0, 'COMMA',2,'POINT'), '.00', '$')}"></h2>
+                                            </a>
+                                            <a th:href="@{'/product/product-details/'+${product.id}}"><p th:text="${product.getName()}"></p></a>
                                             <a th:href="@{'/product/product-details/'+${product.id}}"
                                                class="btn btn-default add-to-cart"><i
                                                     class="fa fa-expand"></i>Details</a>
@@ -115,7 +121,7 @@
                         <ul class="nav nav-tabs" style="background: #40403E!important; color: #333333!important;">
                             <li class="active">
                                 <a th:href="'#' + ${categories.get(0).id}" data-toggle="tab"
-                                                  th:text="${categories.get(0).name}"></a></li>
+                                   th:text="${categories.get(0).name}"></a></li>
                             <th:block th:each="category, iterStat : ${categories}" th:if="${!iterStat.first}">
                                 <li><a th:href="'#' + ${category.id}" data-toggle="tab"
                                        th:text="${category.getName()}"></a></li>
