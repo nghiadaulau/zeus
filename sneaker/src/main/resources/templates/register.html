@@ -11,19 +11,19 @@
 <header th:replace="~{/commons/header}">
 </header>
 </section><!--/form-->
-<section id="form"><!--form-->
+<section id="form" class="animate" ><!--form-->
   <div class="container">
     <div class="row">
       <div class="login-page">
         <div class="form">
           <form class="login-form" th:action="@{/auth/register}" th:object="${customerDTO}" method="post">
             <div class="text-center">
-              <h1>ĐĂNG KÝ</h1>
+              <h1 class="login_title">ĐĂNG KÝ</h1>
             </div>
-            <input id="register-name" required type="text" th:field="*{username}" placeholder="Username"/>
-            <input id="register-email" required type="email" th:field="*{email}" placeholder="Email Address"/>
-            <input id="register-pwd" required type="password" th:field="*{password}" placeholder="Password"/>
-            <input id="login-pwd" required type="password" th:field="*{repeatPassword}" placeholder="Repeat Password"/>
+            <input id="register-name" class="login_input login-pwd" required type="text" th:field="*{username}" placeholder="Username"/>
+            <input id="register-email" class="login_input login-pwd" required type="email" th:field="*{email}" placeholder="Email Address"/>
+            <input id="register-pwd" class="login_input login-pwd" required type="password" th:field="*{password}" placeholder="Password"/>
+            <input id="login-pwd" class="login_input login-pwd" required type="password" th:field="*{repeatPassword}" placeholder="Repeat Password"/>
             <div class="row">
               <div th:if = "${errors}" class="alert alert-danger text-center">
                 [[${errors}]]

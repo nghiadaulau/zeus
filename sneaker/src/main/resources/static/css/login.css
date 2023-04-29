@@ -1,7 +1,7 @@
 .login-page {
     width: 40%;
     padding: 8% 0 0;
-    margin: auto;
+    margin-left: 4%;
 }
 
 .form .login-form input,
@@ -70,7 +70,7 @@
 .form .message a:hover {
     color: #fdb45e;
 }
-#login_title {
+.login_title {
     color: #FE980F;
     text-shadow: 3px 3px 3px #000000;
 }
@@ -95,33 +95,33 @@
     animation-name: fadeIn;
     animation-fill-mode: backwards;
 }
-#login-name, #login-pwd {
+.login-name, .login-pwd {
     font-size: 18px;
     text-shadow: 3px 3px 3px #D3D3D3;
 }
-#login-name:hover {
-    font-size: 18px;
-    text-shadow: 3px 3px 3px #D3D3D3;
-    transform: scale(1.02);
-    transition: transform 0.1s ease-in-out;
-}
-#login-pwd:hover {
+.login-name:hover {
     font-size: 18px;
     text-shadow: 3px 3px 3px #D3D3D3;
     transform: scale(1.02);
     transition: transform 0.1s ease-in-out;
 }
-#login-name, #login-pwd::placeholder {
+.login-pwd:hover {
+    font-size: 18px;
+    text-shadow: 3px 3px 3px #D3D3D3;
+    transform: scale(1.02);
+    transition: transform 0.1s ease-in-out;
+}
+.login-name, .login-pwd::placeholder {
     font-size: 18px;
     text-shadow: 3px 3px 3px #D3D3D3;
 }
-#login-btn {
+.login-btn {
     color: #FE980F;
     font-size: 20px;
     font-weight: 400;
     box-shadow: 6px 6px 3px #000000;
 }
-#login-btn:hover {
+.login-btn:hover {
     color: #fdb45e;
 }
 .login_input {
