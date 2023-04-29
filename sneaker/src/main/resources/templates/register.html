@@ -18,7 +18,7 @@
         <div class="form">
           <form class="login-form" th:action="@{/auth/register}" th:object="${customerDTO}" method="post">
             <div class="text-center">
-              <h1>ĐĂNG KÝ</h1>
+              <h1 style="color: #FE980F">ĐĂNG KÝ</h1>
             </div>
             <input id="register-name" required type="text" th:field="*{username}" placeholder="Username"/>
             <input id="register-email" required type="email" th:field="*{email}" placeholder="Email Address"/>

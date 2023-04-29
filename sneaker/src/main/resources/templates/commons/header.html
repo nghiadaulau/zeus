@@ -36,7 +36,7 @@
                 <div class="col-sm-8">
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
-                            <li><a th:if="${username}" th:href="@{'/auth/account'}"><i class="fa fa-user"></i>Information|[[${username}]]</a></li>
+                            <li><a th:if="${username}" th:href="@{'/auth/account'}"><i class="fa fa-user"></i>[[${username}]]</a></li>
                             <li><a th:if="${username}" th:href="@{/check-out/}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
                             <li><a th:if="${username}" th:href="@{/cart/}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
                             <li><a th:if="${username}" th:href="@{'/auth/logout'}"><i class="fa fa-sign-out"></i> Logout</a></li>
@@ -63,10 +63,10 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a th:href="@{/home-page}">Home</a></li>
-                            <li class="dropdown"><a href="/shop/">Shop</a>
+                            <li><a th:href="@{/home-page}" onclick="setActive('home', this)" class="nav-e">Home</a></li>
+                            <li><a href="/shop/" onclick="setActive('shop', this)" class="nav-e">Shop</a>
                             </li>
-                            <li><a th:href="@{#footer}">Contact</a></li>
+                            <li><a th:href="@{#footer}" onclick="setActive('contact', this)" class="nav-e">Contact</a></li>
                         </ul>
                     </div>
                 </div>

@@ -242,3 +242,19 @@ $(".xxEGwG").click(function () {
         }
     });
 })
+
+// Get the active link's index from local storage, or default to 0
+const activeLinkIndex = localStorage.getItem('activeLinkIndex') || 0;
+
+// Add the "active" class to the active link
+$('.mainmenu .nav li a').eq(activeLinkIndex).addClass('active');
+
+// Handle click events on the navigation links
+$('.mainmenu .nav li a').click(function() {
+    // Remove the "active" class from all links
+    $('.mainmenu .nav li a').removeClass('active');
+    // Add the "active" class to the clicked link
+    $(this).addClass('active');
+    // Store the active link's index in local storage
+    localStorage.setItem('activeLinkIndex', $(this).parent().index());
+});
