@@ -106,7 +106,7 @@ $('.oEqkPY').click(function () {
                 if (data['brand'] === '0' || data['category'] === '0') {
                     window.location = `/shop/filter?brand=${data['brand']}&category=${data['category']}`;
                 } else {
-                    window.location = `/shop/filter?brand=${data['brand']}&category=${data['category']}`;
+                    window.location = `/shop/filter?brand=${data['brand']}`;
                 }
             } else {
                 window.location = `/shop/filter?brand=${data['brand']}`;
