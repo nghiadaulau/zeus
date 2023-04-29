@@ -26,7 +26,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setPassword(customerDTO.getPassword());
         customer.setEmail(customerDTO.getEmail());
         customer.setImage("avatar.jpg");
-        customer.setRoles(Collections.singletonList(repository.findByName("CUSTOMER")));
+        customer.setRoles(Collections.singletonList(repository.findByName("USER")));
         Customer customerSave = customerRepository.save(customer);
         return mapperDTO(customerSave);
     }
