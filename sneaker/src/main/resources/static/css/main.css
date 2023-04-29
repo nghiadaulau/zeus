@@ -1655,6 +1655,7 @@ h2.title {
   background-repeat: no-repeat;
   background-attachment: fixed;
   padding-bottom: 50px;
+  transition-duration: 0.3s;
 }
 #form:hover {
   box-shadow: 15px 15px #2a2a2a;
