@@ -7,153 +7,193 @@
 </header>
 
 <section id="cart_items">
-  <div class="container">
-    <div class="shopper-informations">
-        <div class="shopper-info">
-          <form th:action="@{/check-out/order}" method="post" th:object="${customerDTO}">
-            <p>Customer Information</p>
-            <input type="text" th:field="*{username}" disabled placeholder="User Name">
-            <input type="text" th:field="*{firstName}" required placeholder="First Name">
-            <input type="text" th:field="*{lastName}" required placeholder="Last Name">
-            <input type="text" th:field="*{phoneNumber}" required placeholder="Phone number">
-            <input type="email" th:field="*{email}" required placeholder="Email">
-            <p>Bill To</p>
-            <input type="text" th:field="*{country}" required placeholder="Country">
-            <input type="text" th:field="*{city}" required placeholder="City">
-            <input type="text" th:field="*{address}" required placeholder="Address">
-            <p>Shipping Order</p>
-            <textarea th:field="*{messageOrder}" placeholder="Notes about your order, Special Notes for Delivery" rows="16"></textarea>
-            <button type="submit" hidden="hidden" id="btnSubmit"></button>
-        </form>
+    <div class="container">
+        <div class="row" style="margin: 5px 0">
+            <div class="alert alert-info text-center" id="messagePay"
+                 th:text="${message}" th:if="${message}">
+            </div>
         </div>
-      </div>
-    <div class="review-payment">
-      <h2>Review & Payment</h2>
-    </div>
+        <div class="row" style="margin: 10px 0">
+            <div class="shopper-informations">
+                <div class="shopper-info">
+                    <form th:action="@{/check-out/order}" method="post" th:object="${customerDTO}">
+                        <div class="col-sm-3">
+                            <p>Customer Information</p>
+                            <input type="text" th:field="*{username}" disabled placeholder="User Name">
+                            <input type="text" th:field="*{firstName}" required placeholder="First Name">
+                            <input type="text" th:field="*{lastName}" required placeholder="Last Name">
+                            <input type="text" th:field="*{phoneNumber}" required placeholder="Phone number">
+                            <input type="email" th:field="*{email}" required placeholder="Email">
+                        </div>
+                        <div class="col-sm-5">
+                            <p>Bill To</p>
+                            <input type="text" th:field="*{country}" required placeholder="Country">
+                            <input type="text" th:field="*{city}" required placeholder="City">
+                            <input type="text" th:field="*{address}" required placeholder="Address">
+                        </div>
+                        <div class="col-sm-4">
+                            <p>Shipping Order</p>
+                            <textarea th:field="*{messageOrder}"
+                                      placeholder="Notes about your order, Special Notes for Delivery"
+                                      rows="16" style="border-radius: 5px"></textarea>
+                            <button type="submit" hidden="hidden" id="btnSubmit"></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-    <div class="table-responsive cart_info">
-      <table class="table table-condensed">
-        <thead>
-        <tr class="cart_menu">
-          <td class="image">Item</td>
-          <td class="description"></td>
-          <td class="price">Price</td>
-          <td class="quantity">Quantity</td>
-          <td class="total">Total</td>
-        </tr>
-        </thead>
-        <tbody>
-        <th:block th:each="cartItem : ${cartItems}">
-          <tr>
-            <td class="cart_product">
-              <a href=""><img width="100px" th:src="@{'data:image/png;base64,' + ${cartItem.product.getImage()}}" alt="" src=""></a>
-            </td>
-            <td class="cart_description">
-              <h4><a th:href="@{'/product/product-details/'+${cartItem.product.id}}"> [[${cartItem.product.name}]]</a></h4>
-              <p>Product Id: [[${cartItem.product.id}]]</p>
-            </td>
-            <td class="cart_price">
-              <p>$[[${cartItem.product.getCostPrice()}]]</p>
-            </td>
-            <td class="cart_quantity">
-              <div class="cart_quantity_button">
-                <input class="cart_quantity_input quantity" type="number" th:id="${cartItem.product.id}" th:value="${cartItem.quantity}" min="1">
-              </div>
-            </td>
-            <td class="cart_total">
-              <p class="cart_total_price total_item" th:id="${cartItem.getProduct().costPrice}">$[[${cartItem.getTotalPrice()}]]</p>
-            </td>
-          </tr>
+        <div th:if="${cartItems.size()>0}">
+            <div class="review-payment">
+                <h2>Review & Payment</h2>
+            </div>
 
-        </th:block>
-        <tr>
-          <td colspan="4">&nbsp;</td>
-          <td colspan="2">
-            <table class="table table-condensed total-result">
-              <tr>
-                <td>Cart Sub Total</td>
-                <td id="sub_total_prices">$[[${cart.totalPrices}]]</td>
-              </tr>
-              <tr>
-                <td>Exo Tax</td>
-                <td>$0</td>
-              </tr>
-              <tr class="shipping-cost">
-                <td>Shipping Cost</td>
-                <td>Free</td>
-              </tr>
-              <tr>
-                <td>Total</td>
-                <td><span id="total_prices">$[[${cart.totalPrices}]]</span></td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="payment-options pull-right">
+            <div class="table-responsive cart_info">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr class="cart_menu">
+                        <td class="image">Item</td>
+                        <td class="description"></td>
+                        <td class="price">Price</td>
+                        <td class="quantity">Quantity</td>
+                        <td class="total">Total</td>
+                        <td></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="cartItem : ${cartItems}">
+                        <tr>
+                            <td class="cart_product">
+                                <a href=""><img width="100px"
+                                                th:src="@{'data:image/png;base64,' + ${cartItem.product.getImage()}}"
+                                                alt=""
+                                                src=""></a>
+                            </td>
+                            <td class="cart_description">
+                                <h4><a th:href="@{'/product/product-details/'+${cartItem.product.id}}">
+                                    [[${cartItem.product.name}]]</a></h4>
+                                <p>Product Id: [[${cartItem.product.id}]]</p>
+                            </td>
+                            <td class="cart_price">
+                                <p>$[[${cartItem.product.getCostPrice()}]]</p>
+                            </td>
+                            <td class="cart_quantity">
+                                <div class="cart_quantity_button">
+                                    <input class="cart_quantity_input quantity" type="number"
+                                           th:id="${cartItem.product.id}"
+                                           th:value="${cartItem.quantity}" min="1">
+                                </div>
+                            </td>
+                            <td class="cart_total">
+                                <p class="cart_total_price total_item" th:id="${cartItem.getProduct().costPrice}"
+                                   th:text="'$'+${#numbers.formatDecimal(cartItem.getTotalPrice(),0,'COMMA', 0,'POINT')}"></p>
+                            </td>
+                            <!--                        <td class="cart_delete">-->
+                            <!--                            <a class="cart_quantity_delete" th:href="@{'/cart/delete/'+${cartItem.product.id}}"><i-->
+                            <!--                                    class="fa fa-times"></i></a>-->
+                            <!--                        </td>-->
+                        </tr>
+
+                    </th:block>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                        <td colspan="2">
+                            <table class="table table-condensed total-result">
+                                <tr>
+                                    <td>Cart Sub Total</td>
+                                    <td id="sub_total_prices">$[[${cart.totalPrices}]]</td>
+                                </tr>
+                                <tr>
+                                    <td>Exo Tax</td>
+                                    <td>$0</td>
+                                </tr>
+                                <tr class="shipping-cost">
+                                    <td>Shipping Cost</td>
+                                    <td>Free</td>
+                                </tr>
+                                <tr>
+                                    <td>Total</td>
+                                    <td><span id="total_prices">$[[${cart.totalPrices}]]</span></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="payment-options pull-right">
       <span>
           <label><input type="radio" checked name="check_pay[]" value="cod"> COD</label>
       </span>
-      <span>
+                <span>
           <label><input type="radio" name="check_pay[]" value="paypal"> Paypal</label>
       </span>
-      <br>
-      <div>
-        <button class="btn btn-default check_out pull-right" id="btnBay">Pay</button>
-      </div>
+                <br>
+                <div>
+                    <button class="btn btn-default check_out pull-right" id="btnBay">Pay</button>
+                </div>
+            </div>
+
+        </div>
     </div>
-    <div class="alert alert-success text-center pull-right" id="messagePay"
-         th:text="${message}" th:if="${message}">
-    </div>
-  </div>
+
 </section> <!--/#cart_items-->
 <footer th:replace="~{/commons/footer}"></footer>
 <script>
-  $("#btnBay").click(function (){
-    const payment = $("input[name='check_pay[]']:checked")
-    if (payment.length > 0) {
-      const methodPayment = payment.val();
-      if(methodPayment === "cod"){
-        $("#btnSubmit").click();
-      }
-      else{
-      //   paypal is here
-      }
-    } else {
-      alert("Select a payment option!");
-    }
-  })
-  $('.quantity').on('change', function() {
-    let quan = $(this).val()
-    let prod_id = $(this).attr("id")
-    let trElement = $(this).closest('tr');
-    let totalItemElement = trElement.find('.total_item');
-    let price = totalItemElement.attr("id");
-    $.ajax({
-      url: '/cart/update',
-      type: 'POST',
-      contentType: 'application/json',
-      data: JSON.stringify({
-        quantity: quan,
-        productId: prod_id
-      }),
-      success: function (response) {
-        // handle successful response
-        let total = 0;
-        totalItemElement.text("$"+(price * quan));
-        $('.total_item').each(function() {
-          total += parseFloat($(this).text().substring(1));
-        });
-        $("#sub_total_prices").text("$"+total);
-        $("#total_prices").text("$"+total);
-      },
-      error: function (error) {
-        // handle error response
-      }
+    $("#btnBay").click(function () {
+        const payment = $("input[name='check_pay[]']:checked")
+        if (payment.length > 0) {
+            const methodPayment = payment.val();
+            if (methodPayment === "cod") {
+                $("#btnSubmit").click();
+            } else {
+                //   paypal is here
+            }
+        } else {
+            alert("Select a payment option!");
+        }
+    })
+
+    $('.total_item').each(function () {
+        $(this).text($(this).text().replace(",", ""))
     });
-  });
+    $("#sub_total_prices").text("$" + parseInt($("#sub_total_prices").text().substring(1)));
+    $("#total_prices").text("$" + parseInt($("#total_prices").text().substring(1)));
+
+    $('.cart_price p').each(function () {
+        $(this).text($(this).text().replace(".0", ""))
+    });
+
+    $('.quantity').on('change', function () {
+        let quan = $(this).val()
+        let prod_id = $(this).attr("id")
+        let trElement = $(this).closest('tr');
+        let totalItemElement = trElement.find('.total_item');
+        let price = totalItemElement.attr("id");
+
+        $.ajax({
+            url: '/cart/update',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                quantity: quan,
+                productId: prod_id
+            }),
+            success: function (response) {
+                // handle successful response
+                let total = 0;
+                totalItemElement.text("$" + (price * quan));
+                $('.total_item').each(function () {
+                    total += parseFloat($(this).text().substring(1))
+                });
+                $("#sub_total_prices").text("$" + total);
+                $("#total_prices").text("$" + total);
+            },
+            error: function (error) {
+                // handle error response
+            }
+        });
+    });
 </script>
 </body>
 </html>

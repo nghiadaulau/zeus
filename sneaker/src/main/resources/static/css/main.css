@@ -8,7 +8,7 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-image: url("https://i.pinimg.com/564x/b9/ca/ad/b9caad111f413b773ca32b873b6219d2.jpg");
+  /*background-image: url("https://i.pinimg.com/564x/b9/ca/ad/b9caad111f413b773ca32b873b6219d2.jpg");*/
   background-repeat: repeat;
   position: relative;
   font-weight: 400;
@@ -1054,7 +1054,7 @@ h2.title {
 }
 
 .category-tab ul {
-  background: #40403E;
+  /*background: #40403E;*/
   border-bottom: 1px solid #FE980F;
   list-style: none outside none;
   margin: 0 0 30px;
@@ -1178,7 +1178,7 @@ h2.title {
 }
 
 .pagination  li  a, .pagination  li  span {
-  background-color: #f0f0e9;
+  background-color: #70706d;
   border: 0;
   float: left;
   line-height: 1.42857;
@@ -1195,8 +1195,27 @@ h2.title {
 	color:#fff;
 }
 
+.category-name {
+  color: #fdb45e;
+}
 
+.oEqkPY, .AZlYga {
+  padding: 10px 25px;
+  border: 1px solid #fdb45e;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  border-radius: 5px;
+}
 
+.oEqkPY:hover, .AZlYga:hover, .zBgVhp:hover, .bhinFw:hover {
+  background: #fdb45e !important;
+}
+
+.productinfo .BlffS {
+  width: 241px;
+  height: 241px;
+  object-fit: contain;
+}
 /*************************
 *******Product Details CSS******
 **************************/
@@ -1713,7 +1732,7 @@ h2.title {
   font-size: 16px;
   text-align: center;
   font-family: 'Roboto',sans-serif;
-  
+  width: 50px;
 }
 
 
@@ -1937,8 +1956,6 @@ h2.title {
   margin-bottom: 0
 }
 
-
-
 .shopper-info p, 
 .bill-to p, 
 .order-message p {
@@ -2043,6 +2060,16 @@ h2.title {
 .table.table-condensed.total-result 
 .shipping-cost {
   border-bottom: 1px solid #F7F7F0;
+}
+
+.shopper-informations .shopper-info input {
+  background: #F0F0E9;
+  border: 0 none;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 100%;
+  font-weight: 300;
+  border-radius: 5px
 }
 
 
