@@ -3,6 +3,8 @@ package vn.tdtu.edu.sneaker.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import vn.tdtu.edu.commons.dto.ProductDTO;
-import vn.tdtu.edu.commons.model.Brand;
-import vn.tdtu.edu.commons.model.Category;
-import vn.tdtu.edu.commons.model.Product;
+import vn.tdtu.edu.commons.model.*;
 import vn.tdtu.edu.commons.service.implement.BrandServiceImpl;
 import vn.tdtu.edu.commons.service.implement.CategoryServiceImpl;
 import vn.tdtu.edu.commons.service.implement.ProductServiceImpl;
@@ -39,7 +39,10 @@ public class ShopController {
                         @RequestParam(name = "brand", required = false) Long brand_id,
                         @RequestParam(name = "category", required = false) Long category_id,
                         @RequestParam(name = "sortBy", required = false) String sortBy) {
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(!authentication.getAuthorities().toString().equals("[ROLE_ANONYMOUS]")) {
+            model.addAttribute("username", authentication.getName());
+        }
         return "redirect:/shop/filter?brand=0&category=0";
     }
 
@@ -47,6 +50,10 @@ public class ShopController {
     public String search(Model model,
                          @RequestParam(name = "sortBy", required = false) String sortBy,
                          @RequestParam(name = "keySearch", required = false) String keySearch) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(!authentication.getAuthorities().toString().equals("[ROLE_ANONYMOUS]")) {
+            model.addAttribute("username", authentication.getName());
+        }
         if (Objects.equals(keySearch, "")) {
             // Should be alert something
         }
@@ -91,6 +98,10 @@ public class ShopController {
                          @RequestParam(name = "brand", required = false) Long brand_id,
                          @RequestParam(name = "category", required = false) Long category_id,
                          @RequestParam(name = "sortBy", required = false) String sortBy) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(!authentication.getAuthorities().toString().equals("[ROLE_ANONYMOUS]")) {
+            model.addAttribute("username", authentication.getName());
+        }
         categories = new ArrayList<>(categoryService.findAll());
         brands = new ArrayList<>(brandService.findAllByActivated());
 
@@ -218,7 +229,6 @@ public class ShopController {
         model.addAttribute("all_product", products);
         model.addAttribute("pagesQuantity", pagesNo);
         model.addAttribute("pages", pageNoWithSpecificProducts);
-
         return "shop";
     }
 }

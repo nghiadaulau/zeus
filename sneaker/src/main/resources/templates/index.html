@@ -76,8 +76,8 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <div class="features_items"><!--features_items-->
-                    <h2 class="title text-center">Features Items</h2>
+                <div class="features_items" style="background: white!important;"><!--features_items-->
+                    <h2 class="title text-center" style="margin-top: 10px;">Features Items</h2>
                     <th:block th:each="product,iterStat : ${products}" th:if="${iterStat.index < 8}">
                         <div class="col-sm-3">
                             <div class="product-image-wrapper">
@@ -112,8 +112,9 @@
 
                 <div class="category-tab"><!--category-tab-->
                     <div class="col-sm-12">
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a th:href="'#' + ${categories.get(0).id}" data-toggle="tab"
+                        <ul class="nav nav-tabs" style="background: #40403E!important; color: #333333!important;">
+                            <li class="active">
+                                <a th:href="'#' + ${categories.get(0).id}" data-toggle="tab"
                                                   th:text="${categories.get(0).name}"></a></li>
                             <th:block th:each="category, iterStat : ${categories}" th:if="${!iterStat.first}">
                                 <li><a th:href="'#' + ${category.id}" data-toggle="tab"
@@ -178,9 +179,9 @@
                             </div>
                         </th:block>
                     </div>
-                </div><!--/category-tab-->x
+                </div><!--/category-tab-->
 
-                <div class="recommended_items"><!--recommended_items-->
+                <div class="recommended_items" style="background: white!important;"><!--recommended_items-->
                     <h2 class="title text-center">recommended items</h2>
 
                     <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
@@ -223,7 +224,8 @@
                                                        class="btn btn-default add-to-cart"><i class="fa fa-expand"></i>Details</a>
                                                     <a th:href="@{'/cart/add/'+${product.id}}"
                                                        class="btn btn-default add-to-cart"><i
-                                                            class="fa fa-shopping-cart"></i>Add to cart</a></div>
+                                                            class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
