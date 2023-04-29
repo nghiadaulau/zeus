@@ -7,136 +7,108 @@
 <body>
 <header th:replace="~{/commons/header}">
 </header>
-<section id="cart_items">
-    <div class="container">
-        <div class="breadcrumbs">
-            <ol class="breadcrumb">
-                <li><a href="#">Home</a></li>
-                <li class="active">Shopping Cart</li>
-            </ol>
-        </div>
-        <div class="table-responsive cart_info">
-            <table class="table table-condensed">
-                <thead>
-                <tr class="cart_menu">
-                    <td class="image">Item</td>
-                    <td class="description"></td>
-                    <td class="price">Price</td>
-                    <td class="quantity">Quantity</td>
-                    <td class="total">Total</td>
-                    <td></td>
-                </tr>
-                </thead>
-                <tbody>
-                <th:block th:each="cartItem : ${cartItems}">
-                    <tr>
-                        <td class="cart_product">
-                            <a href=""><img width="100px"
-                                            th:src="@{'data:image/png;base64,' + ${cartItem.product.getImage()}}"
-                                            alt=""
-                                            src=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a th:href="@{'/product/product-details/'+${cartItem.product.id}}">
-                                [[${cartItem.product.name}]]</a></h4>
-                            <p>Product Id: [[${cartItem.product.id}]]</p>
-                        </td>
-                        <td class="cart_price">
-                            <p>$[[${cartItem.product.getCostPrice()}]]</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <input class="cart_quantity_input quantity" type="number"
-                                       th:id="${cartItem.product.id}"
-                                       th:value="${cartItem.quantity}" min="1">
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price total_item" th:id="${cartItem.getProduct().costPrice}"
-                               th:text="'$'+${#numbers.formatDecimal(cartItem.getTotalPrice(),0,'COMMA', 0,'POINT')}"></p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" th:href="@{'/cart/delete/'+${cartItem.product.id}}"><i
-                                    class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
 
-                </th:block>
-                </tbody>
-            </table>
-        </div>
+<section id="cart_items">
+  <div class="container animate">
+    <div class="breadcrumbs">
+      <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li style="color: #000; font-size: 16px" class="active">Shopping Cart</li>
+      </ol>
     </div>
+    <div class="table-responsive cart_info">
+      <table class="table table-condensed">
+        <thead>
+        <tr class="cart_menu">
+          <td class="image">Item</td>
+          <td class="description"></td>
+          <td class="price">Price</td>
+          <td class="quantity">Quantity</td>
+          <td class="total">Total</td>
+          <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="cartItem : ${cartItems}">
+          <tr>
+            <td class="cart_product">
+              <a href=""><img width="100px" th:src="@{'data:image/png;base64,' + ${cartItem.product.getImage()}}" alt="" src=""></a>
+            </td>
+            <td class="cart_description">
+              <h4><a th:href="@{'/product/product-details/'+${cartItem.product.id}}"> [[${cartItem.product.name}]]</a></h4>
+              <p>Product Id: [[${cartItem.product.id}]]</p>
+            </td>
+            <td class="cart_price">
+              <p>$[[${cartItem.product.getCostPrice()}]]</p>
+            </td>
+            <td class="cart_quantity">
+              <div class="cart_quantity_button">
+                <input class="cart_quantity_input quantity" type="number" th:id="${cartItem.product.id}" th:value="${cartItem.quantity}" min="1">
+              </div>
+            </td>
+            <td class="cart_total">
+              <p class="cart_total_price total_item" th:id="${cartItem.getProduct().costPrice}">$[[${cartItem.getTotalPrice()}]]</p>
+            </td>
+          <td class="cart_delete">
+              <a class="cart_quantity_delete" th:href="@{'/cart/delete/'+${cartItem.product.id}}"><i class="fa fa-times"></i></a>
+            </td>
+          </tr>
+
+        </th:block>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </section> <!--/#cart_items-->
 
-<div th:if="${cartItems.size()>0}">
-    <section id="do_action">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6 pull-right">
-                    <div class="total_area">
-                        <ul>
-                            <li>Cart Sub Total <span id="sub_total_prices">$[[${cart.totalPrices}]]</span></li>
-                            <li>Eco Tax <span>$0</span></li>
-                            <li>Shipping Cost <span>Free</span></li>
-                            <li>Total <span id="total_prices">$[[${cart.totalPrices}]]</span></li>
-                        </ul>
-                        <a class="btn btn-default check_out pull-right" style="margin-top: 40px"
-                           th:href="@{/check-out/}">Check Out</a>
-                    </div>
-                </div>
-            </div>
+<section id="do_action">
+  <div class="container animate">
+    <div class="row">
+      <div class="col-sm-6 pull-right back">
+        <div class="total_area">
+          <ul>
+            <li>Cart Sub Total <span id="sub_total_prices">$[[${cart.totalPrices}]]</span></li>
+            <li>Eco Tax <span>$0</span></li>
+            <li>Shipping Cost <span>Free</span></li>
+            <li>Total <span id="total_prices">$[[${cart.totalPrices}]]</span></li>
+          </ul>
+          <a class="btn btn-default check_out pull-right" th:href="@{/check-out/}">Check Out</a>
         </div>
-    </section><!--/#do_action-->
-</div>
-
-<div th:unless="${cartItems.size()>0}">
-    <div class="text-center" style="margin: 20px 0">
-        <p><i><< Your cart is empty >></i></p>
+      </div>
     </div>
-</div>
-
+  </div>
+</section><!--/#do_action-->
 <footer th:replace="~{/commons/footer}"></footer>
 <script>
-    $('.total_item').each(function () {
-        $(this).text($(this).text().replace(",", ""))
-    });
-    $("#sub_total_prices").text("$" + parseInt($("#sub_total_prices").text().substring(1)));
-    $("#total_prices").text("$" + parseInt($("#total_prices").text().substring(1)));
-
-    $('.cart_price p').each(function () {
-        $(this).text($(this).text().replace(".0", ""))
-    });
-
-    $('.quantity').on('change', function () {
-        let quan = $(this).val()
-        let prod_id = $(this).attr("id")
-        let trElement = $(this).closest('tr');
-        let totalItemElement = trElement.find('.total_item');
-        let price = totalItemElement.attr("id");
-
-        $.ajax({
-            url: '/cart/update',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                quantity: quan,
-                productId: prod_id
-            }),
-            success: function (response) {
-                // handle successful response
-                let total = 0;
-                totalItemElement.text("$" + (price * quan));
-                $('.total_item').each(function () {
-                    total += parseFloat($(this).text().substring(1))
-                });
-                $("#sub_total_prices").text("$" + total);
-                $("#total_prices").text("$" + total);
-            },
-            error: function (error) {
-                // handle error response
-            }
+  $('.quantity').on('change', function() {
+    let quan = $(this).val()
+    let prod_id = $(this).attr("id")
+    let trElement = $(this).closest('tr');
+    let totalItemElement = trElement.find('.total_item');
+    let price = totalItemElement.attr("id");
+    $.ajax({
+      url: '/cart/update',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        quantity: quan,
+        productId: prod_id
+      }),
+      success: function (response) {
+        // handle successful response
+        let total = 0;
+        totalItemElement.text("$"+(price * quan));
+        $('.total_item').each(function() {
+          total += parseFloat($(this).text().substring(1));
         });
+        $("#sub_total_prices").text("$"+total);
+        $("#total_prices").text("$"+total);
+      },
+      error: function (error) {
+        // handle error response
+      }
     });
+  });
 </script>
 </body>
 </html>

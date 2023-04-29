@@ -12,12 +12,12 @@
                 <div class="tab-content">
                     <div class="product-details" th:object="${product}"><!--product-details-->
                         <div class="col-sm-5">
-                            <div class="view-product productinfo">
+                            <div class="view-product animate">
                                 <img th:src="'data:image/png;base64,' + ${product.getImage()}" alt=""/>
                             </div>
                         </div>
                         <div class="col-sm-7">
-                            <div class="product-information"><!--/product-information-->
+                            <div class="product-information animate"><!--/product-information-->
                                 <img src="/images/product-details/new.jpg" class="new-arrival" alt=""/>
                                 <h2 th:text="${product.getName()}"></h2>
                                 <p th:text="${'PID:'+product.getId()}"></p>
@@ -26,7 +26,7 @@
 									<span th:text="${#strings
                         .replace(#numbers.formatDecimal(product.getCostPrice(), 0, 'COMMA',2,'POINT'), '.00', '$')}"></span>
 									<label>Quantity:</label>
-                                    <form method="post" th:action="@{/cart/add}">
+                                    <form method="post" th:action="@{/cart/add}" style="display: inline-block;">
                                         <input type="number" name="quantity" value="1" min="1"/>
                                         <input type="text" hidden="hidden" name="productId" th:value="${product.id}" />
 									<button type="submit" class="btn btn-fefault cart">
@@ -48,14 +48,14 @@
                     <div class="category-tab shop-details-tab"><!--category-tab-->
                         <div class="col-sm-12">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#description" data-toggle="tab">Description</a></li>
+                                <li><a href="#description" data-toggle="tab">Description</a></li>
                                 <!--                                <li><a href="#companyprofile" data-toggle="tab">Company Profile</a></li>-->
                                 <!--                                <li><a href="#tag" data-toggle="tab">Tag</a></li>-->
-<!--                                <li class="active"><a href="#reviews" data-toggle="tab">Reviews (5)</a></li>-->
+                                <li class="active"><a href="#reviews" data-toggle="tab">Reviews (5)</a></li>
                             </ul>
                         </div>
                         <div class="tab-content">
-                            <div class="tab-pane fade active in" id="description">
+                            <div class="tab-pane fade" id="description">
                                 <div class="col-sm-12 R8xHgu">
                                     <p th:text="${product.getDescription()}"></p>
 <!--                                    <img th:src="'data:image/png;base64,' + ${product.getImage()}" alt="" srcset="">-->
@@ -63,37 +63,37 @@
                             </div>
 
 
-<!--                            <div class="tab-pane fade  active in" id="reviews">-->
-<!--                                <div class="col-sm-12">-->
-<!--                                    <ul>-->
-<!--                                        <li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>-->
-<!--                                        <li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>-->
-<!--                                        <li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>-->
-<!--                                    </ul>-->
-<!--                                    <p>Bringing sophistication and prestige to the passion for sports shoes.Ut enim ad-->
-<!--                                        minim-->
-<!--                                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo-->
-<!--                                        consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum-->
-<!--                                        dolore eu fugiat nulla pariatur.</p>-->
-<!--                                    <p><b>Write Your Review</b></p>-->
+                            <div class="tab-pane fade  active in" id="reviews">
+                                <div class="col-sm-12">
+                                    <ul>
+                                        <li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>
+                                        <li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
+                                        <li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
+                                    </ul>
+                                    <p>Bringing sophistication and prestige to the passion for sports shoes.Ut enim ad
+                                        minim
+                                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                        consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                                        dolore eu fugiat nulla pariatur.</p>
+                                    <p><b>Write Your Review</b></p>
 
-<!--                                    <form action="#">-->
-<!--										<span>-->
-<!--											<input type="text" placeholder="Your Name"/>-->
-<!--											<input type="email" placeholder="Email Address"/>-->
-<!--										</span>-->
-<!--                                        <textarea name=""></textarea>-->
-<!--                                        <b>Rating: </b> <img src="images/product-details/rating.png" alt=""/>-->
-<!--                                        <button type="button" class="btn btn-default pull-right">-->
-<!--                                            Submit-->
-<!--                                        </button>-->
-<!--                                    </form>-->
-<!--                                </div>-->
-<!--                            </div>-->
+                                    <form action="#">
+										<span>
+											<input type="text" placeholder="Your Name"/>
+											<input type="email" placeholder="Email Address"/>
+										</span>
+                                        <textarea name=""></textarea>
+                                        <b>Rating: </b> <img src="images/product-details/rating.png" alt=""/>
+                                        <button type="button" class="btn btn-default pull-right">
+                                            Submit
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
 
                         </div>
                     </div><!--/category-tab-->
-                    <div class="recommended_items" style="background: white!important;"><!--recommended_items-->
+                    <div class="recommended_items"><!--recommended_items-->
                         <h2 class="title text-center">recommended items</h2>
                         <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
@@ -105,7 +105,7 @@
                                                     <div class="productinfo text-center">
                                                         <img th:src="@{'data:image/png;base64,' + ${product.image}}"
                                                              alt=""/>
-                                                        <h2>[[${product.name}]]</h2>
+                                                        <h2 class="recommended_slide" >[[${product.name}]]</h2>
                                                         <p>Brand: [[${product.brand.name}]]</p>
                                                         <p>Category: [[${product.category.name}]]</p>
                                                         <a th:href="@{'/product/product-details/'+${product.id}}"
@@ -127,19 +127,18 @@
                                             <div class="product-image-wrapper">
                                                 <div class="single-products">
                                                     <div class="productinfo text-center">
-                                                        <a th:href="@{'/product/product-details/'+${product.id}}"> <img
-                                                                th:src="@{'data:image/png;base64,' + ${product.getImage()}}"
-                                                                alt=""/></h2></a>
-                                                        <a th:href="@{'/product/product-details/'+${product.id}}"><h2
-                                                                th:text="${#strings.replace(#numbers.formatDecimal(product.getCostPrice(), 0, 'COMMA',2,'POINT'), '.00', '$')}"></h2>
-                                                        </a>
-                                                        <a th:href="@{'/product/product-details/'+${product.id}}"><p
-                                                                th:text="${product.getName()}"></p></a>
+                                                        <img th:src="@{'data:image/png;base64,' + ${product.image}}"
+                                                             alt=""/>
+                                                        <h2 class="recommended_slide" >[[${product.name}]]</h2>
+                                                        <p>Brand: [[${product.brand.name}]]</p>
+                                                        <p>Category: [[${product.category.name}]]</p>
                                                         <a th:href="@{'/product/product-details/'+${product.id}}"
-                                                           class="btn btn-default add-to-cart"><i class="fa fa-expand"></i>Details</a>
+                                                           class="btn btn-default add-to-cart"><i
+                                                                class="fa fa-expand"></i>Details</a>
                                                         <a th:href="@{'/cart/add/'+${product.id}}"
                                                            class="btn btn-default add-to-cart"><i
-                                                                class="fa fa-shopping-cart"></i>Add to cart</a></div>
+                                                                class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
