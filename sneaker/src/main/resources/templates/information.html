@@ -27,7 +27,7 @@
 </header>
 <div class="container" class="animate" >
     <div class="row profile">
-        <div class="col-md-3 panel panel-default" style="margin-right: 5px">
+        <div class="col-md-3 panel panel-default last_thing animate" style="margin-right: 5px">
             <div class="profile-sidebar">
                 <!-- SIDEBAR USERPIC -->
 
@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <div class="profile-usermenu">
-                    <ul class="nav">
+                    <ul class="nav list_ops">
                         <li class="options active">
                             <a href="#" onclick="openCity('London', this)" id="default-open">
                                 <i class="glyphicon glyphicon-home tablink"></i>
@@ -77,6 +77,7 @@
                 </div>
             </div>
         </div>
+<<<<<<< Updated upstream
         <div class="col-md-8 panel panel-default" style="background-color: white;">
             <div id="London" class="tabcontent">
                 <h3>Thông tin tổng quan</h3>
@@ -90,6 +91,13 @@
                         <span>Last Name: [[${customerDTO.lastName}]]</span>
                         <hr/>
                     </div>
+=======
+        <div class="col-md-8 panel panel-default last animate" style="background-color: white;">
+            <div id="London" class="tabcontent london_tabcontent">
+                <h2>Thông tin tổng quan</h2>
+                <div class="form-horizontal">
+                    <span>First Name: [[${customerDTO.firstName}]]</span>
+>>>>>>> Stashed changes
                 </div>
                 <div>
                     <div class="form-horizontal col-sm-6">
@@ -123,7 +131,7 @@
                 </div>
             </div>
             <div id="Paris" class="tabcontent">
-                <h3>Cập nhật tài khoản</h3>
+                <h2>Cập nhật tài khoản</h2>
                 <form th:action="@{/auth/update}" th:object="${customerDTO}" method="post">
                     <div class="col-sm LQwNvN">
                         <div>
@@ -177,7 +185,7 @@
                 </form>
             </div>
             <div id="Tokyo" class="tabcontent">
-                <h3>Danh sách hóa đơn</h3>
+                <h2>Danh sách hóa đơn</h2>
                 <div class="row cart-titles">
                     <div class="col-sm-2">Mã hóa đơn</div>
                     <div class="col-sm-3">Ngày đặt hàng</div>

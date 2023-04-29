@@ -12,12 +12,12 @@
                 <div class="tab-content">
                     <div class="product-details" th:object="${product}"><!--product-details-->
                         <div class="col-sm-5">
-                            <div class="view-product productinfo">
+                            <div class="view-product animate">
                                 <img th:src="'data:image/png;base64,' + ${product.getImage()}" alt=""/>
                             </div>
                         </div>
                         <div class="col-sm-7">
-                            <div class="product-information"><!--/product-information-->
+                            <div class="product-information animate"><!--/product-information-->
                                 <img src="/images/product-details/new.jpg" class="new-arrival" alt=""/>
                                 <h2 th:text="${product.getName()}"></h2>
                                 <p th:text="${'PID:'+product.getId()}"></p>
@@ -105,7 +105,7 @@
                                                     <div class="productinfo text-center">
                                                         <img th:src="@{'data:image/png;base64,' + ${product.image}}"
                                                              alt=""/>
-                                                        <h2>[[${product.name}]]</h2>
+                                                        <h2 class="recommended_slide" >[[${product.name}]]</h2>
                                                         <p>Brand: [[${product.brand.name}]]</p>
                                                         <p>Category: [[${product.category.name}]]</p>
                                                         <a th:href="@{'/product/product-details/'+${product.id}}"
@@ -127,6 +127,7 @@
                                             <div class="product-image-wrapper">
                                                 <div class="single-products">
                                                     <div class="productinfo text-center">
+<<<<<<< Updated upstream
                                                         <a th:href="@{'/product/product-details/'+${product.id}}"> <img
                                                                 th:src="@{'data:image/png;base64,' + ${product.getImage()}}"
                                                                 alt=""/></h2></a>
@@ -135,6 +136,13 @@
                                                         </a>
                                                         <a th:href="@{'/product/product-details/'+${product.id}}"><p
                                                                 th:text="${product.getName()}"></p></a>
+=======
+                                                        <img th:src="@{'data:image/png;base64,' + ${product.image}}"
+                                                             alt=""/>
+                                                        <h2 class="recommended_slide" >[[${product.name}]]</h2>
+                                                        <p>Brand: [[${product.brand.name}]]</p>
+                                                        <p>Category: [[${product.category.name}]]</p>
+>>>>>>> Stashed changes
                                                         <a th:href="@{'/product/product-details/'+${product.id}}"
                                                            class="btn btn-default add-to-cart"><i class="fa fa-expand"></i>Details</a>
                                                         <a th:href="@{'/cart/add/'+${product.id}}"

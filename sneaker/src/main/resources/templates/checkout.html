@@ -6,6 +6,7 @@
 <header th:replace="~{/commons/header}">
 </header>
 
+<<<<<<< Updated upstream
 <section id="cart_items" class="animate" >
     <div class="container">
         <div class="row" style="margin: 5px 0">
@@ -41,12 +42,69 @@
                     </form>
                 </div>
             </div>
+=======
+<section id="cart_items">
+  <div id="checkout_page" class="container animate">
+    <div class="shopper-informations">
+        <div class="shopper-info">
+          <form th:action="@{/check-out/order}" method="post" th:object="${customerDTO}">
+            <p>Customer Information</p>
+            <input type="text" th:field="*{username}" disabled placeholder="User Name">
+            <input type="text" th:field="*{firstName}" required placeholder="First Name">
+            <input type="text" th:field="*{lastName}" required placeholder="Last Name">
+            <input type="text" th:field="*{phoneNumber}" required placeholder="Phone number">
+            <input type="email" th:field="*{email}" required placeholder="Email">
+            <p>Bill To</p>
+            <input type="text" th:field="*{country}" required placeholder="Country">
+            <input type="text" th:field="*{city}" required placeholder="City">
+            <input type="text" th:field="*{address}" required placeholder="Address">
+            <p>Shipping Order</p>
+            <textarea th:field="*{messageOrder}" placeholder="Notes about your order, Special Notes for Delivery" rows="16"></textarea>
+            <button type="submit" hidden="hidden" id="btnSubmit"></button>
+        </form>
+>>>>>>> Stashed changes
         </div>
 
+<<<<<<< Updated upstream
         <div th:if="${cartItems.size()>0}">
             <div class="review-payment">
                 <h2>Review & Payment</h2>
             </div>
+=======
+    <div class="table-responsive cart_info">
+      <table class="table table-condensed check_out_table">
+        <thead>
+        <tr class="cart_menu">
+          <td class="image">Item</td>
+          <td class="description"></td>
+          <td class="price">Price</td>
+          <td class="quantity">Quantity</td>
+          <td class="total">Total</td>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="cartItem : ${cartItems}">
+          <tr>
+            <td class="cart_product">
+              <a href=""><img width="100px" th:src="@{'data:image/png;base64,' + ${cartItem.product.getImage()}}" alt="" src=""></a>
+            </td>
+            <td class="cart_description">
+              <h4><a th:href="@{'/product/product-details/'+${cartItem.product.id}}"> [[${cartItem.product.name}]]</a></h4>
+              <p>Product Id: [[${cartItem.product.id}]]</p>
+            </td>
+            <td class="cart_price">
+              <p>$[[${cartItem.product.getCostPrice()}]]</p>
+            </td>
+            <td class="cart_quantity">
+              <div class="cart_quantity_button">
+                <input class="cart_quantity_input quantity" type="number" th:id="${cartItem.product.id}" th:value="${cartItem.quantity}" min="1">
+              </div>
+            </td>
+            <td class="cart_total">
+              <p class="cart_total_price total_item" th:id="${cartItem.getProduct().costPrice}">$[[${cartItem.getTotalPrice()}]]</p>
+            </td>
+          </tr>
+>>>>>>> Stashed changes
 
             <div class="table-responsive cart_info">
                 <table class="table table-condensed">

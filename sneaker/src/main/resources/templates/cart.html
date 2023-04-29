@@ -61,13 +61,24 @@
                         </td>
                     </tr>
 
+<<<<<<< Updated upstream
                 </th:block>
                 </tbody>
             </table>
         </div>
+=======
+<section id="cart_items">
+  <div class="container animate">
+    <div class="breadcrumbs">
+      <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li style="color: #000; font-size: 16px" class="active">Shopping Cart</li>
+      </ol>
+>>>>>>> Stashed changes
     </div>
 </section> <!--/#cart_items-->
 
+<<<<<<< Updated upstream
 <div th:if="${cartItems.size()>0}">
     <section id="do_action">
         <div class="container">
@@ -85,6 +96,20 @@
                     </div>
                 </div>
             </div>
+=======
+<section id="do_action">
+  <div class="container animate">
+    <div class="row">
+      <div class="col-sm-6 pull-right back">
+        <div class="total_area">
+          <ul>
+            <li>Cart Sub Total <span id="sub_total_prices">$[[${cart.totalPrices}]]</span></li>
+            <li>Eco Tax <span>$0</span></li>
+            <li>Shipping Cost <span>Free</span></li>
+            <li>Total <span id="total_prices">$[[${cart.totalPrices}]]</span></li>
+          </ul>
+          <a class="btn btn-default check_out pull-right" th:href="@{/check-out/}">Check Out</a>
+>>>>>>> Stashed changes
         </div>
     </section><!--/#do_action-->
 </div>
