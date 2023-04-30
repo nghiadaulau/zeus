@@ -3,11 +3,17 @@ package vn.tdtu.edu.commons;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+<<<<<<< Updated upstream
 import vn.tdtu.edu.commons.model.Product;
 import vn.tdtu.edu.commons.service.implement.*;
+=======
+import vn.tdtu.edu.commons.service.implement.BrandServiceImpl;
+>>>>>>> Stashed changes
 
 @SpringBootTest
 class CommonsApplicationTests {
+    @Autowired
+    BrandServiceImpl brandServiceImpl;
 
     @Autowired
     AdminServiceImpl adminService;
