@@ -26,7 +26,7 @@
 
         <!-- Page Heading -->
         <div th:if="${size == 0}">
-          <p>No category</p>
+          <p>No brand</p>
         </div>
         <button type="button" class="btn btn-primary add_button" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add new brands</button>
         <div th:if = "${success}" class="text-center alert alert-success">
@@ -38,9 +38,9 @@
         <table class="table table-bordered animate" th:if="${size > 0}">
           <thead>
           <tr>
-            <th scope="col">Category Index</th>
-            <th scope="col">Category Name</th>
-            <th scope="col">Edit Category Name</th>
+            <th scope="col">Brand Index</th>
+            <th scope="col">Brand Name</th>
+            <th scope="col">Edit Brand Name</th>
             <th scope="col">Action</th>
           </tr>
           </thead>

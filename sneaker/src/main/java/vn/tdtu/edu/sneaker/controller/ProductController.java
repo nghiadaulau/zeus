@@ -41,19 +41,4 @@ public class ProductController {
 
         return "product-details";
     }
-
-    //    Get Params: /search?keySearch =...
-//    @GetMapping("/search")
-//    public String goSearch(@RequestParam(name="keySearch", required = false) String keySearch) {
-//        if (Objects.equals(keySearch, "")) {
-////            return "redirect:/shop/";
-//            // Should be alert something
-//        } else {
-//            for (ProductDTO product : productService.searchProductsCus(0, keySearch)) {
-//                System.out.println(product.getId());
-//            }
-//        }
-//
-//        return "redirect:/shop/search";
-//    }
 }

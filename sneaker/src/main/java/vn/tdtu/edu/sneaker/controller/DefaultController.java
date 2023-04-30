@@ -27,9 +27,9 @@ public class DefaultController {
     @GetMapping("/home-page")
     public String Index(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("products", productService.getAll());
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("get4Products", productService.get4ProductsByCategoryId(categoryService.findAll()));
+        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("categories", categoryService.findAllByActivated());
+        model.addAttribute("get4Products", productService.get4ProductsByCategoryId(categoryService.findAllByActivated()));
 
         if (authentication.getAuthorities().toString().equals("[ROLE_ANONYMOUS]")) {
             model.addAttribute("recommended", productService.findRandomProducts());

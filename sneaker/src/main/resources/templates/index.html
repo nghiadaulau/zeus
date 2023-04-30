@@ -94,7 +94,7 @@
                                     <div class="product-overlay">
                                         <div class="overlay-content">
                                             <a th:href="@{'/product/product-details/'+${product.id}}"><h2>$56</h2></a>
-                                            <a th:href="@{'/product/product-details/'+${product.id}}"><p>Easy Polo Black
+                                            <a th:href="@{'/product/product-details/'+${product.id}}"><p th:text="${product.name}">Easy Polo Black
                                                 Edition</p></a>
                                             <a th:href="@{'/product/product-details/'+${product.id}}"
                                                class="btn btn-default add-to-cart"><i

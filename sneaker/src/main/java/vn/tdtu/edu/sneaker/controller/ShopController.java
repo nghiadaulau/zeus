@@ -102,7 +102,7 @@ public class ShopController {
         if(!authentication.getAuthorities().toString().equals("[ROLE_ANONYMOUS]")) {
             model.addAttribute("username", authentication.getName());
         }
-        categories = new ArrayList<>(categoryService.findAll());
+        categories = new ArrayList<>(categoryService.findAllByActivated());
         brands = new ArrayList<>(brandService.findAllByActivated());
 
         model.addAttribute("categories", categories);
@@ -114,7 +114,7 @@ public class ShopController {
         int productsCount;
 
         if (brand_id == 0 && category_id == 0) {
-            productsCount = productService.getAll().size();
+            productsCount = productService.getAllProducts().size();
         } else if (brand_id == 0) {
             productsCount = productService.getProductsInCategory(category_id).size();
         } else if (category_id == 0) {

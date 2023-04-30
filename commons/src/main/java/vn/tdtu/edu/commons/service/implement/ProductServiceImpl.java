@@ -193,11 +193,11 @@ public class ProductServiceImpl implements ProductService {
 
         if (brand_id != null && category_id != null) {
             if (brand_id == 0 && category_id == 0) {
-                filteredProducts.addAll(productRepository.findAll());
+                filteredProducts.addAll(productRepository.getAllProducts());
             }
         }
 
-        for (Product product : productRepository.findAll()) {
+        for (Product product : productRepository.getAllProducts()) {
             if (category_id != null && !product.getCategory().getId().equals(category_id)) {
                 continue;
             }

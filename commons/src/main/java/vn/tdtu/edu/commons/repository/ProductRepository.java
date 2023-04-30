@@ -53,12 +53,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("select p from Product p where p.is_activated = true and p.is_deleted = false order by p.costPrice ")
     List<Product> filterLowPrice();
 
-    @Query("SELECT p FROM Product p ORDER BY function('RAND')")
+    @Query("SELECT p FROM Product p where p.is_activated = true and p.is_deleted = false ORDER BY function('RAND')")
     List<Product> findRandomProducts(Pageable pageable);
 
     @Query("SELECT p FROM Product p WHERE p.brand.name like %:pBrand% or p.category.name like %:pCategory% ORDER BY function('RAND')")
     List<Product> findRandomProductsByBrandAndCategory(Pageable pageable, String pBrand, String pCategory);
-
+    @Query(value = "select p from Product p inner join Category c on c.id = p.category.id where c.id = ?1 and p.is_deleted = false and p.is_activated = true")
     List<Product> findProductsByCategoryId(Long id, Pageable pageable);
     List<Product> findProductsByCategoryIdOrderByCostPriceDesc(Long id, Pageable pageable);
     List<Product> findProductsByCategoryIdOrderByCostPriceAsc(Long id, Pageable pageable);
