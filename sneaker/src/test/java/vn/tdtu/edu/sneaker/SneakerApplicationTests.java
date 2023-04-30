@@ -6,55 +6,51 @@ import org.springframework.boot.test.context.SpringBootTest;
 import vn.tdtu.edu.commons.model.Brand;
 import vn.tdtu.edu.commons.model.Category;
 import vn.tdtu.edu.commons.model.Product;
-import vn.tdtu.edu.commons.service.implement.BrandServiceImpl;
-import vn.tdtu.edu.commons.service.implement.CategoryServiceImpl;
-import vn.tdtu.edu.commons.service.implement.ProductServiceImpl;
+import vn.tdtu.edu.commons.service.implement.*;
 
 import java.util.List;
 
 @SpringBootTest
 class SneakerApplicationTests {
     @Autowired
-    public ProductServiceImpl productService;
-
+    AdminServiceImpl adminService;
     @Autowired
-    public CategoryServiceImpl categoryService;
-
+    BrandServiceImpl brandService;
     @Autowired
-    public BrandServiceImpl brandService;
+    CartServiceImpl cartService;
+    @Autowired
+    CategoryServiceImpl categoryService;
+    @Autowired
+    CustomerServiceImpl customerService;
+    @Autowired
+    OrderServiceImpl orderService;
+    @Autowired
+    ProductServiceImpl productService;
     @Test
     void contextLoads() {
-        Category category = new Category();
-        Brand brand = new Brand();
-        String [] arrCate={"King lord","Lord King","cate 1","cate 3","cate 4"};
-        String [] arrBrand={"brand 1","brand 2","brand 3","brand 4","brand 5"};
+        System.out.println("------------------Admin service-------------------");
+        String email = "nhatnghiatyper@gmail.com";
+        System.out.println("find admin by email: " + email + "\n" + adminService.findByEmail(email));
+        String username = "nghiahln";
+        System.out.println("find admin by username: " + username + "\n" + adminService.findByUsername(username));
 
-  /*      for(long i = 0L;i<arrCate.length;i++){
-            category.setId(i+1);
-            category.setName(arrCate[(int) i]);
-            categoryService.save(category);
-            brand.setId(i+1);
-            brand.setName(arrBrand[(int) i]);
-            brandService.save(brand);
-        }*/
-        List<Category> categories = categoryService.findAll();
-        List<Brand> brands= brandService.findAll();
-        for(int i = 0 ; i<9;i++){
-            Product product = new Product();
-            product.set_deleted(false);
-            product.set_activated(true);
-            product.setName("product "+ i);
-            product.setId((long) (i + 1));
-            product.setCategory(categories.get(i%5));
-            product.setBrand(brands.get(i%5));
-            product.setDescription("Nhu cai dau buoi "+ i);
-            product.setImage("product.jpg");
-            product.setCostPrice(10000 + i);
-            product.setSalePrice(15000 + i);
-            product.setCurrentQuantity(30 + i);
-            productService.save(product);
-        }
-        System.out.println(productService.findAll());
+        System.out.println("------------------Brand service-------------------");
+        System.out.println("find All brands: \n" + brandService.findAll());
+        System.out.println("find brand by id: 1\n" + brandService.findById(1L));
+        System.out.println("find All brands and product:\n" + brandService.getBrandAndProduct());
+        System.out.println("find All by activated: \n" + brandService.findAllByActivated());
+
+        System.out.println("------------------Category service-------------------");
+        System.out.println("find All categories: \n" + categoryService.findAll());
+        System.out.println("find category by id: 1\n" + categoryService.findById(1L));
+        System.out.println("find All by activated: \n" + categoryService.findAllByActivated());
+
+        System.out.println("------------------Product service-------------------");
+        System.out.println("find all products: " + productService.findAll());
+        System.out.println("search products: " +
+                productService.search("sneakers"));
+        System.out.println("sort all product by DESC: " + productService.filterHighPrice());
+        System.out.println("sort all product by ASC: " + productService.filterLowPrice());
     }
 
 }
