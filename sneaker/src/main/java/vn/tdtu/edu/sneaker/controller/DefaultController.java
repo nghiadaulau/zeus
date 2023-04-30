@@ -37,6 +37,7 @@ public class DefaultController {
             model.addAttribute("username", authentication.getName());
             model.addAttribute("recommended", productService.findRandomProducts());
         }
+
         return "index";
     }
 }
